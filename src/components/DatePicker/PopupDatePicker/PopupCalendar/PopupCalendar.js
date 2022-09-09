@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./PopupCalendar.css";
 import ArrowLeft from "../../../../Arrow_left.svg";
 import ArrowRight from "../../../../Arrow_right.svg";
+import { sendSelectedDate } from "../../../submitFunctions/submitFunctions";
 
 function PopupCalendar({
   currentDate,
@@ -16,7 +17,6 @@ function PopupCalendar({
 
   const colomnsMonths = [...Array(12)].map((item, index) => {
     let classForBtn = "month__btn";
-    date.setMonth(index);
     if (
       selectDate.year === currentDate.getFullYear() &&
       currentDate.getMonth() === index
@@ -31,12 +31,11 @@ function PopupCalendar({
         onClick={() => {
           setSelectDate({ ...selectDate, month: index });
           setFirstOpen(false);
-          date.setMonth(index);
         }}
       >
         <div>{selectDate.year}</div>
         <div>
-          {date.toLocaleString("ru", {
+          {new Date(selectDate.year, index, 1).toLocaleString("ru", {
             month: "long",
           })}
         </div>
@@ -112,9 +111,12 @@ function PopupCalendar({
         <div className="selected_month">
           {firstOpen
             ? null
-            : date.toLocaleString("ru", {
-                month: "long",
-              })}
+            : new Date(selectDate.year, selectDate.month, 1).toLocaleString(
+                "ru",
+                {
+                  month: "long",
+                }
+              )}
         </div>
         <div className="selected_year">
           {firstOpen ? null : selectDate.year}
