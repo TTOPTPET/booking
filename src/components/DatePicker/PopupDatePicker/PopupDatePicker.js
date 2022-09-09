@@ -9,7 +9,6 @@ function PopupDatePicker({
   currentDate,
   firstOpen,
   setFirstOpen,
-  monthsArr,
   selectDate,
   setSelectDate,
   bufferDate,
@@ -30,7 +29,6 @@ function PopupDatePicker({
           setActive={setActive}
           firstOpen={firstOpen}
           setFirstOpen={setFirstOpen}
-          monthsArr={monthsArr}
           selectDate={selectDate}
           setSelectDate={setSelectDate}
         />

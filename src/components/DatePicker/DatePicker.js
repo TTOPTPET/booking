@@ -7,7 +7,6 @@ function DatePicker({
   currentDate,
   selectDate,
   setSelectDate,
-  monthsArr,
 }) {
   const [modalActive, setModalActive] = useState(false);
   const [firstOpen, setFirstOpen] = useState(true);
@@ -29,7 +28,6 @@ function DatePicker({
         currentDate={currentDate}
         firstOpen={firstOpen}
         setFirstOpen={setFirstOpen}
-        monthsArr={monthsArr}
         selectDate={selectDate}
         setSelectDate={setSelectDate}
         bufferDate={bufferDate}

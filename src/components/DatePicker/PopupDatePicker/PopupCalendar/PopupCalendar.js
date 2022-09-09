@@ -8,33 +8,38 @@ function PopupCalendar({
   setActive,
   firstOpen,
   setFirstOpen,
-  monthsArr,
   selectDate,
   setSelectDate,
 }) {
   let date = new Date(selectDate.year, selectDate.month + 1, 0);
   let daysCounter = date.getDate();
 
-  const colomnsMonths = monthsArr.map((month) => {
+  const colomnsMonths = [...Array(12)].map((item, index) => {
     let classForBtn = "month__btn";
+    date.setMonth(index);
     if (
       selectDate.year === currentDate.getFullYear() &&
-      monthsArr[currentDate.getMonth()] === month
+      currentDate.getMonth() === index
     ) {
       classForBtn = "month__btn date_current";
     }
     return (
       <button
         className={classForBtn}
-        id={month}
-        key={month}
+        id={index}
+        key={index}
         onClick={() => {
-          setSelectDate({ ...selectDate, month: monthsArr.indexOf(month) });
+          setSelectDate({ ...selectDate, month: index });
           setFirstOpen(false);
+          date.setMonth(index);
         }}
       >
         <div>{selectDate.year}</div>
-        <div>{month}</div>
+        <div>
+          {date.toLocaleString("ru", {
+            month: "long",
+          })}
+        </div>
       </button>
     );
   });
@@ -105,7 +110,11 @@ function PopupCalendar({
     <div className="popup__wrapp">
       <div className="calendar__selectedDate">
         <div className="selected_month">
-          {firstOpen ? null : monthsArr[selectDate.month]}
+          {firstOpen
+            ? null
+            : date.toLocaleString("ru", {
+                month: "long",
+              })}
         </div>
         <div className="selected_year">
           {firstOpen ? null : selectDate.year}
