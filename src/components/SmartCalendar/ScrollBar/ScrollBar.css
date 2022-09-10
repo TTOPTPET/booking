@@ -1,0 +1,36 @@
+.scroll__bar{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.weekDayRender__wrapp{
+	width: 700px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.weekBox{
+	width: 50px;
+	height: 50px;
+	background-color: #5C9AE2;
+	border-radius: 15px;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.weekBox_current{
+	background-color: #0065DC;
+}
+
+.btn__scrollBar{
+	border: none;
+	cursor: pointer;
+	background: none;
+}
+
+.btn__scrollBar img{
+	width: 15px;
+}
