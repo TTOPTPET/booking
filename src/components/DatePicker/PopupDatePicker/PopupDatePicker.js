@@ -22,9 +22,10 @@ function PopupDatePicker({
       }}
     >
       <div className="modal__content" onClick={(e) => e.stopPropagation()}>
-        <div className="modal__content_date">{selectDateRange}</div>
+        <div className="modal__content_date">
+          {[selectDateRange.start, " - ", selectDateRange.end]}
+        </div>
         <PopupCalendar
-          selectDateRange={selectDateRange}
           currentDate={currentDate}
           setActive={setActive}
           firstOpen={firstOpen}

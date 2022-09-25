@@ -18,7 +18,7 @@ function DatePickerButton({
         setBufferDate(selectDate);
       }}
     >
-      {selectDateRange}
+      {[selectDateRange.start, " - ", selectDateRange.end]}
     </button>
   );
 }
