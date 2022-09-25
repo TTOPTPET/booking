@@ -7,8 +7,8 @@ function App() {
   let currentDate = new Date();
 
   const [selectDateRange, setSelectDateRange] = useState({
-    start: "9.02.2022",
-    end: "16.02.2022",
+    start: "19.09.2022",
+    end: "26.09.2022",
   });
 
   return (

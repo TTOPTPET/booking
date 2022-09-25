@@ -12,3 +12,8 @@ export const changeWeekFront = (selectDateRange) => {
   console.log("changeWeekFront", selectDateRange);
   return null;
 };
+
+export const getServices = () => {
+  console.log("getServices");
+  return ["1", "2"];
+};

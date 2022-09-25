@@ -1,0 +1,20 @@
+.event__wrapper{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 119px;
+	background: #0065DC;
+	border: 1px solid #FFFFFF;
+	border-radius: 10px;
+	box-sizing: border-box;
+	margin: 0;
+	z-index: 5;
+	color: #FFFFFF;
+	font-size: 14px;
+	padding: 15px 0 0 10px;
+	text-align: start;
+}
+.event__text{
+	font-weight: 700;
+	width: 100%;
+}
