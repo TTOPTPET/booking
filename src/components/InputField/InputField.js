@@ -3,25 +3,38 @@ import { TextField, Autocomplete } from "@mui/material";
 import "./InputField.css";
 import { getServices } from "../submitFunctions/submitFunctions";
 
-function InputField({ fieldName, setInputVal, value, style }) {
+function InputField({ fieldName, setValue, value, style }) {
   const fieldsMap = new Map([
-    ["event-name", "Название события"],
-    ["event-date-start", "Дата начала"],
-    ["event-date-end", "Дата конца"],
-    ["event-time-start", "Время начала"],
-    ["event-time-end", "Время конца"],
-    ["selection-event", "Выбор услуги"],
+    ["name", "Название события"],
+    ["dateStart", "Дата начала"],
+    ["dateEnd", "Дата конца"],
+    ["timeStart", "Время начала"],
+    ["timeEnd", "Время конца"],
+    ["selection", "Выбор услуги"],
   ]);
 
+  const [inputValue, setInputValue] = useState(value[fieldName]);
+
+  console.log("inputField", fieldName, value);
+
   switch (fieldName) {
-    case "selection-event":
+    case "selection":
+      const services = getServices();
+      console.log(services);
       return (
         <Autocomplete
           id={fieldName}
-          options={getServices()}
-          // getOptionLabel={(option) => option.title}
-          value={value}
-          onChange={setInputVal}
+          options={services}
+          getOptionLabel={(option) => option.name || ""}
+          value={value[fieldName]}
+          onChange={(event, newValue) => {
+            setValue({ ...value, [fieldName]: newValue });
+            console.log(value);
+          }}
+          inputValue={inputValue}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -35,14 +48,16 @@ function InputField({ fieldName, setInputVal, value, style }) {
       return (
         <TextField
           id={fieldName}
+          value={value[fieldName]}
           label={fieldsMap.get(fieldName)}
           variant="standard"
           style={{
             ...style,
             width: style?.width,
           }}
-          onChange={() => {
-            console.log("fff");
+          onChange={(e) => {
+            setValue({ ...value, [fieldName]: e.target.value });
+            console.log("ffff", value);
           }}
         />
       );
