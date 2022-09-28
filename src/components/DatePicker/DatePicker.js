@@ -3,7 +3,8 @@ import { sendSelectedDate } from "../submitFunctions/submitFunctions";
 import DatePickerButton from "./DatePickerButton/DatePickerButton";
 import PopupDatePicker from "./PopupDatePicker/PopupDatePicker";
 
-function DatePicker({ selectDateRange, currentDate }) {
+function DatePicker({ selectDateRange }) {
+  const currentDate = new Date();
   const [selectDate, setSelectDate] = useState({
     day: currentDate.getDate(),
     month: currentDate.getMonth(),
@@ -32,7 +33,6 @@ function DatePicker({ selectDateRange, currentDate }) {
         active={modalActive}
         setActive={setModalActive}
         selectDateRange={selectDateRange}
-        currentDate={currentDate}
         firstOpen={firstOpen}
         setFirstOpen={setFirstOpen}
         selectDate={selectDate}

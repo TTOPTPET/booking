@@ -10,11 +10,13 @@
 	display: flex;
 	flex-direction: row;
 }
-.time__column, .day__column{
+.day__column{
 	display: flex;
 	flex-direction: column;
 }
 .time__column{
+	display: flex;
+	flex-direction: column;
 	margin-top: -25px;
 }
 .canvas__elem{
@@ -32,9 +34,13 @@
 }
 .time__elem{
 	overflow: hidden;
-	/* margin-top: -50px; */
 	border: none;
 	pointer-events: none;
+}
+.time__elem_active{
+	font-weight: bold;
+	font-size: 20px;
+	
 }
 .canvas__scroll::-webkit-scrollbar{
 	width: 0;

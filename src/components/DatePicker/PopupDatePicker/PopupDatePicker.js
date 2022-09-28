@@ -6,7 +6,6 @@ function PopupDatePicker({
   active,
   setActive,
   selectDateRange,
-  currentDate,
   firstOpen,
   setFirstOpen,
   selectDate,
@@ -26,7 +25,6 @@ function PopupDatePicker({
           {[selectDateRange.start, " - ", selectDateRange.end]}
         </div>
         <PopupCalendar
-          currentDate={currentDate}
           setActive={setActive}
           firstOpen={firstOpen}
           setFirstOpen={setFirstOpen}

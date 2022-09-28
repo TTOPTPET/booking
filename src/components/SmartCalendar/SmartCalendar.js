@@ -4,7 +4,7 @@ import EventPicker from "./EventPicker/EventPicker.js";
 import ScrollBar from "./ScrollBar/ScrollBar";
 import "./SmartCalendar.css";
 
-function SmartCalendar({ selectDateRange, currentDate, setSelectDateRange }) {
+function SmartCalendar({ selectDateRange, setSelectDateRange }) {
   const [eventModalActive, setEventModalActive] = useState({
     active: false,
     event: false,
@@ -22,7 +22,6 @@ function SmartCalendar({ selectDateRange, currentDate, setSelectDateRange }) {
     <div className="smartCalendar__wrapper">
       <ScrollBar
         selectDateRange={selectDateRange}
-        currentDate={currentDate}
         setSelectDateRange={setSelectDateRange}
       ></ScrollBar>
       <EventPicker

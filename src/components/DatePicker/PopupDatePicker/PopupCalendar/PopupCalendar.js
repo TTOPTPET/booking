@@ -5,13 +5,13 @@ import ArrowRight from "../../../../Arrow_right.svg";
 import { sendSelectedDate } from "../../../submitFunctions/submitFunctions";
 
 function PopupCalendar({
-  currentDate,
   setActive,
   firstOpen,
   setFirstOpen,
   selectDate,
   setSelectDate,
 }) {
+  const currentDate = new Date();
   let date = new Date(selectDate.year, selectDate.month + 1, 0);
   let daysCounter = date.getDate();
 

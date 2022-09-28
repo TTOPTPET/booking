@@ -5,44 +5,23 @@ import {
   changeWeekBack,
   changeWeekFront,
 } from "../../submitFunctions/submitFunctions";
+import { dateFromDayWeek } from "../tools/getDateFromPick";
 import "./ScrollBar.css";
 
-function ScrollBar({ selectDateRange, currentDate, setSelectDateRange }) {
+function ScrollBar({ selectDateRange, setSelectDateRange }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
-
-  const weekBoxDate = (week, splitSelectedRange, cDate) => {
-    if (
-      Number(splitSelectedRange[0]) + Number(weekName.indexOf(week)) >
-      cDate.getDate()
-    ) {
-      const newMonth =
-        Number(splitSelectedRange[1]) === 12
-          ? 1
-          : Number(splitSelectedRange[1]) + 1;
-      return [
-        Number(splitSelectedRange[0]) +
-          Number(weekName.indexOf(week)) -
-          cDate.getDate(),
-        newMonth,
-      ];
-    }
-    return [
-      Number(splitSelectedRange[0]) + Number(weekName.indexOf(week)),
-      Number(splitSelectedRange[1]),
-    ];
-  };
-
+  const currentDate = new Date();
   const weekDayRender = weekName.map((week) => {
     let nameClass = "weekBox";
     let splitSelectedRange = selectDateRange.start.split(".");
-    const cDate = new Date(splitSelectedRange[2], splitSelectedRange[1], 0);
+
     if (
       currentDate.getDate() ===
-        weekBoxDate(week, splitSelectedRange, cDate)[0] &&
-      ((weekBoxDate(week, splitSelectedRange, cDate)[1] ===
+        dateFromDayWeek(weekName.indexOf(week), selectDateRange)[0] &&
+      ((dateFromDayWeek(weekName.indexOf(week), selectDateRange)[1] ===
         currentDate.getMonth() + 1 &&
         Number(splitSelectedRange[2]) === currentDate.getFullYear()) ||
-        (weekBoxDate(week, splitSelectedRange, cDate)[1] === 1 &&
+        (dateFromDayWeek(weekName.indexOf(week), selectDateRange)[1] === 1 &&
           Number(splitSelectedRange[2]) + 1 === currentDate.getFullYear()))
     ) {
       nameClass = "weekBox weekBox_current";
@@ -52,7 +31,7 @@ function ScrollBar({ selectDateRange, currentDate, setSelectDateRange }) {
         <div className={nameClass} id={week}>
           <div className="weekBox__week">{week}</div>
           <div className="weekBox__date">
-            {weekBoxDate(week, splitSelectedRange, cDate)[0]}
+            {dateFromDayWeek(weekName.indexOf(week), selectDateRange)[0]}
           </div>
         </div>
       </div>
