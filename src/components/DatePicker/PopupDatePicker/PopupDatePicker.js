@@ -1,33 +1,36 @@
-import { useState } from "react";
 import PopupCalendar from "./PopupCalendar/PopupCalendar";
+import {
+  formatDateToObject,
+  formatDateToView,
+} from "../../SmartCalendar/tools/tools";
 import "./PopupDatePicker.css";
 
 function PopupDatePicker({
-  active,
-  setActive,
-  selectDateRange,
-  firstOpen,
-  setFirstOpen,
+  modalActive,
+  setModalActive,
+  treeWeek,
   selectDate,
   setSelectDate,
-  bufferDate,
 }) {
   return (
     <div
-      className={active ? "modal active" : "modal"}
+      className={modalActive.active ? "modal active" : "modal"}
       onClick={() => {
-        setActive(false);
-        setSelectDate(bufferDate);
+        setModalActive({ ...modalActive, active: false });
+        setSelectDate(formatDateToObject(treeWeek[0].day));
       }}
     >
       <div className="modal__content" onClick={(e) => e.stopPropagation()}>
         <div className="modal__content_date">
-          {[selectDateRange.start, " - ", selectDateRange.end]}
+          {[
+            formatDateToView(treeWeek[0].day),
+            " - ",
+            formatDateToView(treeWeek[6].day),
+          ]}
         </div>
         <PopupCalendar
-          setActive={setActive}
-          firstOpen={firstOpen}
-          setFirstOpen={setFirstOpen}
+          modalActive={modalActive}
+          setModalActive={setModalActive}
           selectDate={selectDate}
           setSelectDate={setSelectDate}
         />

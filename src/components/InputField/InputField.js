@@ -15,12 +15,9 @@ function InputField({ fieldName, setValue, value, style }) {
 
   const [inputValue, setInputValue] = useState(value[fieldName]);
 
-  console.log("inputField", fieldName, value);
-
   switch (fieldName) {
     case "selection":
       const services = getServices();
-      console.log(services);
       return (
         <Autocomplete
           id={fieldName}
@@ -29,7 +26,6 @@ function InputField({ fieldName, setValue, value, style }) {
           value={value[fieldName]}
           onChange={(event, newValue) => {
             setValue({ ...value, [fieldName]: newValue });
-            console.log(value);
           }}
           inputValue={inputValue}
           onInputChange={(event, newInputValue) => {
@@ -57,7 +53,6 @@ function InputField({ fieldName, setValue, value, style }) {
           }}
           onChange={(e) => {
             setValue({ ...value, [fieldName]: e.target.value });
-            console.log("ffff", value);
           }}
         />
       );

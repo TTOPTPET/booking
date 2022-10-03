@@ -1,43 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { sendSelectedDate } from "../submitFunctions/submitFunctions";
 import DatePickerButton from "./DatePickerButton/DatePickerButton";
 import PopupDatePicker from "./PopupDatePicker/PopupDatePicker";
+import { formatDateToObject } from "../SmartCalendar/tools/tools";
 
-function DatePicker({ selectDateRange }) {
-  const currentDate = new Date();
-  const [selectDate, setSelectDate] = useState({
-    day: currentDate.getDate(),
-    month: currentDate.getMonth(),
-    year: currentDate.getFullYear(),
+function DatePicker({ treeWeek }) {
+  const [selectDate, setSelectDate] = useState(
+    formatDateToObject(treeWeek[0].day)
+  );
+  const [modalActive, setModalActive] = useState({
+    active: false,
+    firstOpen: true,
   });
-  const [modalActive, setModalActive] = useState(false);
-  const [firstOpen, setFirstOpen] = useState(true);
-  const [bufferDate, setBufferDate] = useState(selectDate);
-
-  useEffect(() => {
-    if (firstOpen === false) {
-      sendSelectedDate(selectDate);
-    }
-  }, [selectDate.day]);
 
   return (
     <div>
-      <DatePickerButton
-        selectDateRange={selectDateRange}
-        setModalActive={setModalActive}
-        setFirstOpen={setFirstOpen}
-        setBufferDate={setBufferDate}
-        selectDate={selectDate}
-      />
+      <DatePickerButton treeWeek={treeWeek} setModalActive={setModalActive} />
       <PopupDatePicker
-        active={modalActive}
-        setActive={setModalActive}
-        selectDateRange={selectDateRange}
-        firstOpen={firstOpen}
-        setFirstOpen={setFirstOpen}
+        modalActive={modalActive}
+        setModalActive={setModalActive}
+        treeWeek={treeWeek}
         selectDate={selectDate}
         setSelectDate={setSelectDate}
-        bufferDate={bufferDate}
       />
     </div>
   );

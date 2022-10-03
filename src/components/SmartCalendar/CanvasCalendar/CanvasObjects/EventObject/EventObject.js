@@ -15,7 +15,6 @@ function EventObject({ setEventModalActive, setEventer, eventer }) {
       }}
       onClick={(e) => {
         e.stopPropagation();
-        console.log("eventClick", eventer.name_event);
         setEventer({
           ...eventer,
           name: eventer.name_event,

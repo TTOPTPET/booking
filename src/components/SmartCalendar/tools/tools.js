@@ -23,3 +23,17 @@ export const dateFromDayWeek = (weekDayIndex, selectDateRange) => {
     Number(splitSelectDateRange[1]),
   ];
 };
+
+export const formatDateToView = (date) => {
+  let splitDate = date.split("-");
+  return splitDate[2] + "." + splitDate[1] + "." + splitDate[0];
+};
+
+export const formatDateToSet = (objDate) => {
+  return objDate.year + "-" + objDate.month + "-" + objDate.day;
+};
+
+export const formatDateToObject = (date) => {
+  let splitDate = date.split("-");
+  return { year: splitDate[0], month: splitDate[1], day: splitDate[2] };
+};

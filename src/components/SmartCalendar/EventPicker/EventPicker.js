@@ -19,7 +19,6 @@ function EventPicker({
       }
       onClick={() => {
         setEventModalActive({ active: false, event: false });
-        console.log("modalclick");
         setEventer({
           name: "",
           dateStart: "",

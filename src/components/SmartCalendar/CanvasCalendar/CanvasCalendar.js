@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./CanvasCalendar.css";
 import { getBooking } from "../../submitFunctions/submitFunctions";
-import { dateFromDayWeek } from "../tools/getDateFromPick";
+import { dateFromDayWeek } from "../tools/tools";
 import EventObject from "./CanvasObjects/EventObject/EventObject";
 
 function CanvasCalendar({
@@ -43,7 +43,6 @@ function CanvasCalendar({
               className="canvas__elem"
               id={"col" + colIndex}
               onClick={(e) => {
-                console.log("element");
                 let splitDate = selectDateRange.start.split(".");
                 splitDate[0] = dateFromDayWeek(colIndex, selectDateRange)[0];
                 splitDate[1] = dateFromDayWeek(colIndex, selectDateRange)[1];

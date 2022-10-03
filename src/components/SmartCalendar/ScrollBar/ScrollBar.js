@@ -5,7 +5,7 @@ import {
   changeWeekBack,
   changeWeekFront,
 } from "../../submitFunctions/submitFunctions";
-import { dateFromDayWeek } from "../tools/getDateFromPick";
+import { dateFromDayWeek } from "../tools/tools";
 import "./ScrollBar.css";
 
 function ScrollBar({ selectDateRange, setSelectDateRange }) {

@@ -1,24 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./PopupCalendar.css";
 import ArrowLeft from "../../../../Arrow_left.svg";
 import ArrowRight from "../../../../Arrow_right.svg";
 import { sendSelectedDate } from "../../../submitFunctions/submitFunctions";
+import { formatDateToSet } from "../../../SmartCalendar/tools/tools";
 
 function PopupCalendar({
-  setActive,
-  firstOpen,
-  setFirstOpen,
+  modalActive,
+  setModalActive,
   selectDate,
   setSelectDate,
 }) {
   const currentDate = new Date();
-  let date = new Date(selectDate.year, selectDate.month + 1, 0);
+  let date = new Date(selectDate.year, selectDate.month - 1, 0);
   let daysCounter = date.getDate();
+  const [canRecive, setCanRecive] = useState(false);
+
+  useEffect(() => {
+    if (modalActive.active === false && canRecive === true) {
+      sendSelectedDate(formatDateToSet(selectDate));
+      setCanRecive(false);
+    }
+  }, [selectDate.day]);
 
   const colomnsMonths = [...Array(12)].map((item, index) => {
     let classForBtn = "month__btn";
     if (
-      selectDate.year === currentDate.getFullYear() &&
+      Number(selectDate.year) === currentDate.getFullYear() &&
       currentDate.getMonth() === index
     ) {
       classForBtn = "month__btn date_current";
@@ -29,8 +37,11 @@ function PopupCalendar({
         id={index}
         key={index}
         onClick={() => {
-          setSelectDate({ ...selectDate, month: index });
-          setFirstOpen(false);
+          setSelectDate({
+            ...selectDate,
+            month: index + 1,
+          });
+          setModalActive({ active: true, firstOpen: false });
         }}
       >
         <div>{selectDate.year}</div>
@@ -47,9 +58,9 @@ function PopupCalendar({
     let classForBtn = "day__btn";
     if (index < daysCounter) {
       if (
-        index + 1 === currentDate.getDate() &&
-        selectDate.year === currentDate.getFullYear() &&
-        currentDate.getMonth() === selectDate.month
+        index + 1 === Number(currentDate.getDate()) &&
+        Number(selectDate.year) === currentDate.getFullYear() &&
+        currentDate.getMonth() === Number(selectDate.month) - 1
       ) {
         classForBtn = "day__btn date_current";
       }
@@ -59,8 +70,12 @@ function PopupCalendar({
           id={"day" + (index + 1)}
           key={index}
           onClick={() => {
-            setSelectDate({ ...selectDate, day: index + 1 });
-            setActive(false);
+            setSelectDate({
+              ...selectDate,
+              day: index + 1,
+            });
+            setModalActive({ active: false, firstOpen: false });
+            setCanRecive(true);
           }}
         >
           <div>{index + 1}</div>
@@ -70,10 +85,10 @@ function PopupCalendar({
     classForBtn = "day__btn day__btn_dark";
     if (
       index + 1 - daysCounter === currentDate.getDate() &&
-      ((selectDate.year === currentDate.getFullYear() &&
-        currentDate.getMonth() === selectDate.month + 1) ||
+      ((Number(selectDate.year) === currentDate.getFullYear() &&
+        currentDate.getMonth() === Number(selectDate.month)) ||
         (currentDate.getMonth() === 0 &&
-          selectDate.year + 1 === currentDate.getFullYear()))
+          Number(selectDate.year) + 1 === currentDate.getFullYear()))
     ) {
       classForBtn = "day__btn day__btn_dark date_current";
     }
@@ -83,21 +98,21 @@ function PopupCalendar({
         id={"day" + (index + 1)}
         key={index}
         onClick={() => {
-          let bufferMonth = selectDate.month;
-          let bufferYear = selectDate.year;
-          if (selectDate.month === 11) {
-            bufferYear += 1;
-            bufferMonth = 0;
+          let bufferDate = { year: null, month: null };
+          if (selectDate.month === 12) {
+            bufferDate.year = Number(selectDate.year) + 1;
+            bufferDate.month = 1;
           } else {
-            bufferMonth = selectDate.month + 1;
+            bufferDate.month = Number(selectDate.month) + 1;
           }
           setSelectDate({
             ...selectDate,
-            year: bufferYear,
-            month: bufferMonth,
+            year: bufferDate.year ? bufferDate.year : selectDate.year,
+            month: bufferDate.month ? bufferDate.month : selectDate.month,
             day: index + 1 - daysCounter,
           });
-          setActive(false);
+          setModalActive({ active: false, firstOpen: false });
+          setCanRecive(true);
         }}
       >
         <div>{index - daysCounter + 1}</div>
@@ -109,9 +124,9 @@ function PopupCalendar({
     <div className="popup__wrapp">
       <div className="calendar__selectedDate">
         <div className="selected_month">
-          {firstOpen
+          {modalActive.firstOpen
             ? null
-            : new Date(selectDate.year, selectDate.month, 1).toLocaleString(
+            : new Date(selectDate.year, selectDate.month - 1, 1).toLocaleString(
                 "ru",
                 {
                   month: "long",
@@ -119,7 +134,7 @@ function PopupCalendar({
               )}
         </div>
         <div className="selected_year">
-          {firstOpen ? null : selectDate.year}
+          {modalActive.firstOpen ? null : selectDate.year}
         </div>
       </div>
       <div className="btn__wrapp">
@@ -127,19 +142,22 @@ function PopupCalendar({
           className="btn__calendar"
           id="btn-calendar-left"
           onClick={() => {
-            if (firstOpen) {
-              setSelectDate({ ...selectDate, year: selectDate.year - 1 });
+            if (modalActive.firstOpen) {
+              setSelectDate({
+                ...selectDate,
+                year: Number(selectDate.year) - 1,
+              });
             } else {
-              if (selectDate.month === 0) {
+              if (Number(selectDate.month) === 1) {
                 setSelectDate({
                   ...selectDate,
-                  year: selectDate.year - 1,
-                  month: 11,
+                  year: Number(selectDate.year) - 1,
+                  month: 12,
                 });
               } else {
                 setSelectDate({
                   ...selectDate,
-                  month: selectDate.month - 1,
+                  month: Number(selectDate.month) - 1,
                 });
               }
             }
@@ -148,25 +166,28 @@ function PopupCalendar({
           <img className="btn__calendar_img" src={ArrowLeft} alt=""></img>
         </button>
         <div className="calendar__wrapp">
-          {firstOpen ? colomnsMonths : colomnsDays}
+          {modalActive.firstOpen ? colomnsMonths : colomnsDays}
         </div>
         <button
           className="btn__calendar"
           id="btn-calendar-right"
           onClick={() => {
-            if (firstOpen) {
-              setSelectDate({ ...selectDate, year: selectDate.year + 1 });
+            if (modalActive.firstOpen) {
+              setSelectDate({
+                ...selectDate,
+                year: Number(selectDate.year) + 1,
+              });
             } else {
-              if (selectDate.month === 11) {
+              if (Number(selectDate.month) === 12) {
                 setSelectDate({
                   ...selectDate,
-                  year: selectDate.year + 1,
-                  month: 0,
+                  year: Number(selectDate.year) + 1,
+                  month: 1,
                 });
               } else {
                 setSelectDate({
                   ...selectDate,
-                  month: selectDate.month + 1,
+                  month: Number(selectDate.month) + 1,
                 });
               }
             }

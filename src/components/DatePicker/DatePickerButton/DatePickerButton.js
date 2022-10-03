@@ -1,24 +1,21 @@
 import React from "react";
 import "./DatePickerButton.css";
+import { formatDateToView } from "../../SmartCalendar/tools/tools";
 
-function DatePickerButton({
-  selectDateRange,
-  setModalActive,
-  setFirstOpen,
-  setBufferDate,
-  selectDate,
-}) {
+function DatePickerButton({ treeWeek, setModalActive }) {
   return (
     <button
       className="datePicker_btn"
       onClick={(e) => {
         e.preventDefault();
-        setModalActive(true);
-        setFirstOpen(true);
-        setBufferDate(selectDate);
+        setModalActive({ active: true, firstOpen: true });
       }}
     >
-      {[selectDateRange.start, " - ", selectDateRange.end]}
+      {[
+        formatDateToView(treeWeek[0].day),
+        " - ",
+        formatDateToView(treeWeek[6].day),
+      ]}
     </button>
   );
 }

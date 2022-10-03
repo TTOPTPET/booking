@@ -6,18 +6,16 @@ import { TextField } from "@mui/material";
 import { getBooking } from "./components/submitFunctions/submitFunctions";
 
 function App() {
-  let currentDate = new Date();
-
   const [treeWeek, setTreeWeek] = useState(getBooking());
 
   const [selectDateRange, setSelectDateRange] = useState({
-    start: "26.09.2022",
-    end: "2.10.2022",
+    start: "3.10.2022",
+    end: "10.10.2022",
   });
 
   return (
     <div className="App">
-      <DatePicker selectDateRange={selectDateRange} />
+      <DatePicker treeWeek={treeWeek} />
       <SmartCalendar
         selectDateRange={selectDateRange}
         setSelectDateRange={setSelectDateRange}
