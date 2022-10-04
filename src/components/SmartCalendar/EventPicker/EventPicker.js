@@ -18,6 +18,7 @@ function EventPicker({
           : "event-modal"
       }
       onClick={() => {
+        console.log("outer");
         setEventModalActive({ active: false, event: false });
         setEventer({
           name: "",
@@ -31,7 +32,10 @@ function EventPicker({
     >
       <div
         className="event-picker__wrapper"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          console.log("inner");
+        }}
       >
         <div className="event-picker__name">Настройка события</div>
         <div className="event-picker__fields">

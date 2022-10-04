@@ -1,6 +1,6 @@
 import React from "react";
 import "./DatePickerButton.css";
-import { formatDateToView } from "../../SmartCalendar/tools/tools";
+import { formatDateToView } from "../../tools/tools";
 
 function DatePickerButton({ treeWeek, setModalActive }) {
   return (

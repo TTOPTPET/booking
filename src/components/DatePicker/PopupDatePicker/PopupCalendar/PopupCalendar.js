@@ -3,9 +3,10 @@ import "./PopupCalendar.css";
 import ArrowLeft from "../../../../Arrow_left.svg";
 import ArrowRight from "../../../../Arrow_right.svg";
 import { sendSelectedDate } from "../../../submitFunctions/submitFunctions";
-import { formatDateToSet } from "../../../SmartCalendar/tools/tools";
+import { formatDateToSet } from "../../../tools/tools";
 
 function PopupCalendar({
+  setTreeWeek,
   modalActive,
   setModalActive,
   selectDate,
@@ -17,11 +18,11 @@ function PopupCalendar({
   const [canRecive, setCanRecive] = useState(false);
 
   useEffect(() => {
-    if (modalActive.active === false && canRecive === true) {
-      sendSelectedDate(formatDateToSet(selectDate));
+    if (canRecive === true) {
+      sendSelectedDate(formatDateToSet(selectDate), setTreeWeek);
       setCanRecive(false);
     }
-  }, [selectDate.day]);
+  }, [selectDate]);
 
   const renderMonths = [...Array(3)].map((item, rIndex) => {
     return (

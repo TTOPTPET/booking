@@ -4,7 +4,7 @@ import EventPicker from "./EventPicker/EventPicker.js";
 import ScrollBar from "./ScrollBar/ScrollBar";
 import "./SmartCalendar.css";
 
-function SmartCalendar({ selectDateRange, setSelectDateRange }) {
+function SmartCalendar({ treeWeek, setTreeWeek }) {
   const [eventModalActive, setEventModalActive] = useState({
     active: false,
     event: false,
@@ -20,10 +20,7 @@ function SmartCalendar({ selectDateRange, setSelectDateRange }) {
 
   return (
     <div className="smartCalendar__wrapper">
-      <ScrollBar
-        selectDateRange={selectDateRange}
-        setSelectDateRange={setSelectDateRange}
-      ></ScrollBar>
+      <ScrollBar treeWeek={treeWeek} setTreeWeek={setTreeWeek}></ScrollBar>
       <EventPicker
         eventModalActive={eventModalActive}
         setEventModalActive={setEventModalActive}
@@ -31,10 +28,10 @@ function SmartCalendar({ selectDateRange, setSelectDateRange }) {
         setEventer={setEventer}
       ></EventPicker>
       <CanvasCalendar
+        treeWeek={treeWeek}
         setEventModalActive={setEventModalActive}
         eventer={eventer}
         setEventer={setEventer}
-        selectDateRange={selectDateRange}
       ></CanvasCalendar>
     </div>
   );

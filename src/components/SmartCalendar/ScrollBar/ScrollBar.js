@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from "react";
 import ArrowLeft from "../../../Arrow_left.svg";
 import ArrowRight from "../../../Arrow_right.svg";
-import {
-  changeWeekBack,
-  changeWeekFront,
-} from "../../submitFunctions/submitFunctions";
-import { dateFromDayWeek } from "../tools/tools";
+import { changeWeek } from "../../submitFunctions/submitFunctions";
+import { dateFromDayWeek } from "../../tools/tools";
 import "./ScrollBar.css";
 
-function ScrollBar({ selectDateRange, setSelectDateRange }) {
+function ScrollBar({ treeWeek, setTreeWeek }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const currentDate = new Date();
   const weekDayRender = weekName.map((week) => {
     let nameClass = "weekBox";
-    let splitSelectedRange = selectDateRange.start.split(".");
+    let splitSelectedRange = treeWeek[0].day.split("-");
 
     if (
       currentDate.getDate() ===
-        dateFromDayWeek(weekName.indexOf(week), selectDateRange)[0] &&
-      ((dateFromDayWeek(weekName.indexOf(week), selectDateRange)[1] ===
+        dateFromDayWeek(weekName.indexOf(week), treeWeek[0].day)[0] &&
+      ((dateFromDayWeek(weekName.indexOf(week), treeWeek[0].day)[1] ===
         currentDate.getMonth() + 1 &&
-        Number(splitSelectedRange[2]) === currentDate.getFullYear()) ||
-        (dateFromDayWeek(weekName.indexOf(week), selectDateRange)[1] === 1 &&
-          Number(splitSelectedRange[2]) + 1 === currentDate.getFullYear()))
+        Number(splitSelectedRange[0]) === currentDate.getFullYear()) ||
+        (dateFromDayWeek(weekName.indexOf(week), treeWeek[0].day)[1] === 1 &&
+          Number(splitSelectedRange[0]) + 1 === currentDate.getFullYear()))
     ) {
       nameClass = "weekBox weekBox_current";
     }
@@ -31,7 +28,7 @@ function ScrollBar({ selectDateRange, setSelectDateRange }) {
         <div className={nameClass} id={week}>
           <div className="weekBox__week">{week}</div>
           <div className="weekBox__date">
-            {dateFromDayWeek(weekName.indexOf(week), selectDateRange)[0]}
+            {dateFromDayWeek(weekName.indexOf(week), treeWeek[0].day)[0]}
           </div>
         </div>
       </div>
@@ -44,7 +41,7 @@ function ScrollBar({ selectDateRange, setSelectDateRange }) {
         className="btn__scrollBar"
         id="btn-scrollBar-left"
         onClick={() => {
-          changeWeekBack(selectDateRange);
+          changeWeek(treeWeek, setTreeWeek, "back");
         }}
       >
         <img className="btn__calendar_img" src={ArrowLeft} alt=""></img>
@@ -54,7 +51,7 @@ function ScrollBar({ selectDateRange, setSelectDateRange }) {
         className="btn__scrollBar"
         id="btn-scrollBar-right"
         onClick={() => {
-          changeWeekFront(selectDateRange);
+          changeWeek(treeWeek, setTreeWeek, "front");
         }}
       >
         <img className="btn__calendar_img" src={ArrowRight} alt=""></img>

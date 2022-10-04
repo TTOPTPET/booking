@@ -1,14 +1,12 @@
 import PopupCalendar from "./PopupCalendar/PopupCalendar";
-import {
-  formatDateToObject,
-  formatDateToView,
-} from "../../SmartCalendar/tools/tools";
+import { formatDateToObject, formatDateToView } from "../../tools/tools";
 import "./PopupDatePicker.css";
 
 function PopupDatePicker({
   modalActive,
   setModalActive,
   treeWeek,
+  setTreeWeek,
   selectDate,
   setSelectDate,
 }) {
@@ -29,6 +27,7 @@ function PopupDatePicker({
           ]}
         </div>
         <PopupCalendar
+          setTreeWeek={setTreeWeek}
           modalActive={modalActive}
           setModalActive={setModalActive}
           selectDate={selectDate}

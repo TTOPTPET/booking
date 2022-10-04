@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import DatePickerButton from "./DatePickerButton/DatePickerButton";
 import PopupDatePicker from "./PopupDatePicker/PopupDatePicker";
-import { formatDateToObject } from "../SmartCalendar/tools/tools";
+import { formatDateToObject } from "../tools/tools";
 
-function DatePicker({ treeWeek }) {
+function DatePicker({ treeWeek, setTreeWeek }) {
   const [selectDate, setSelectDate] = useState(
     formatDateToObject(treeWeek[0].day)
   );
@@ -19,6 +19,7 @@ function DatePicker({ treeWeek }) {
         modalActive={modalActive}
         setModalActive={setModalActive}
         treeWeek={treeWeek}
+        setTreeWeek={setTreeWeek}
         selectDate={selectDate}
         setSelectDate={setSelectDate}
       />

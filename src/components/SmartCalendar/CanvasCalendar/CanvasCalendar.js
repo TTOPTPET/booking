@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./CanvasCalendar.css";
-import { getBooking } from "../../submitFunctions/submitFunctions";
-import { dateFromDayWeek } from "../tools/tools";
+import { dateFromDayWeek } from "../../tools/tools";
 import EventObject from "./CanvasObjects/EventObject/EventObject";
 
 function CanvasCalendar({
   setEventModalActive,
+  treeWeek,
   eventer,
   setEventer,
-  selectDateRange,
 }) {
   const currentDate = new Date();
   const myRef = useRef(null);
@@ -16,11 +15,10 @@ function CanvasCalendar({
   useEffect(() => {
     executeScroll();
   }, []);
-  let tree = getBooking();
 
-  const addEvent = (dayTree, rowIndex) => {
+  const addEvent = (dayTree, rowIndex, day) => {
     let newEvent = dayTree.booking.find(
-      (nEvent) => nEvent.start_event === rowIndex + ":00:00"
+      (nEvent) => Number(nEvent.start_event.split(":")[0]) === rowIndex
     );
     if (newEvent) {
       return (
@@ -28,13 +26,14 @@ function CanvasCalendar({
           setEventModalActive={setEventModalActive}
           setEventer={setEventer}
           eventer={newEvent}
+          day={day}
         ></EventObject>
       );
     }
     return null;
   };
 
-  const canvasRenderTwo = tree.map((dayTree, colIndex) => {
+  const canvasRender = treeWeek.map((dayTree, colIndex) => {
     return (
       <div className="day__column">
         {[...Array(24)].map((item, rowIndex) => {
@@ -43,18 +42,18 @@ function CanvasCalendar({
               className="canvas__elem"
               id={"col" + colIndex}
               onClick={(e) => {
-                let splitDate = selectDateRange.start.split(".");
-                splitDate[0] = dateFromDayWeek(colIndex, selectDateRange)[0];
-                splitDate[1] = dateFromDayWeek(colIndex, selectDateRange)[1];
+                let splitDate = treeWeek[colIndex].day.split("-");
+                splitDate[2] = dateFromDayWeek(colIndex, treeWeek[0].day)[0];
+                splitDate[1] = dateFromDayWeek(colIndex, treeWeek[0].day)[1];
                 setEventer({
                   ...eventer,
-                  dateStart: splitDate.join("."),
+                  dateStart: splitDate.join("-"),
                   timeStart: rowIndex + ":00:00",
                 });
                 setEventModalActive({ active: true, event: false });
               }}
             >
-              {addEvent(dayTree, rowIndex)}
+              {addEvent(dayTree, rowIndex, treeWeek[colIndex].day)}
             </button>
           );
         })}
@@ -82,7 +81,7 @@ function CanvasCalendar({
     <div className="canvas__wrapper">
       <div className="canvas__scroll">
         <div className="time__column">{timeRender}</div>
-        {canvasRenderTwo}
+        {canvasRender}
       </div>
     </div>
   );

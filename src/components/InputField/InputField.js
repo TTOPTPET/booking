@@ -8,6 +8,8 @@ function InputField({ fieldName, setValue, value, style }) {
     ["name", "Название события"],
     ["dateStart", "Дата начала"],
     ["dateEnd", "Дата конца"],
+    ["dateStart1", "Дата начала повторений"],
+    ["dateEnd1", "Дата конца повторений"],
     ["timeStart", "Время начала"],
     ["timeEnd", "Время конца"],
     ["selection", "Выбор услуги"],
