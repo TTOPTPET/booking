@@ -3,14 +3,15 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "./components/DatePicker/DatePicker";
 import SmartCalendar from "./components/SmartCalendar/SmartCalendar";
 import { getCurrentWeek } from "./components/submitFunctions/submitFunctions";
-import { defaultData } from "./config/config";
+import { defaultData, newJSON } from "./config/config";
 
 function App() {
-  const [treeWeek, setTreeWeek] = useState(defaultData);
+  // const [treeWeek, setTreeWeek] = useState(defaultData);
+  const [treeWeek, setTreeWeek] = useState(newJSON);
 
-  useEffect(() => {
-    getCurrentWeek(setTreeWeek);
-  }, []);
+  // useEffect(() => {
+  //   getCurrentWeek(setTreeWeek);
+  // }, []);
 
   return (
     <div className="App">

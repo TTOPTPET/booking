@@ -7,24 +7,28 @@ function EventObject({ setEventModalActive, setEventer, eventer, day }) {
     <div
       className="event__wrapper"
       style={{
-        top: eventer.start_event.split(":")[1] * 0.8 + "px",
+        top: eventer.event_time_start.split(":")[1] * 0.8 + "px",
         height:
-          60 * getTimeCoef(eventer.start_event, eventer.end_event) - 1 + "px",
+          60 * getTimeCoef(eventer.event_time_start, eventer.event_time_end) -
+          1 +
+          "px",
       }}
       onClick={(e) => {
         e.stopPropagation();
         setEventer({
-          ...eventer,
-          name: eventer.name_event,
-          dateStart: day,
-          dateEnd: "11:11:1111",
-          timeStart: eventer.start_event,
-          timeEnd: eventer.end_event,
+          name: eventer.connect_event_setting.name_event,
+          dateStart: eventer.connect_event_setting.day_start_g,
+          dateEnd: eventer.connect_event_setting.day_end_g,
+          timeStart: eventer.connect_event_setting.event_time_start,
+          timeEnd: eventer.connect_event_setting.event_time_end,
+          // здесь должны быть поля услуг и повторений
         });
         setEventModalActive({ active: true, event: true });
       }}
     >
-      <div className="event__text">{'"' + eventer.name_event + '"'}</div>
+      <div className="event__text">
+        {'"' + eventer.connect_event_setting.name_event + '"'}
+      </div>
       <div className="event__counter">
         {"Записи: " + eventer.event_booking.length}
       </div>

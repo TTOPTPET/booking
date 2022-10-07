@@ -17,8 +17,9 @@ function CanvasCalendar({
   }, []);
 
   const addEvent = (dayTree, rowIndex, day) => {
-    let newEvent = dayTree.booking.find(
-      (nEvent) => Number(nEvent.start_event.split(":")[0]) === rowIndex
+    console.log("dayTree", dayTree);
+    let newEvent = dayTree.event_day.find(
+      (nEvent) => Number(nEvent.event_time_start.split(":")[0]) === rowIndex
     );
     if (newEvent) {
       return (

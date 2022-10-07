@@ -3,8 +3,6 @@ import InputField from "../../InputField/InputField";
 import "./EventPicker.css";
 
 function EventPicker({
-  selectDate,
-  selectTime,
   eventModalActive,
   setEventModalActive,
   eventer,
