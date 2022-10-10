@@ -6,12 +6,11 @@ import { getCurrentWeek } from "./components/submitFunctions/submitFunctions";
 import { defaultData, newJSON } from "./config/config";
 
 function App() {
-  // const [treeWeek, setTreeWeek] = useState(defaultData);
-  const [treeWeek, setTreeWeek] = useState(newJSON);
+  const [treeWeek, setTreeWeek] = useState(defaultData);
 
-  // useEffect(() => {
-  //   getCurrentWeek(setTreeWeek);
-  // }, []);
+  useEffect(() => {
+    getCurrentWeek(setTreeWeek);
+  }, []);
 
   return (
     <div className="App">

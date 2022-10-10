@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import InputField from "../../InputField/InputField";
+import { setEvent } from "../../submitFunctions/submitFunctions";
 import "./EventPicker.css";
 
 function EventPicker({
@@ -24,7 +25,7 @@ function EventPicker({
           dateEnd: "",
           timeStart: "",
           timeEnd: "",
-          selection: {},
+          selection: { id: "", name: "" },
         });
       }}
     >
@@ -80,7 +81,23 @@ function EventPicker({
         <button className="setRepeats__btn event-pick-btn">
           Настройка повторений
         </button>
-        <button className="submit__btn event-pick-btn">Готово</button>
+        <button
+          className="submit__btn event-pick-btn"
+          onClick={() => {
+            setEvent(eventer);
+            setEventModalActive({ active: false, event: false });
+            setEventer({
+              name: "",
+              dateStart: "",
+              dateEnd: "",
+              timeStart: "",
+              timeEnd: "",
+              selection: { id: "", name: "" },
+            });
+          }}
+        >
+          Готово
+        </button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./CanvasCalendar.css";
-import { dateFromDayWeek } from "../../tools/tools";
+import { dateFromDayWeek, getTimeCoef } from "../../tools/tools";
 import EventObject from "./CanvasObjects/EventObject/EventObject";
 
 function CanvasCalendar({
@@ -16,18 +16,24 @@ function CanvasCalendar({
     executeScroll();
   }, []);
 
-  const addEvent = (dayTree, rowIndex, day) => {
-    console.log("dayTree", dayTree);
+  const addEvent = (dayTree, rowIndex, marginLen) => {
     let newEvent = dayTree.event_day.find(
       (nEvent) => Number(nEvent.event_time_start.split(":")[0]) === rowIndex
     );
     if (newEvent) {
+      if (getTimeCoef(marginLen.lastEventEnd, newEvent.event_time_start) < 0) {
+        marginLen.marginCoef += 1;
+      } else {
+        marginLen.marginCoef = 0;
+      }
+      console.log("addEvent", newEvent, marginLen);
+      marginLen.lastEventEnd = newEvent.event_time_end;
       return (
         <EventObject
           setEventModalActive={setEventModalActive}
           setEventer={setEventer}
           eventer={newEvent}
-          day={day}
+          combinMargin={marginLen.marginCoef}
         ></EventObject>
       );
     }
@@ -35,6 +41,7 @@ function CanvasCalendar({
   };
 
   const canvasRender = treeWeek.map((dayTree, colIndex) => {
+    let marginLen = { lastEventEnd: "00:00:00", marginCoef: 0 };
     return (
       <div className="day__column">
         {[...Array(24)].map((item, rowIndex) => {
@@ -49,12 +56,13 @@ function CanvasCalendar({
                 setEventer({
                   ...eventer,
                   dateStart: splitDate.join("-"),
+                  dateEnd: splitDate.join("-"),
                   timeStart: rowIndex + ":00:00",
                 });
                 setEventModalActive({ active: true, event: false });
               }}
             >
-              {addEvent(dayTree, rowIndex, treeWeek[colIndex].day)}
+              {addEvent(dayTree, rowIndex, marginLen)}
             </button>
           );
         })}
@@ -77,7 +85,6 @@ function CanvasCalendar({
       </div>
     );
   });
-
   return (
     <div className="canvas__wrapper">
       <div className="canvas__scroll">

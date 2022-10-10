@@ -99,6 +99,40 @@ export const getNewWeek = (date, direction) => {
 export const getTimeCoef = (startTime, endTime) => {
   const startTimeSplit = startTime.split(":");
   const endTimeSplit = endTime.split(":");
-  const minutesCoef = Math.abs(endTimeSplit[1] - startTimeSplit[1]) / 60;
+  const minutesCoef = (endTimeSplit[1] - startTimeSplit[1]) / 60;
   return endTimeSplit[0] - startTimeSplit[0] + minutesCoef;
+};
+
+export const calcTransitions = (date) => {
+  const splitDate = date.split("-");
+  const counterDate = new Date(splitDate[0], splitDate[1], 0);
+  if (Number(splitDate[2]) + 1 > counterDate.getDate()) {
+    const newMonth = Number(splitDate[1]) === 12 ? 1 : Number(splitDate[1]) + 1;
+    const newYear =
+      Number(splitDate[1]) === 12 ? Number(splitDate[0]) + 1 : splitDate[0];
+    return (
+      newYear +
+      "-" +
+      newMonth +
+      "-" +
+      (Number(splitDate[2]) + 1 - counterDate.getDate())
+    );
+  }
+  return (
+    splitDate[0] + "-" + Number(splitDate[1]) + "-" + (Number(splitDate[2]) + 1)
+  );
+};
+
+export const fixTimeToDatejs = (time) => {
+  console.log("time", time);
+  if (time && typeof time === "string") {
+    console.log("time11", time);
+    const splitTime = time.split();
+    const newTime = splitTime.map((item) => {
+      return item.length < 2 ? "0" + item : item;
+    });
+    console.log("newTime", String(newTime));
+    return String(newTime);
+  }
+  return "00:00:00";
 };
