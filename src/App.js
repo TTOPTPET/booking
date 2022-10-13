@@ -2,14 +2,20 @@ import "./App.css";
 import React, { useState, useEffect } from "react";
 import DatePicker from "./components/DatePicker/DatePicker";
 import SmartCalendar from "./components/SmartCalendar/SmartCalendar";
-import { getCurrentWeek } from "./components/submitFunctions/submitFunctions";
-import { defaultData, newJSON } from "./config/config";
+import {
+  getCurrentWeek,
+  getServices,
+} from "./components/submitFunctions/submitFunctions";
+import { defaultData, defaultServices } from "./config/config";
 
 function App() {
   const [treeWeek, setTreeWeek] = useState(defaultData);
+  const [services, setServices] = useState(defaultServices);
 
   useEffect(() => {
-    getCurrentWeek(setTreeWeek);
+    // getCurrentWeek(setTreeWeek);
+    // getServices(setServices);
+    console.log("treeWeek", treeWeek);
   }, []);
 
   return (
@@ -18,6 +24,7 @@ function App() {
       <SmartCalendar
         treeWeek={treeWeek}
         setTreeWeek={setTreeWeek}
+        services={services}
       ></SmartCalendar>
     </div>
   );

@@ -11,7 +11,6 @@ function EventObject({
   const [unfoldEvent, setUnfoldEvent] = useState(false);
 
   const renderBook = () => {
-    console.log("renderBook");
     let lastBookEnd = "00:00:00";
     let marginCoef = 0;
     return eventer?.event_booking.map((book) => {
@@ -72,7 +71,6 @@ function EventObject({
       id={eventer.id}
       onClick={(e) => {
         unfoldEvent ? setUnfoldEvent(false) : setUnfoldEvent(true);
-        console.log("setUnfoldEvent", unfoldEvent);
         e.stopPropagation();
       }}
     >
@@ -99,9 +97,7 @@ function EventObject({
             setEventer({
               name: eventer.connect_event_setting.name_event,
               dateStart: eventer.day_start,
-              dateEnd: eventer.flag_event_transition
-                ? calcTransitions(eventer.day_start)
-                : eventer.day_start,
+              dateEnd: eventer.day_end,
               timeStart: eventer.connect_event_setting.event_time_start,
               timeEnd: eventer.connect_event_setting.event_time_end,
               // здесь должны быть поля услуг и повторений

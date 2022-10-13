@@ -48,12 +48,19 @@ export const changeWeek = (treeWeek, setTreeWeek, direction) => {
     });
 };
 
-export const getServices = () => {
-  return [
-    { id: 1, name: "11" },
-    { id: 2, name: "22" },
-    { id: 3, name: "33" },
-  ];
+export const getServices = (setServices) => {
+  const apiUrl = url + "/service";
+  axios
+    .get(apiUrl, {
+      headers: {
+        "X-API-KEY": apiKey,
+      },
+    })
+    .then((resp) => {
+      const newServices = resp.data;
+      setServices(newServices);
+      console.log(newServices);
+    });
 };
 
 export const setEvent = (eventer) => {

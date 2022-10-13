@@ -124,9 +124,7 @@ export const calcTransitions = (date) => {
 };
 
 export const fixTimeToDatejs = (time) => {
-  console.log("time", time);
   if (time && typeof time === "string") {
-    console.log("time11", time);
     const splitTime = time.split();
     const newTime = splitTime.map((item) => {
       return item.length < 2 ? "0" + item : item;
@@ -135,4 +133,8 @@ export const fixTimeToDatejs = (time) => {
     return String(newTime);
   }
   return "00:00:00";
+};
+export const fixDatejsToString = (date) => {
+  let stringDate = date.toISOString();
+  return stringDate.substring(0, 10);
 };

@@ -26,7 +26,6 @@ function CanvasCalendar({
       } else {
         marginLen.marginCoef = 0;
       }
-      console.log("addEvent", newEvent, marginLen);
       marginLen.lastEventEnd = newEvent.event_time_end;
       return (
         <EventObject
@@ -58,6 +57,7 @@ function CanvasCalendar({
                   dateStart: splitDate.join("-"),
                   dateEnd: splitDate.join("-"),
                   timeStart: rowIndex + ":00:00",
+                  repeatEnd: "",
                 });
                 setEventModalActive({ active: true, event: false });
               }}
