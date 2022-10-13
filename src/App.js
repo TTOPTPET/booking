@@ -1,23 +1,30 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "./components/DatePicker/DatePicker";
 import SmartCalendar from "./components/SmartCalendar/SmartCalendar";
+import {
+  getCurrentWeek,
+  getServices,
+} from "./components/submitFunctions/submitFunctions";
+import { defaultData, defaultServices } from "./config/config";
 
 function App() {
-  let currentDate = new Date();
+  const [treeWeek, setTreeWeek] = useState(defaultData);
+  const [services, setServices] = useState(defaultServices);
 
-  const [selectDateRange, setSelectDateRange] = useState({
-    start: "19.09.2022",
-    end: "26.09.2022",
-  });
+  useEffect(() => {
+    // getCurrentWeek(setTreeWeek);
+    // getServices(setServices);
+    console.log("treeWeek", treeWeek);
+  }, []);
 
   return (
     <div className="App">
-      <DatePicker selectDateRange={selectDateRange} currentDate={currentDate} />
+      <DatePicker treeWeek={treeWeek} setTreeWeek={setTreeWeek} />
       <SmartCalendar
-        selectDateRange={selectDateRange}
-        currentDate={currentDate}
-        setSelectDateRange={setSelectDateRange}
+        treeWeek={treeWeek}
+        setTreeWeek={setTreeWeek}
+        services={services}
       ></SmartCalendar>
     </div>
   );

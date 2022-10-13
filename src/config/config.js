@@ -1,0 +1,235 @@
+export const url = "http://192.168.3.170:5000/api_booking";
+export const apiKey = "oleg";
+export const defaultData = [
+  {
+    day: "0000-00-00",
+    event_day: [],
+  },
+  {
+    day: "0000-00-00",
+    event_day: [],
+  },
+  {
+    day: "0000-00-00",
+    event_day: [],
+  },
+  {
+    day: "0000-00-00",
+    event_day: [],
+  },
+  {
+    day: "0000-00-00",
+    event_day: [],
+  },
+  {
+    day: "0000-00-00",
+    event_day: [],
+  },
+  {
+    day: "0000-00-00",
+    event_day: [],
+  },
+];
+export const defaultServices = [
+  {
+    id: 1,
+    name_service: "default",
+    max_booking: 1337,
+    price_service: 133.7,
+    duration: "01:00:00",
+  },
+];
+
+const jsjsj = [
+  {
+    day: "2022-10-10",
+    event_day: [
+      {
+        connect_event_setting: {
+          day_end_g: "2022-10-11",
+          day_end_rapid: "2022-10-22",
+          day_start_g: "2022-10-10",
+          event_time_end: "03:30:00",
+          event_time_start: "13:30:00",
+          id: 27,
+          name_event: "LANCH GOOO",
+          status_repid_day: true,
+        },
+        day_end: "2022-10-11",
+        day_start: "2022-10-10",
+        event_booking: [],
+        event_time_end: "03:30:00",
+        event_time_start: "13:30:00",
+        id: 63,
+      },
+    ],
+  },
+  {
+    day: "2022-10-11",
+    event_day: [
+      {
+        connect_event_setting: {
+          day_end_g: "2022-10-11",
+          day_end_rapid: "2022-10-22",
+          day_start_g: "2022-10-10",
+          event_time_end: "03:30:00",
+          event_time_start: "13:30:00",
+          id: 27,
+          name_event: "LANCH GOOO",
+          status_repid_day: true,
+        },
+        day_end: "2022-10-11",
+        day_start: "2022-10-10",
+        event_booking: [],
+        event_time_end: "03:30:00",
+        event_time_start: "13:30:00",
+        id: 63,
+      },
+      {
+        connect_event_setting: {
+          day_end_g: "2022-10-11",
+          day_end_rapid: "2022-10-22",
+          day_start_g: "2022-10-10",
+          event_time_end: "03:30:00",
+          event_time_start: "13:30:00",
+          id: 27,
+          name_event: "LANCH GOOO",
+          status_repid_day: true,
+        },
+        day_end: "2022-10-12",
+        day_start: "2022-10-11",
+        event_booking: [],
+        event_time_end: "03:30:00",
+        event_time_start: "13:30:00",
+        id: 64,
+      },
+    ],
+  },
+  {
+    day: "2022-10-12",
+    event_day: [
+      {
+        connect_event_setting: {
+          day_end_g: "2022-10-11",
+          day_end_rapid: "2022-10-22",
+          day_start_g: "2022-10-10",
+          event_time_end: "03:30:00",
+          event_time_start: "13:30:00",
+          id: 27,
+          name_event: "LANCH GOOO",
+          status_repid_day: true,
+        },
+        day_end: "2022-10-12",
+        day_start: "2022-10-11",
+        event_booking: [],
+        event_time_end: "03:30:00",
+        event_time_start: "13:30:00",
+        id: 64,
+      },
+      {
+        connect_event_setting: {
+          day_end_g: "2022-10-11",
+          day_end_rapid: "2022-10-22",
+          day_start_g: "2022-10-10",
+          event_time_end: "03:30:00",
+          event_time_start: "13:30:00",
+          id: 27,
+          name_event: "LANCH GOOO",
+          status_repid_day: true,
+        },
+        day_end: "2022-10-13",
+        day_start: "2022-10-12",
+        event_booking: [],
+        event_time_end: "03:30:00",
+        event_time_start: "13:30:00",
+        id: 65,
+      },
+    ],
+  },
+  {
+    day: "2022-10-13",
+    event_day: [
+      {
+        connect_event_setting: {
+          day_end_g: "2022-10-11",
+          day_end_rapid: "2022-10-22",
+          day_start_g: "2022-10-10",
+          event_time_end: "03:30:00",
+          event_time_start: "13:30:00",
+          id: 27,
+          name_event: "LANCH GOOO",
+          status_repid_day: true,
+        },
+        day_end: "2022-10-13",
+        day_start: "2022-10-12",
+        event_booking: [],
+        event_time_end: "03:30:00",
+        event_time_start: "13:30:00",
+        id: 65,
+      },
+      {
+        connect_event_setting: {
+          day_end_g: "2022-10-11",
+          day_end_rapid: "2022-10-22",
+          day_start_g: "2022-10-10",
+          event_time_end: "03:30:00",
+          event_time_start: "13:30:00",
+          id: 27,
+          name_event: "LANCH GOOO",
+          status_repid_day: true,
+        },
+        day_end: "2022-10-14",
+        day_start: "2022-10-13",
+        event_booking: [],
+        event_time_end: "03:30:00",
+        event_time_start: "13:30:00",
+        id: 66,
+      },
+    ],
+  },
+  {
+    day: "2022-10-14",
+    event_day: [
+      {
+        connect_event_setting: {
+          day_end_g: "2022-10-11",
+          day_end_rapid: "2022-10-22",
+          day_start_g: "2022-10-10",
+          event_time_end: "03:30:00",
+          event_time_start: "13:30:00",
+          id: 27,
+          name_event: "LANCH GOOO",
+          status_repid_day: true,
+        },
+        day_end: "2022-10-14",
+        day_start: "2022-10-13",
+        event_booking: [],
+        event_time_end: "03:30:00",
+        event_time_start: "13:30:00",
+        id: 66,
+      },
+      {
+        connect_event_setting: {
+          day_end_g: "2022-10-11",
+          day_end_rapid: "2022-10-22",
+          day_start_g: "2022-10-10",
+          event_time_end: "03:30:00",
+          event_time_start: "13:30:00",
+          id: 27,
+          name_event: "LANCH GOOO",
+          status_repid_day: true,
+        },
+        day_end: "2022-10-15",
+        day_start: "2022-10-14",
+        event_booking: [],
+        event_time_end: "03:30:00",
+        event_time_start: "13:30:00",
+        id: 67,
+      },
+    ],
+  },
+  {
+    day: "2022-10-15",
+    event_day: [],
+  },
+];

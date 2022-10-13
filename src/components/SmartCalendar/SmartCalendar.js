@@ -1,19 +1,41 @@
 import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import CanvasCalendar from "./CanvasCalendar/CanvasCalendar";
 import EventPicker from "./EventPicker/EventPicker.js";
 import ScrollBar from "./ScrollBar/ScrollBar";
 import "./SmartCalendar.css";
 
-function SmartCalendar({ selectDateRange, currentDate, setSelectDateRange }) {
+function SmartCalendar({ treeWeek, setTreeWeek, services }) {
+  const [eventModalActive, setEventModalActive] = useState({
+    active: false,
+    event: false,
+  });
+  const [eventer, setEventer] = useState({
+    name: "",
+    dateStart: "",
+    dateEnd: "",
+    timeStart: "",
+    timeEnd: "",
+    selection: {},
+    repeatEnd: "",
+  });
+
   return (
     <div className="smartCalendar__wrapper">
-      <ScrollBar
-        selectDateRange={selectDateRange}
-        currentDate={currentDate}
-        setSelectDateRange={setSelectDateRange}
-      ></ScrollBar>
-      <EventPicker></EventPicker>
-      <CanvasCalendar></CanvasCalendar>
+      <ScrollBar treeWeek={treeWeek} setTreeWeek={setTreeWeek}></ScrollBar>
+      <EventPicker
+        eventModalActive={eventModalActive}
+        setEventModalActive={setEventModalActive}
+        eventer={eventer}
+        setEventer={setEventer}
+        services={services}
+      ></EventPicker>
+      <CanvasCalendar
+        treeWeek={treeWeek}
+        setEventModalActive={setEventModalActive}
+        eventer={eventer}
+        setEventer={setEventer}
+      ></CanvasCalendar>
     </div>
   );
 }

@@ -4,6 +4,16 @@
 	align-items: center;
 }
 
+.row__month{
+	display: flex;
+	flex-direction: row;
+}
+
+.row__days{
+	display: flex;
+	flex-direction: row;
+}
+
 .calendar__wrapp{
 	display: flex;
 	width: 490px;
@@ -39,16 +49,16 @@
 	background-color: #fff;
 }
 
-.month__btn:nth-child(1){
+#month0{
 	border-top-left-radius: 10px;
 } 
-.month__btn:nth-child(4){
+#month3{
 	border-top-right-radius: 10px;
 } 
-.month__btn:nth-child(9){
+#month8{
 	border-bottom-left-radius: 10px;
 } 
-.month__btn:nth-child(12){
+#month11{
 	border-bottom-right-radius: 10px;
 }
 
@@ -64,16 +74,16 @@
 	cursor: pointer;
 	background-color: #fff;
 }
-.day__btn:nth-child(1){
+#day0{
 	border-top-left-radius: 10px;
 } 
-.day__btn:nth-child(6){
+#day5{
 	border-top-right-radius: 10px;
 } 
-.day__btn:nth-child(31){
+#day30{
 	border-bottom-left-radius: 10px;
 } 
-.day__btn:nth-child(36){
+#day35{
 	border-bottom-right-radius: 10px;
 }
 .day__btn_dark{
