@@ -1,0 +1,49 @@
+.container {
+    background: #FFF;
+}
+
+.header {
+    margin: 0 auto;
+    width: 840px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__today {
+    width: 135px;
+    background: #5C9AE2;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.14);
+    padding: 7px 12px;
+    text-align: left;
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 18px;
+    color: #FFF;
+    box-sizing: border-box;
+}
+
+.header__time {
+    font-weight: 700;
+}
+
+.header__logo {
+    width: 100px;
+    background: url('../../logo.svg') center center/contain no-repeat;
+}
+
+.header__menu {
+    display: flex;
+    justify-content: space-around;
+    width: 135px;
+}
+
+.header__notifications {
+    width: 35px;
+    background: url('../../notification.svg') center center/contain no-repeat;
+}
+
+.header__user {
+    width: 60px;
+    background: url('../../user.png') center center/contain no-repeat;
+}

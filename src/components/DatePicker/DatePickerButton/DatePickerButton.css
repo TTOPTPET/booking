@@ -1,4 +1,6 @@
 .datePicker_btn{
+    margin: 0 auto;
+    margin-top: 30px;
     width: 400px;
     height: 40px;
     background: #0065DC;
