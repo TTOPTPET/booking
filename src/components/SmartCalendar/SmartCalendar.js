@@ -18,6 +18,7 @@ function SmartCalendar({ treeWeek, setTreeWeek, services }) {
     timeEnd: "",
     selection: {},
     repeatEnd: "",
+    repeatWeek: [],
   });
 
   return (

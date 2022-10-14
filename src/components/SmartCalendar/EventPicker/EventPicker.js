@@ -1,3 +1,4 @@
+import { convertLength } from "@mui/material/styles/cssUtils";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import InputField from "../../InputField/InputField";
@@ -31,6 +32,7 @@ function EventPicker({
           timeEnd: "",
           selection: { id: "", name: "" },
           repeatEnd: "",
+          repeatWeek: [],
         });
       }}
     >
@@ -97,7 +99,30 @@ function EventPicker({
           <div className={"week-btn__group"}>
             {weekName.map((weekDay, index) => {
               return (
-                <div id={"week-btn" + index} className="week-btn">
+                <div
+                  id={"week-btn" + index}
+                  className={
+                    "week-btn " +
+                    (eventer.repeatWeek.includes(index)
+                      ? "week-btn_active"
+                      : "")
+                  }
+                  onClick={() => {
+                    if (eventer.repeatWeek.includes(index)) {
+                      setEventer({
+                        ...eventer,
+                        repeatWeek: eventer.repeatWeek.filter(
+                          (day) => day !== index
+                        ),
+                      });
+                    } else {
+                      setEventer({
+                        ...eventer,
+                        repeatWeek: eventer.repeatWeek.concat(index).sort(),
+                      });
+                    }
+                  }}
+                >
                   {weekDay}
                 </div>
               );
@@ -125,6 +150,7 @@ function EventPicker({
               timeEnd: "",
               selection: { id: "", name: "" },
               repeatEnd: "",
+              repeatWeek: [],
             });
           }}
         >
