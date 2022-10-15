@@ -10,32 +10,40 @@ function SmartCalendar({ treeWeek, setTreeWeek, services }) {
     active: false,
     event: false,
   });
-  const [eventer, setEventer] = useState({
+  const [paddingScroll, setPaddingScroll] = useState(0);
+  const [eventForm, setEventForm] = useState({
     name: "",
     dateStart: "",
     dateEnd: "",
     timeStart: "",
     timeEnd: "",
-    selection: {},
+    selection: [],
     repeatEnd: "",
     repeatWeek: [],
   });
 
   return (
     <div className="smartCalendar__wrapper">
-      <ScrollBar treeWeek={treeWeek} setTreeWeek={setTreeWeek}></ScrollBar>
+      <ScrollBar
+        treeWeek={treeWeek}
+        setTreeWeek={setTreeWeek}
+        setPaddingScroll={setPaddingScroll}
+      ></ScrollBar>
       <EventPicker
         eventModalActive={eventModalActive}
         setEventModalActive={setEventModalActive}
-        eventer={eventer}
-        setEventer={setEventer}
+        eventForm={eventForm}
+        setEventForm={setEventForm}
         services={services}
+        setTreeWeek={setTreeWeek}
       ></EventPicker>
       <CanvasCalendar
+        paddingScroll={paddingScroll}
+        setPaddingScroll={setPaddingScroll}
         treeWeek={treeWeek}
         setEventModalActive={setEventModalActive}
-        eventer={eventer}
-        setEventer={setEventer}
+        eventForm={eventForm}
+        setEventForm={setEventForm}
       ></CanvasCalendar>
     </div>
   );

@@ -40,6 +40,7 @@ function InputField({ fieldName, setValue, value, style, services }) {
             value={dateValue}
             // minDate={dayjs("2017-01-01")}
             onChange={(newValue) => {
+              console.log("new date", newValue);
               setDateValue(newValue);
               if (newValue === null) {
                 setValue({

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./PopupCalendar.css";
-import ArrowLeft from "../../../../Arrow_left.svg";
-import ArrowRight from "../../../../Arrow_right.svg";
+import ArrowLeft from "../../../../media/Arrow_left.svg";
+import ArrowRight from "../../../../media/Arrow_right.svg";
 import { sendSelectedDate } from "../../../submitFunctions/submitFunctions";
 import { formatDateToSet } from "../../../tools/tools";
 

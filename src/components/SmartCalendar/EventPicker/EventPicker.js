@@ -1,6 +1,4 @@
-import { convertLength } from "@mui/material/styles/cssUtils";
-import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../../InputField/InputField";
 import { setEvent } from "../../submitFunctions/submitFunctions";
 import "./EventPicker.css";
@@ -8,12 +6,17 @@ import "./EventPicker.css";
 function EventPicker({
   eventModalActive,
   setEventModalActive,
-  eventer,
-  setEventer,
+  eventForm,
+  setEventForm,
   services,
+  setTreeWeek,
 }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const [repeatSettingsClass, setRepeatSettingsClass] = useState("");
+  useEffect(() => {
+    console.log("change form", eventForm);
+  }, [eventForm]);
+
   return (
     <div
       className={
@@ -24,13 +27,13 @@ function EventPicker({
       onClick={() => {
         setEventModalActive({ active: false, event: false });
         setRepeatSettingsClass("");
-        setEventer({
+        setEventForm({
           name: "",
           dateStart: "",
           dateEnd: "",
           timeStart: "",
           timeEnd: "",
-          selection: { id: "", name: "" },
+          selection: [],
           repeatEnd: "",
           repeatWeek: [],
         });
@@ -48,39 +51,39 @@ function EventPicker({
             <InputField
               fieldName={"name"}
               style={{ width: "100%" }}
-              value={eventer}
-              setValue={setEventer}
+              value={eventForm}
+              setValue={setEventForm}
             ></InputField>
           </div>
           <div className="event__date event">
             <InputField
               fieldName={"dateStart"}
-              value={eventer}
-              setValue={setEventer}
+              value={eventForm}
+              setValue={setEventForm}
             ></InputField>
             <InputField
               fieldName={"dateEnd"}
-              value={eventer}
-              setValue={setEventer}
+              value={eventForm}
+              setValue={setEventForm}
             ></InputField>
           </div>
           <div className="event__time event">
             <InputField
               fieldName={"timeStart"}
-              value={eventer}
-              setValue={setEventer}
+              value={eventForm}
+              setValue={setEventForm}
             ></InputField>
             <InputField
               fieldName={"timeEnd"}
-              value={eventer}
-              setValue={setEventer}
+              value={eventForm}
+              setValue={setEventForm}
             ></InputField>
           </div>
           <div className="event__selection event">
             <InputField
               fieldName={"selection"}
-              value={eventer}
-              setValue={setEventer}
+              value={eventForm}
+              setValue={setEventForm}
               services={services}
             ></InputField>
           </div>
@@ -103,22 +106,22 @@ function EventPicker({
                   id={"week-btn" + index}
                   className={
                     "week-btn " +
-                    (eventer.repeatWeek.includes(index)
+                    (eventForm.repeatWeek.includes(index)
                       ? "week-btn_active"
                       : "")
                   }
                   onClick={() => {
-                    if (eventer.repeatWeek.includes(index)) {
-                      setEventer({
-                        ...eventer,
-                        repeatWeek: eventer.repeatWeek.filter(
+                    if (eventForm.repeatWeek.includes(index)) {
+                      setEventForm({
+                        ...eventForm,
+                        repeatWeek: eventForm.repeatWeek.filter(
                           (day) => day !== index
                         ),
                       });
                     } else {
-                      setEventer({
-                        ...eventer,
-                        repeatWeek: eventer.repeatWeek.concat(index).sort(),
+                      setEventForm({
+                        ...eventForm,
+                        repeatWeek: eventForm.repeatWeek.concat(index).sort(),
                       });
                     }
                   }}
@@ -131,24 +134,24 @@ function EventPicker({
           <div className="repeat-end__date">
             <InputField
               fieldName={"repeatEnd"}
-              value={eventer}
-              setValue={setEventer}
+              value={eventForm}
+              setValue={setEventForm}
             ></InputField>
           </div>
         </div>
         <button
           className="submit__btn event-pick-btn"
           onClick={() => {
-            setEvent(eventer);
+            setEvent(eventForm, setTreeWeek);
             setRepeatSettingsClass("");
             setEventModalActive({ active: false, event: false });
-            setEventer({
+            setEventForm({
               name: "",
               dateStart: "",
               dateEnd: "",
               timeStart: "",
               timeEnd: "",
-              selection: { id: "", name: "" },
+              selection: [],
               repeatEnd: "",
               repeatWeek: [],
             });

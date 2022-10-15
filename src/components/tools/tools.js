@@ -129,12 +129,30 @@ export const fixTimeToDatejs = (time) => {
     const newTime = splitTime.map((item) => {
       return item.length < 2 ? "0" + item : item;
     });
-    console.log("newTime", String(newTime));
     return String(newTime);
   }
   return "00:00:00";
 };
 export const fixDatejsToString = (date) => {
-  let stringDate = date.toISOString();
-  return stringDate.substring(0, 10);
+  console.log("fix Date before", date);
+  let stringDate = date.toISOString().substring(0, 10).split("-");
+  return (
+    stringDate[0] + "-" + stringDate[1] + "-" + (Number(stringDate[2]) + 1)
+  );
+};
+export const destructServices = (serviceArr) => {
+  const isArrServ = Array.isArray(serviceArr) ? serviceArr : [serviceArr];
+  const destrService = isArrServ.map((service) => {
+    return {
+      id_service: service.id,
+      id_staff: 1,
+      count_service_this_event: [
+        {
+          start_time: "13:30",
+          end_time: "16:30",
+        },
+      ],
+    };
+  });
+  return destrService;
 };

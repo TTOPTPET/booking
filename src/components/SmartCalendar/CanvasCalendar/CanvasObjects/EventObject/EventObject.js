@@ -1,63 +1,39 @@
 import React, { useEffect, useState, useRef } from "react";
-import { getTimeCoef, calcTransitions } from "../../../../tools/tools";
+import { getTimeCoef } from "../../../../tools/tools";
+import RegistrationObjects from "../RegistrationObjects/RegistrationObjects";
 import "./EventObject.css";
 
 function EventObject({
   setEventModalActive,
-  setEventer,
-  eventer,
+  setEventForm,
+  newEvent,
   combinMargin,
+  setPaddingScroll,
+  paddingScroll,
+  unfoldLeft,
+  treeWeek,
 }) {
   const [unfoldEvent, setUnfoldEvent] = useState(false);
-
-  const renderBook = () => {
-    let lastBookEnd = "00:00:00";
-    let marginCoef = 0;
-    return eventer?.event_booking.map((book) => {
-      if (getTimeCoef(lastBookEnd, book.time_start) < 0) {
-        marginCoef += 1;
-      } else {
-        marginCoef = 0;
-      }
-      lastBookEnd = book.time_end;
-      return (
-        <div
-          className="book__wrapper"
-          style={{
-            height: 60 * getTimeCoef(book.time_start, book.time_end) - 1 + "px",
-            top:
-              60 * getTimeCoef(eventer.event_time_start, book.time_start) -
-              1 +
-              55 +
-              "px",
-            marginLeft: 15 * marginCoef + "px",
-            width: "calc(100% - " + (15 * marginCoef + 20) + "px)",
-          }}
-          id={book.id}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <div className="book__name">{book.comment}</div>
-          <div className="book__time">
-            {book.time_start + " - " + book.time_end}
-          </div>
-        </div>
-      );
-    });
-  };
+  useEffect(() => {
+    setUnfoldEvent(false);
+  }, [treeWeek]);
 
   return (
     <div
       className="event__wrapper"
       style={{
+        right: unfoldLeft && "0",
+        left: !unfoldLeft && "0",
         top:
-          eventer.event_time_start.split(":")[1] -
+          newEvent.correct_time_start.split(":")[1] -
           (unfoldEvent ? 55 : 0) +
           "px",
         height:
-          60 * getTimeCoef(eventer.event_time_start, eventer.event_time_end) -
+          60 *
+            getTimeCoef(
+              newEvent.correct_time_start,
+              newEvent.correct_time_end
+            ) -
           1 +
           (unfoldEvent ? 125 : 0) +
           "px",
@@ -68,39 +44,53 @@ function EventObject({
         textAlign: unfoldEvent ? "center" : "start",
         zIndex: unfoldEvent ? 100 : 98,
       }}
-      id={eventer.id}
+      id={newEvent.id_event_day}
       onClick={(e) => {
+        const unfbuff = unfoldEvent;
         unfoldEvent ? setUnfoldEvent(false) : setUnfoldEvent(true);
+        if (setPaddingScroll) {
+          unfbuff
+            ? setPaddingScroll(paddingScroll - 1)
+            : setPaddingScroll(paddingScroll + 1);
+        }
         e.stopPropagation();
       }}
     >
       <div className="event__text">
-        {'"' + eventer.connect_event_setting.name_event + '"'}
+        {'"' + newEvent.setting_and_booking.event_setting.name_event + '"'}
       </div>
       {unfoldEvent ? (
         <div className="event__time_book">
-          {eventer.connect_event_setting.event_time_start +
+          {newEvent.setting_and_booking.event_setting.event_time_start +
             " - " +
-            eventer.connect_event_setting.event_time_end}
+            newEvent.setting_and_booking.event_setting.event_time_end}
         </div>
       ) : (
         <div className="event__counter">
-          {"Записи: " + eventer.event_booking.length}
+          {"Записи: " + newEvent.setting_and_booking.event_booking.length}
         </div>
       )}
-      {unfoldEvent ? renderBook() : <></>}
+      {unfoldEvent ? (
+        <RegistrationObjects newEvent={newEvent}></RegistrationObjects>
+      ) : (
+        <></>
+      )}
       {unfoldEvent ? (
         <div
           className="picker__btn"
           onClick={(e) => {
             e.stopPropagation();
-            setEventer({
-              name: eventer.connect_event_setting.name_event,
-              dateStart: eventer.day_start,
-              dateEnd: eventer.day_end,
-              timeStart: eventer.connect_event_setting.event_time_start,
-              timeEnd: eventer.connect_event_setting.event_time_end,
-              // здесь должны быть поля услуг и повторений
+            setEventForm({
+              name: newEvent.setting_and_booking.event_setting.name_event,
+              dateStart: newEvent.setting_and_booking.event_setting.day_start_g,
+              dateEnd: newEvent.setting_and_booking.event_setting.day_end_g,
+              timeStart:
+                newEvent.setting_and_booking.event_setting.event_time_start,
+              timeEnd:
+                newEvent.setting_and_booking.event_setting.event_time_end,
+              selection:
+                newEvent.setting_and_booking.event_setting.all_services,
+              repeatWeek: newEvent.setting_and_booking.event_setting.weekdays,
             });
             setEventModalActive({ active: true, event: true });
           }}

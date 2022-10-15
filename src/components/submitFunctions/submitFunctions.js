@@ -1,9 +1,8 @@
-import { getNewWeek } from "../tools/tools";
+import { getNewWeek, destructServices } from "../tools/tools";
 import { url, apiKey } from "../../config/config";
 import axios from "axios";
 
 export const sendSelectedDate = (selectDate, setTreeWeek) => {
-  console.log("sendSelectDate", selectDate);
   const apiUrl = url + "/booking/calendar?cal_date=" + String(selectDate);
   axios
     .get(apiUrl, {
@@ -44,7 +43,6 @@ export const changeWeek = (treeWeek, setTreeWeek, direction) => {
     .then((resp) => {
       const newTree = resp.data;
       setTreeWeek(newTree);
-      console.log(newTree);
     });
 };
 
@@ -59,10 +57,30 @@ export const getServices = (setServices) => {
     .then((resp) => {
       const newServices = resp.data;
       setServices(newServices);
-      console.log(newServices);
     });
 };
 
-export const setEvent = (eventer) => {
-  console.log(eventer);
+export const setEvent = (eventForm, setTreeWeek) => {
+  const apiUrl = url + "/event";
+  const data = {
+    name: eventForm.name,
+    day_start: eventForm.dateStart,
+    day_end: eventForm.dateEnd,
+    day_end_repid: eventForm.repeatEnd,
+    start_event: eventForm.timeStart,
+    end_event: eventForm.timeEnd,
+    service_this_day: destructServices(eventForm.selection),
+    weekday_list: eventForm.repeatWeek,
+    status_repid_day: eventForm.repeatWeek.length > 0,
+  };
+  axios
+    .post(apiUrl, data, {
+      headers: {
+        "X-API-KEY": apiKey,
+      },
+    })
+    .then((resp) => {
+      const newTree = resp.data;
+      setTreeWeek(newTree);
+    });
 };

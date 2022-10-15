@@ -3,12 +3,17 @@
 	margin-right: 120px;
 	display: flex;
 	flex-direction: row;
-	height: 60vh;
+	height: 65vh;
 }
 .canvas__scroll{
 	overflow: scroll;
 	display: flex;
 	flex-direction: row;
+	padding-top: 0;
+	transition: all 0.5s;
+}
+.canvas__scroll_active{
+	padding-top: 55px;
 }
 .day__column{
 	display: flex;
