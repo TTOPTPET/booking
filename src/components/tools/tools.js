@@ -134,7 +134,6 @@ export const fixTimeToDatejs = (time) => {
   return "00:00:00";
 };
 export const fixDatejsToString = (date) => {
-  console.log("fix Date before", date);
   let stringDate = date.toISOString().substring(0, 10).split("-");
   return (
     stringDate[0] + "-" + stringDate[1] + "-" + (Number(stringDate[2]) + 1)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import InputField from "../../InputField/InputField";
 import { setEvent } from "../../submitFunctions/submitFunctions";
 import "./EventPicker.css";
@@ -13,9 +13,6 @@ function EventPicker({
 }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const [repeatSettingsClass, setRepeatSettingsClass] = useState("");
-  useEffect(() => {
-    console.log("change form", eventForm);
-  }, [eventForm]);
 
   return (
     <div
