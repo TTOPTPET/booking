@@ -139,19 +139,13 @@ function EventPicker({
         <button
           className="submit__btn event-pick-btn"
           onClick={() => {
-            setEvent(eventForm, setTreeWeek);
-            setRepeatSettingsClass("");
-            setEventModalActive({ active: false, event: false });
-            setEventForm({
-              name: "",
-              dateStart: "",
-              dateEnd: "",
-              timeStart: "",
-              timeEnd: "",
-              selection: [],
-              repeatEnd: "",
-              repeatWeek: [],
-            });
+            setEvent(
+              eventForm,
+              setTreeWeek,
+              setEventModalActive,
+              setRepeatSettingsClass,
+              setEventForm
+            );
           }}
         >
           Готово

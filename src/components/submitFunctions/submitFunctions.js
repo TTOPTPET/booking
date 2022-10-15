@@ -1,5 +1,5 @@
 import { getNewWeek, destructServices } from "../tools/tools";
-import { url, apiKey } from "../../config/config";
+import { url, apiKey, defaultDay_end_repid } from "../../config/config";
 import axios from "axios";
 
 export const sendSelectedDate = (selectDate, setTreeWeek) => {
@@ -60,13 +60,21 @@ export const getServices = (setServices) => {
     });
 };
 
-export const setEvent = (eventForm, setTreeWeek) => {
+export const setEvent = (
+  eventForm,
+  setTreeWeek,
+  setEventModalActive,
+  setRepeatSettingsClass,
+  setEventForm
+) => {
   const apiUrl = url + "/event";
   const data = {
     name: eventForm.name,
     day_start: eventForm.dateStart,
     day_end: eventForm.dateEnd,
-    day_end_repid: eventForm.repeatEnd,
+    day_end_repid: eventForm.repeatEnd
+      ? eventForm.repeatEnd
+      : defaultDay_end_repid,
     start_event: eventForm.timeStart,
     end_event: eventForm.timeEnd,
     service_this_day: destructServices(eventForm.selection),
@@ -80,6 +88,18 @@ export const setEvent = (eventForm, setTreeWeek) => {
       },
     })
     .then((resp) => {
+      setEventModalActive({ active: false, event: false });
+      setRepeatSettingsClass("");
+      setEventForm({
+        name: "",
+        dateStart: "",
+        dateEnd: "",
+        timeStart: "",
+        timeEnd: "",
+        selection: [],
+        repeatEnd: "",
+        repeatWeek: [],
+      });
       const newTree = resp.data;
       setTreeWeek(newTree);
     });

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "../components/DatePicker/DatePicker";
 import SmartCalendar from "../components/SmartCalendar/SmartCalendar";
-import { defaultData, defaultServices, jsonchick } from "../config/config";
+import { defaultData, defaultServices } from "../config/config";
 import {
   getCurrentWeek,
   getServices,
 } from "../components/submitFunctions/submitFunctions";
 
 const MainPage = () => {
-  const [treeWeek, setTreeWeek] = useState(jsonchick);
+  const [treeWeek, setTreeWeek] = useState(defaultData);
   const [services, setServices] = useState(defaultServices);
 
   useEffect(() => {
