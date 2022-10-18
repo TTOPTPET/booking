@@ -3,7 +3,7 @@
 	margin-right: 120px;
 	display: flex;
 	flex-direction: row;
-	height: 65vh;
+	height: 62vh;
 }
 .canvas__scroll{
 	overflow: scroll;

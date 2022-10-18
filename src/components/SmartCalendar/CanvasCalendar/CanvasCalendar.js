@@ -41,6 +41,7 @@ function CanvasCalendar({
           setPaddingScroll={rowIndex === 0 ? setPaddingScroll : undefined}
           combinMargin={marginLen.marginCoef}
           unfoldLeft={colIndex === 6}
+          colIndex={colIndex}
           treeWeek={treeWeek}
         ></EventObject>
       );

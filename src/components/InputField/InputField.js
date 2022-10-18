@@ -20,13 +20,25 @@ function InputField({ fieldName, setValue, value, style, services }) {
     ["repeatEnd", "Дата конца повторений"],
   ]);
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(value[fieldName]);
   const [dateValue, setDateValue] = useState(
     value[fieldName] !== "" ? dayjs(value[fieldName]) : null
+  );
+  const [timeValue, setTimeValue] = useState(
+    value[fieldName] !== ""
+      ? dayjs("2020-01-01" + fixTimeToDatejs(value[fieldName]))
+      : null
   );
   useEffect(() => {
     if (fieldName === "dateStart" || "dateEnd" || "repeatEnd") {
       setDateValue(value[fieldName] !== "" ? dayjs(value[fieldName]) : null);
+    }
+    if (fieldName === "timeStart" || "timeEnd") {
+      setTimeValue(
+        value[fieldName] !== ""
+          ? dayjs("2020-01-01" + fixTimeToDatejs(value[fieldName]))
+          : null
+      );
     }
   }, [value[fieldName]]);
   switch (fieldName) {
@@ -67,12 +79,25 @@ function InputField({ fieldName, setValue, value, style, services }) {
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
           <DesktopTimePicker
             label={fieldsMap.get(fieldName)}
-            value={dayjs("2020-01-01" + fixTimeToDatejs(value[fieldName]))}
+            value={timeValue}
             onChange={(newValue) => {
-              setValue({
-                ...value,
-                [fieldName]: newValue.$H + ":" + newValue.$m + ":00",
-              });
+              setTimeValue(newValue);
+              console.log("value", newValue);
+              if (newValue === null) {
+                setValue({
+                  ...value,
+                  [fieldName]: "",
+                });
+              } else if (
+                newValue !== null &&
+                newValue?.$D &&
+                !isNaN(newValue.$D)
+              ) {
+                setValue({
+                  ...value,
+                  [fieldName]: newValue.$H + ":" + newValue.$m + ":00",
+                });
+              }
             }}
             renderInput={(params) => <TextField {...params} />}
           />
@@ -81,6 +106,7 @@ function InputField({ fieldName, setValue, value, style, services }) {
     case "selection":
       return (
         <Autocomplete
+          multiple
           id={fieldName}
           options={services}
           getOptionLabel={(option) => option.name_service || ""}

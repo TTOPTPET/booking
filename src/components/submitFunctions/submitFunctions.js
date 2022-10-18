@@ -3,7 +3,7 @@ import { url, apiKey, defaultDay_end_repid } from "../../config/config";
 import axios from "axios";
 
 export const sendSelectedDate = (selectDate, setTreeWeek) => {
-  const apiUrl = url + "/booking/calendar?cal_date=" + String(selectDate);
+  const apiUrl = url + "/event/calendar?cal_date=" + String(selectDate);
   axios
     .get(apiUrl, {
       headers: {
@@ -18,7 +18,7 @@ export const sendSelectedDate = (selectDate, setTreeWeek) => {
 
 export const getCurrentWeek = (setTreeWeek) => {
   const date = new Date().toLocaleDateString("en-CA");
-  const apiUrl = url + "/booking/calendar?cal_date=" + String(date);
+  const apiUrl = url + "/event/calendar?cal_date=" + String(date);
   axios
     .get(apiUrl, {
       headers: {
@@ -27,13 +27,14 @@ export const getCurrentWeek = (setTreeWeek) => {
     })
     .then((resp) => {
       const newTree = resp.data;
+      console.log("response", newTree);
       setTreeWeek(newTree);
     });
 };
 
 export const changeWeek = (treeWeek, setTreeWeek, direction) => {
   const date = getNewWeek(treeWeek, direction);
-  const apiUrl = url + "/booking/calendar?cal_date=" + String(date);
+  const apiUrl = url + "/event/calendar?cal_date=" + String(date);
   axios
     .get(apiUrl, {
       headers: {
@@ -42,6 +43,7 @@ export const changeWeek = (treeWeek, setTreeWeek, direction) => {
     })
     .then((resp) => {
       const newTree = resp.data;
+      console.log("response", newTree);
       setTreeWeek(newTree);
     });
 };

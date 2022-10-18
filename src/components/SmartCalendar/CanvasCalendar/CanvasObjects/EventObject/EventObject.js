@@ -12,6 +12,7 @@ function EventObject({
   paddingScroll,
   unfoldLeft,
   treeWeek,
+  colIndex,
 }) {
   const [unfoldEvent, setUnfoldEvent] = useState(false);
   useEffect(() => {
@@ -71,7 +72,11 @@ function EventObject({
         </div>
       )}
       {unfoldEvent ? (
-        <RegistrationObjects newEvent={newEvent}></RegistrationObjects>
+        <RegistrationObjects
+          newEvent={newEvent}
+          colIndex={colIndex}
+          treeWeek={treeWeek}
+        ></RegistrationObjects>
       ) : (
         <></>
       )}
