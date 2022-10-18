@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useClock } from "../../../hooks/clock.hook";
 import "./CanvasCalendar.css";
 import { dateFromDayWeek, getTimeCoef } from "../../tools/tools";
 import EventObject from "./CanvasObjects/EventObject/EventObject";
@@ -14,11 +15,13 @@ function CanvasCalendar({
   const currentDate = new Date();
   const myRef = useRef(null);
   const executeScroll = () => myRef.current.scrollIntoView();
+  let { date, time } = useClock();
 
   useEffect(() => {
     executeScroll();
   }, []);
 
+  console.log("time", time);
   const addEvent = (dayTree, rowIndex, marginLen, colIndex) => {
     let newEvent = dayTree.event_day.find(
       (nEvent) => Number(nEvent.correct_time_start.split(":")[0]) === rowIndex
@@ -84,7 +87,7 @@ function CanvasCalendar({
   const timeRender = [...Array(24)].map((item, index) => {
     return (
       <div
-        ref={currentDate.getHours() === index + 1 ? myRef : null}
+        ref={Number(time.substring(0, 2)) === index + 1 ? myRef : null}
         className={
           currentDate.getHours() === index
             ? "canvas__elem time__elem time__elem_active"
