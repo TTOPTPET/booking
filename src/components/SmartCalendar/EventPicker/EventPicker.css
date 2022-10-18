@@ -100,3 +100,11 @@
 	color:#fff;
 	border: 1px solid #0065DC;
 }
+.week-btn_blocked{
+	background-color: rgb(187, 187, 187);
+}
+.week-btn_error{
+	background-color: #d82d17;
+	color:#fff;
+	border: 1px solid #d82d17;
+}

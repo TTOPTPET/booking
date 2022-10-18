@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import InputField from "../../InputField/InputField";
 import { setEvent } from "../../submitFunctions/submitFunctions";
+import { getTimeCoef, validateWeekList } from "../../tools/tools";
 import "./EventPicker.css";
 
 function EventPicker({
@@ -98,15 +99,23 @@ function EventPicker({
         <div className={"repeat__settings " + repeatSettingsClass}>
           <div className={"week-btn__group"}>
             {weekName.map((weekDay, index) => {
+              const btnClass = () => {
+                if (
+                  eventForm.repeatWeek.includes(index) &&
+                  !validateWeekList(eventForm, index)
+                ) {
+                  return "week-btn_error";
+                } else if (eventForm.repeatWeek.includes(index)) {
+                  return "week-btn_active";
+                } else if (!validateWeekList(eventForm, index)) {
+                  return "week-btn_blocked";
+                }
+                return "";
+              };
               return (
                 <div
                   id={"week-btn" + index}
-                  className={
-                    "week-btn " +
-                    (eventForm.repeatWeek.includes(index)
-                      ? "week-btn_active"
-                      : "")
-                  }
+                  className={"week-btn " + btnClass()}
                   onClick={() => {
                     if (eventForm.repeatWeek.includes(index)) {
                       setEventForm({

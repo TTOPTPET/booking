@@ -50,7 +50,11 @@ function InputField({ fieldName, setValue, value, style, services }) {
           <DesktopDatePicker
             label={fieldsMap.get(fieldName)}
             value={dateValue}
-            // minDate={dayjs("2017-01-01")}
+            minDate={
+              fieldName === "repeatEnd"
+                ? dayjs(value.dateEnd)
+                : dayjs(value.dateStart)
+            }
             onChange={(newValue) => {
               setDateValue(newValue);
               if (newValue === null) {

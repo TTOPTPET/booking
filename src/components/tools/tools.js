@@ -97,10 +97,13 @@ export const getNewWeek = (date, direction) => {
 };
 
 export const getTimeCoef = (startTime, endTime) => {
-  const startTimeSplit = startTime.split(":");
-  const endTimeSplit = endTime.split(":");
-  const minutesCoef = (endTimeSplit[1] - startTimeSplit[1]) / 60;
-  return endTimeSplit[0] - startTimeSplit[0] + minutesCoef;
+  if (startTime && endTime) {
+    const startTimeSplit = startTime.split(":");
+    const endTimeSplit = endTime.split(":");
+    const minutesCoef = (endTimeSplit[1] - startTimeSplit[1]) / 60;
+    return endTimeSplit[0] - startTimeSplit[0] + minutesCoef;
+  }
+  return 0;
 };
 
 export const calcTransitions = (date) => {
@@ -154,4 +157,28 @@ export const destructServices = (serviceArr) => {
     };
   });
   return destrService;
+};
+
+export const validateWeekList = (eventForm, index) => {
+  let canSelect = true;
+  if (
+    eventForm.dateStart !== eventForm.dateEnd &&
+    getTimeCoef(eventForm.timeStart, "24:00:00") +
+      getTimeCoef("00:00:00", eventForm.timeEnd) >
+      24
+  ) {
+    if (index === 6 && eventForm.repeatWeek.includes(0)) {
+      canSelect = false;
+    }
+    if (index === 0 && eventForm.repeatWeek.includes(6)) {
+      canSelect = false;
+    }
+    if (
+      eventForm.repeatWeek.includes(index + 1) ||
+      eventForm.repeatWeek.includes(index - 1)
+    ) {
+      canSelect = false;
+    }
+  }
+  return canSelect;
 };
