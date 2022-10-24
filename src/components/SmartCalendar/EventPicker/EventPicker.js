@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import InputField from "../../InputField/InputField";
 import { setEvent } from "../../submitFunctions/submitFunctions";
 import { getTimeCoef, validateWeekList } from "../../tools/tools";
+import deleteImg from "../../../media/delete.png";
 import "./EventPicker.css";
 
 function EventPicker({
@@ -14,6 +15,7 @@ function EventPicker({
 }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const [repeatSettingsClass, setRepeatSettingsClass] = useState("");
+  const [deleteState, setDeleteState] = useState(false);
 
   return (
     <div
@@ -38,11 +40,53 @@ function EventPicker({
       }}
     >
       <div
+        className="delete-modal"
+        style={
+          deleteState
+            ? { pointerEvents: "all", opacity: 1 }
+            : { pointerEvents: "none", opacity: 0 }
+        }
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          setDeleteState(false);
+        }}
+      >
+        <div
+          className="delete-modal__wrapper"
+          style={
+            deleteState
+              ? { pointerEvents: "all", opacity: 1 }
+              : { pointerEvents: "none", opacity: 0 }
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
+          <div className="delete-model__text">Внимание!</div>
+          <div className="delete-model__descr">Будет удалено записей: 3</div>
+          <div
+            className="delete-modal__submit"
+            onClick={() => console.log("Удаление события")}
+          >
+            Удалить
+          </div>
+        </div>
+      </div>
+      <div
         className="event-picker__wrapper"
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
+        <div
+          className="delete__btn"
+          style={eventModalActive.event ? { scale: 1 } : { scale: 0 }}
+          onClick={() => setDeleteState(deleteState ? false : true)}
+        >
+          <img src={deleteImg}></img>
+        </div>
         <div className="event-picker__name">Настройка события</div>
         <div className="event-picker__fields">
           <div className="event__name event">
