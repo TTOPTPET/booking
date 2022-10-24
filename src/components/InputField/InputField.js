@@ -9,7 +9,14 @@ import { TextField, Autocomplete } from "@mui/material";
 import "./InputField.css";
 import { fixTimeToDatejs, fixDatejsToString } from "../tools/tools";
 
-function InputField({ fieldName, setValue, value, style, services }) {
+function InputField({
+  fieldName,
+  setValue,
+  value,
+  style,
+  services,
+  errorFlag,
+}) {
   const fieldsMap = new Map([
     ["name", "Название события"],
     ["dateStart", "Дата начала"],
@@ -29,6 +36,7 @@ function InputField({ fieldName, setValue, value, style, services }) {
       ? dayjs("2020-01-01" + fixTimeToDatejs(value[fieldName]))
       : null
   );
+  const [errorField, setErrorField] = useState(false);
   useEffect(() => {
     if (fieldName === "dateStart" || "dateEnd" || "repeatEnd") {
       setDateValue(value[fieldName] !== "" ? dayjs(value[fieldName]) : null);
@@ -41,6 +49,7 @@ function InputField({ fieldName, setValue, value, style, services }) {
       );
     }
   }, [value[fieldName]]);
+
   switch (fieldName) {
     case "dateStart":
     case "dateEnd":
@@ -134,16 +143,18 @@ function InputField({ fieldName, setValue, value, style, services }) {
     default:
       return (
         <TextField
-          id={fieldName}
-          value={value[fieldName]}
-          label={fieldsMap.get(fieldName)}
-          variant="standard"
           style={{
             ...style,
             width: style?.width,
           }}
+          error={errorField}
+          id={fieldName}
+          value={value[fieldName]}
+          label={fieldsMap.get(fieldName)}
+          variant="standard"
           onChange={(e) => {
             setValue({ ...value, [fieldName]: e.target.value });
+            setErrorField(e.target.value === "" ? true : false);
           }}
         />
       );

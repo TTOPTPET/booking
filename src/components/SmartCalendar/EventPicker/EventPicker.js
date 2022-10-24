@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../../InputField/InputField";
 import { setEvent } from "../../submitFunctions/submitFunctions";
 import { getTimeCoef, validateWeekList } from "../../tools/tools";
@@ -12,10 +12,37 @@ function EventPicker({
   setEventForm,
   services,
   setTreeWeek,
+  treeWeek,
 }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const [repeatSettingsClass, setRepeatSettingsClass] = useState("");
   const [deleteState, setDeleteState] = useState(false);
+  const [submitState, setSubmitState] = useState(false);
+  useEffect(() => {
+    console.log(eventForm);
+    if (
+      eventForm.name !== "" &&
+      eventForm.dateStart !== "" &&
+      eventForm.dateEnd !== "" &&
+      eventForm.timeStart !== "" &&
+      eventForm.timeEnd !== "" &&
+      eventForm.selection.length
+    ) {
+      setSubmitState(true);
+    } else {
+      setSubmitState(false);
+    }
+  }, [eventForm]);
+
+  // console.log(
+  //   treeWeek,
+  //   eventForm.dateStart,
+  //   treeWeek.find((date) => date.day === eventForm?.dateStart),
+  //   treeWeek
+  //     .find((date) => date.day === eventForm.dateStart)
+  //     ?.event_day.find((eventItem) => eventItem?.id_event_day === eventForm.id)
+  //     ?.setting_and_booking.event_booking.length
+  // );
 
   return (
     <div
@@ -36,7 +63,9 @@ function EventPicker({
           selection: [],
           repeatEnd: "",
           repeatWeek: [],
+          id: "",
         });
+        setSubmitState(false);
       }}
     >
       <div
@@ -65,7 +94,15 @@ function EventPicker({
           }}
         >
           <div className="delete-model__text">Внимание!</div>
-          <div className="delete-model__descr">Будет удалено записей: 3</div>
+          <div className="delete-model__descr">
+            Будет удалено записей:
+            {" " +
+              treeWeek
+                .find((date) => date.day === eventForm.dateStart)
+                ?.event_day.find(
+                  (eventItem) => eventItem?.id_event_day === eventForm.id
+                )?.setting_and_booking.event_booking.length}
+          </div>
           <div
             className="delete-modal__submit"
             onClick={() => console.log("Удаление события")}
@@ -82,7 +119,7 @@ function EventPicker({
       >
         <div
           className="delete__btn"
-          style={eventModalActive.event ? { scale: 1 } : { scale: 0 }}
+          style={eventModalActive.event ? {} : { scale: 0 }}
           onClick={() => setDeleteState(deleteState ? false : true)}
         >
           <img src={deleteImg}></img>
@@ -190,15 +227,21 @@ function EventPicker({
           </div>
         </div>
         <button
-          className="submit__btn event-pick-btn"
+          className={
+            submitState
+              ? "submit__btn event-pick-btn"
+              : "submit__btn event-pick-btn submit__btn_error"
+          }
           onClick={() => {
-            setEvent(
-              eventForm,
-              setTreeWeek,
-              setEventModalActive,
-              setRepeatSettingsClass,
-              setEventForm
-            );
+            submitState &&
+              setEvent(
+                eventForm,
+                setTreeWeek,
+                setEventModalActive,
+                setRepeatSettingsClass,
+                setEventForm
+              );
+            setSubmitState(false);
           }}
         >
           Готово

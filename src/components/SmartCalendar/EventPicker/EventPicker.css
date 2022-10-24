@@ -67,6 +67,12 @@
 .submit__btn{
 	margin-top: 15px;
 }
+.submit__btn_error{
+	margin-top: 15px;
+	color:#cecece;
+	pointer-events: none;
+	cursor:default;
+}
 
 .repeat__settings{
 	overflow: hidden;

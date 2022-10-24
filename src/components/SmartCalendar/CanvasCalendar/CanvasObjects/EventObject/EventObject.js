@@ -84,11 +84,12 @@ function EventObject({
         <div
           className="picker__btn"
           onClick={(e) => {
+            console.log("ffffffff");
             e.stopPropagation();
             setEventForm({
               name: newEvent.setting_and_booking.event_setting.name_event,
-              dateStart: newEvent.setting_and_booking.event_setting.day_start_g,
-              dateEnd: newEvent.setting_and_booking.event_setting.day_end_g,
+              dateStart: newEvent.day_start,
+              dateEnd: newEvent.day_end,
               timeStart:
                 newEvent.setting_and_booking.event_setting.event_time_start,
               timeEnd:
@@ -96,6 +97,7 @@ function EventObject({
               selection:
                 newEvent.setting_and_booking.event_setting.all_services,
               repeatWeek: newEvent.setting_and_booking.event_setting.weekdays,
+              id: newEvent.id_event_day,
             });
             setEventModalActive({ active: true, event: true });
           }}

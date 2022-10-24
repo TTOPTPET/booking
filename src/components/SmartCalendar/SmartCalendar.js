@@ -20,6 +20,7 @@ function SmartCalendar({ treeWeek, setTreeWeek, services }) {
     selection: [],
     repeatEnd: "",
     repeatWeek: [],
+    id: "",
   });
 
   return (
@@ -36,6 +37,7 @@ function SmartCalendar({ treeWeek, setTreeWeek, services }) {
         setEventForm={setEventForm}
         services={services}
         setTreeWeek={setTreeWeek}
+        treeWeek={treeWeek}
       ></EventPicker>
       <CanvasCalendar
         paddingScroll={paddingScroll}
