@@ -5,7 +5,7 @@ import EventPicker from "./EventPicker/EventPicker.js";
 import ScrollBar from "./ScrollBar/ScrollBar";
 import "./SmartCalendar.css";
 
-function SmartCalendar({ treeWeek, setTreeWeek, services }) {
+function SmartCalendar({ treeWeek, setTreeWeek, services, setServices }) {
   const [eventModalActive, setEventModalActive] = useState({
     active: false,
     event: false,
@@ -36,6 +36,7 @@ function SmartCalendar({ treeWeek, setTreeWeek, services }) {
         eventForm={eventForm}
         setEventForm={setEventForm}
         services={services}
+        setServices={setServices}
         setTreeWeek={setTreeWeek}
         treeWeek={treeWeek}
       ></EventPicker>

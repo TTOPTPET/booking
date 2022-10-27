@@ -1,21 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../InputField/InputField";
 import { postNewService } from "../submitFunctions/submitFunctions";
 import "./CreateService.css";
 import plus from "../../media/plus.png";
 
-function CreateService({ serviceModal, setServiceModal }) {
+function CreateService({ serviceModal, setServiceModal, setServices }) {
   const [newService, setNewService] = useState({
     serviceName: "",
-    servicePrice: null,
+    servicePrice: "",
     serviceDuration: "",
-    serviceMaxBook: null,
+    serviceMaxBook: "",
   });
+  const [submitState, setSubmitState] = useState(false);
+  useEffect(() => {
+    console.log(newService);
+    if (newService.serviceName !== "") {
+      setSubmitState(true);
+    } else {
+      setSubmitState(false);
+    }
+  }, [newService]);
+  useEffect(() => {
+    if (!serviceModal) {
+      setNewService({
+        serviceName: "",
+        servicePrice: "",
+        serviceDuration: "",
+        serviceMaxBook: "",
+      });
+    }
+  }, [serviceModal]);
   console.log("service", serviceModal);
   return (
     <div
       className="create-service__wrapper"
-      style={serviceModal ? { transform: "scale(1)" } : {}}
+      style={serviceModal ? { width: "260px", padding: "20px 30px" } : {}}
     >
       <div
         className="create-service__close"
@@ -47,10 +66,16 @@ function CreateService({ serviceModal, setServiceModal }) {
         />
       </div>
       <div
-        className="create-service__submit"
+        className={
+          submitState
+            ? "create-service__submit"
+            : "create-service__submit create-service__submit_error"
+        }
         onClick={() => {
           console.log("NewServ");
-          postNewService(newService, setServiceModal);
+          submitState &&
+            postNewService(newService, setServiceModal, setServices);
+          setSubmitState(false);
         }}
       >
         Готово

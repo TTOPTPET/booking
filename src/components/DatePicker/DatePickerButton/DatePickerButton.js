@@ -4,7 +4,7 @@ import { formatDateToView } from "../../tools/tools";
 
 function DatePickerButton({ treeWeek, setModalActive }) {
   return (
-    <button
+    <div
       className="datePicker_btn"
       onClick={(e) => {
         e.preventDefault();
@@ -16,7 +16,7 @@ function DatePickerButton({ treeWeek, setModalActive }) {
         " - ",
         formatDateToView(treeWeek[6].day),
       ]}
-    </button>
+    </div>
   );
 }
 

@@ -13,6 +13,7 @@ function EventPicker({
   eventForm,
   setEventForm,
   services,
+  setServices,
   setTreeWeek,
   treeWeek,
 }) {
@@ -70,6 +71,7 @@ function EventPicker({
           id: "",
         });
         setSubmitState(false);
+        setServiceModal(false);
       }}
     >
       <div
@@ -137,7 +139,9 @@ function EventPicker({
         >
           <img src={deleteImg}></img>
         </div>
-        <div className="event-picker__name">Настройка события</div>
+        <div className="event-picker__name">
+          {eventModalActive.event ? "Настройка события" : "Создание события"}
+        </div>
         <div className="event-picker__fields">
           <div className="event__name event">
             <InputField
@@ -191,7 +195,7 @@ function EventPicker({
             </div>
           </div>
         </div>
-        <button
+        <div
           className="setRepeats__btn event-pick-btn"
           onClick={() => {
             repeatSettingsClass
@@ -200,7 +204,7 @@ function EventPicker({
           }}
         >
           Настройка повторений
-        </button>
+        </div>
         <div className={"repeat__settings " + repeatSettingsClass}>
           <div className={"week-btn__group"}>
             {weekName.map((weekDay, index) => {
@@ -250,7 +254,7 @@ function EventPicker({
             ></InputField>
           </div>
         </div>
-        <button
+        <div
           className={
             submitState
               ? "submit__btn event-pick-btn"
@@ -269,11 +273,12 @@ function EventPicker({
           }}
         >
           Готово
-        </button>
+        </div>
         <div className="create-service">
           <CreateService
             serviceModal={serviceModal}
             setServiceModal={setServiceModal}
+            setServices={setServices}
           />
         </div>
       </div>

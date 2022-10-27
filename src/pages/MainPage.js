@@ -23,6 +23,7 @@ const MainPage = () => {
         treeWeek={treeWeek}
         setTreeWeek={setTreeWeek}
         services={services}
+        setServices={setServices}
       ></SmartCalendar>
     </div>
   );

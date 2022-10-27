@@ -58,7 +58,7 @@ function CanvasCalendar({
       <div className="day__column">
         {[...Array(24)].map((item, rowIndex) => {
           return (
-            <button
+            <div
               className="canvas__elem"
               id={"col" + colIndex}
               key={"elem" + colIndex + rowIndex}
@@ -77,7 +77,7 @@ function CanvasCalendar({
               }}
             >
               {addEvent(dayTree, rowIndex, marginLen, colIndex)}
-            </button>
+            </div>
           );
         })}
       </div>

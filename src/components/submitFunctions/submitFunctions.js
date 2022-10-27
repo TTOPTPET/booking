@@ -143,7 +143,7 @@ export const setEvent = (
     });
 };
 
-export const postNewService = (newService, setServices, setServiceModal) => {
+export const postNewService = (newService, setServiceModal, setServices) => {
   const apiUrl = url + "/service";
   const data = {
     all_adder: [
@@ -162,6 +162,8 @@ export const postNewService = (newService, setServices, setServiceModal) => {
       },
     })
     .then((resp) => {
+      const newServ = resp.data;
+      setServices(newServ);
       setServiceModal(false);
     });
 };

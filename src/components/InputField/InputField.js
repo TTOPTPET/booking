@@ -33,7 +33,6 @@ function InputField({ fieldName, setValue, value, style, services }) {
       ? dayjs("2020-01-01" + fixTimeToDatejs(value[fieldName]))
       : null
   );
-  const [errorField, setErrorField] = useState(false);
   useEffect(() => {
     if (fieldName === "dateStart" || "dateEnd" || "repeatEnd") {
       setDateValue(value[fieldName] !== "" ? dayjs(value[fieldName]) : null);
@@ -145,14 +144,12 @@ function InputField({ fieldName, setValue, value, style, services }) {
             ...style,
             width: style?.width,
           }}
-          error={errorField}
           id={fieldName}
           value={value[fieldName]}
           label={fieldsMap.get(fieldName)}
           variant="standard"
           onChange={(e) => {
             setValue({ ...value, [fieldName]: e.target.value });
-            setErrorField(e.target.value === "" ? true : false);
           }}
         />
       );

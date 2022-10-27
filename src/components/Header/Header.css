@@ -39,8 +39,8 @@
 }
 
 .header__notifications {
-    width: 25px;
-    background: url('../../media/notification.svg') center center/contain no-repeat;
+    width: 30px;
+    background: url('../../media/settings.png') center center/contain no-repeat;
 }
 
 .header__user {

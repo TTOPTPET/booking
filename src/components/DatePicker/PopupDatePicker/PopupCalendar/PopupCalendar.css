@@ -20,11 +20,13 @@
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
+	margin: 0 15px;
 }
 
 .btn__wrapp{
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 .btn__calendar{
 	border: none;

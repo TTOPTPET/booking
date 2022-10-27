@@ -37,7 +37,7 @@ function ScrollBar({ treeWeek, setTreeWeek, setPaddingScroll }) {
 
   return (
     <div className="scroll__bar">
-      <button
+      <div
         className="btn__scrollBar"
         id="btn-scrollBar-left"
         onClick={() => {
@@ -46,9 +46,9 @@ function ScrollBar({ treeWeek, setTreeWeek, setPaddingScroll }) {
         }}
       >
         <img className="btn__calendar_img" src={ArrowLeft} alt=""></img>
-      </button>
+      </div>
       <div className="weekDayRender__wrapp">{weekDayRender}</div>
-      <button
+      <div
         className="btn__scrollBar"
         id="btn-scrollBar-right"
         onClick={() => {
@@ -57,7 +57,7 @@ function ScrollBar({ treeWeek, setTreeWeek, setPaddingScroll }) {
         }}
       >
         <img className="btn__calendar_img" src={ArrowRight} alt=""></img>
-      </button>
+      </div>
     </div>
   );
 }
