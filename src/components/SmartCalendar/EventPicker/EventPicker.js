@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import InputField from "../../InputField/InputField";
-import { setEvent } from "../../submitFunctions/submitFunctions";
+import { setEvent, deleteEvent } from "../../submitFunctions/submitFunctions";
 import { getTimeCoef, validateWeekList } from "../../tools/tools";
 import deleteImg from "../../../media/delete.png";
+import plus from "../../../media/plus.png";
 import "./EventPicker.css";
+import CreateService from "../../CreateService/CreateService";
 
 function EventPicker({
   eventModalActive,
@@ -18,6 +20,8 @@ function EventPicker({
   const [repeatSettingsClass, setRepeatSettingsClass] = useState("");
   const [deleteState, setDeleteState] = useState(false);
   const [submitState, setSubmitState] = useState(false);
+  const [serviceModal, setServiceModal] = useState(false);
+
   useEffect(() => {
     console.log(eventForm);
     if (
@@ -105,7 +109,16 @@ function EventPicker({
           </div>
           <div
             className="delete-modal__submit"
-            onClick={() => console.log("Удаление события")}
+            onClick={() =>
+              deleteEvent(
+                eventForm.id,
+                setTreeWeek,
+                setDeleteState,
+                setEventModalActive,
+                setRepeatSettingsClass,
+                setEventForm
+              )
+            }
           >
             Удалить
           </div>
@@ -161,10 +174,21 @@ function EventPicker({
           <div className="event__selection event">
             <InputField
               fieldName={"selection"}
+              style={"flex-grow:2"}
               value={eventForm}
               setValue={setEventForm}
               services={services}
             ></InputField>
+            <div
+              className="create-service__btn"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setServiceModal(true);
+              }}
+            >
+              <img src={plus} />
+            </div>
           </div>
         </div>
         <button
@@ -246,6 +270,12 @@ function EventPicker({
         >
           Готово
         </button>
+        <div className="create-service">
+          <CreateService
+            serviceModal={serviceModal}
+            setServiceModal={setServiceModal}
+          />
+        </div>
       </div>
     </div>
   );

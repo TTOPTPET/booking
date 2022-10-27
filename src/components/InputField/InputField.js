@@ -9,14 +9,7 @@ import { TextField, Autocomplete } from "@mui/material";
 import "./InputField.css";
 import { fixTimeToDatejs, fixDatejsToString } from "../tools/tools";
 
-function InputField({
-  fieldName,
-  setValue,
-  value,
-  style,
-  services,
-  errorFlag,
-}) {
+function InputField({ fieldName, setValue, value, style, services }) {
   const fieldsMap = new Map([
     ["name", "Название события"],
     ["dateStart", "Дата начала"],
@@ -25,6 +18,10 @@ function InputField({
     ["timeEnd", "Время конца"],
     ["selection", "Выбор услуги"],
     ["repeatEnd", "Дата конца повторений"],
+    ["serviceName", "Название"],
+    ["serviceDuration", "Продолжительность"],
+    ["servicePrice", "Цена"],
+    ["serviceMaxBook", "Макс. кол-во записей"],
   ]);
 
   const [inputValue, setInputValue] = useState(value[fieldName]);
@@ -120,6 +117,7 @@ function InputField({
       return (
         <Autocomplete
           multiple
+          sx={style}
           id={fieldName}
           options={services}
           getOptionLabel={(option) => option.name_service || ""}

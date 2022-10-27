@@ -62,6 +62,42 @@ export const getServices = (setServices) => {
     });
 };
 
+export const deleteEvent = (
+  eventId,
+  setTreeWeek,
+  setDeleteState,
+  setEventModalActive,
+  setRepeatSettingsClass,
+  setEventForm
+) => {
+  const apiUrl = url + "/event/event_day/?event_day_id=" + String(eventId);
+  axios
+    .delete(apiUrl, {
+      headers: {
+        "X-API-KEY": apiKey,
+      },
+    })
+    .then((resp) => {
+      const newTree = resp.data;
+      console.log("response", newTree);
+      setTreeWeek(newTree);
+      setDeleteState && setDeleteState(false);
+      setEventModalActive({ active: false, event: false });
+      setRepeatSettingsClass("");
+      setEventForm({
+        name: "",
+        dateStart: "",
+        dateEnd: "",
+        timeStart: "",
+        timeEnd: "",
+        selection: [],
+        repeatEnd: "",
+        repeatWeek: [],
+        id: "",
+      });
+    });
+};
+
 export const setEvent = (
   eventForm,
   setTreeWeek,
@@ -104,5 +140,28 @@ export const setEvent = (
       });
       const newTree = resp.data;
       setTreeWeek(newTree);
+    });
+};
+
+export const postNewService = (newService, setServices, setServiceModal) => {
+  const apiUrl = url + "/service";
+  const data = {
+    all_adder: [
+      {
+        name_service: newService.serviceName,
+        price: Number(newService.servicePrice),
+        duration: newService.serviceDuration,
+        max_booking: Number(newService.serviceMaxBook),
+      },
+    ],
+  };
+  axios
+    .post(apiUrl, data, {
+      headers: {
+        "X-API-KEY": apiKey,
+      },
+    })
+    .then((resp) => {
+      setServiceModal(false);
     });
 };
