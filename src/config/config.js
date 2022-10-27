@@ -1,5 +1,5 @@
-// export const url = "https://olegbackend.ru/api_booking";
-export const url = "http://192.168.3.170:5000/api_booking";
+export const url = "https://olegbackend.ru/api_booking";
+// export const url = "http://192.168.3.170:5000/api_booking";
 export const apiKey = "oleg";
 export const defaultDay_end_repid = "1991-12-26";
 export const defaultData = [

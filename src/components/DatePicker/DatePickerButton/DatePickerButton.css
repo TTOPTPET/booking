@@ -12,6 +12,7 @@
     letter-spacing: 0.3em;
     color: #FFFFFF;
     cursor: pointer;
+    padding: 0 5px;
 }
 
 .datePicker_btn:hover{

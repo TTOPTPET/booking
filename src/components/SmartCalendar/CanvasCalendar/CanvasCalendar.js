@@ -87,7 +87,7 @@ function CanvasCalendar({
   const timeRender = [...Array(24)].map((item, index) => {
     return (
       <div
-        ref={Number(time.substring(0, 2)) === index + 1 ? myRef : null}
+        ref={Number(time.substring(0, 2)) === Number(index) ? myRef : null}
         className={
           currentDate.getHours() === index
             ? "canvas__elem time__elem time__elem_active"

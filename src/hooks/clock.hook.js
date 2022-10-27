@@ -5,6 +5,7 @@ export const useClock = () => {
   const [today, setToday] = useState(new Date());
 
   useEffect(() => {
+    console.log("useClk", time);
     const timer = setInterval(() => {
       setToday(new Date());
     }, 60 * 1000);
