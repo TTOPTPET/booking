@@ -4,6 +4,7 @@ import Header from "./components/Header/Header";
 import { MainPage, UserPage } from "./pages";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
             <Route path="user" element={<UserPage />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );

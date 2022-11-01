@@ -18,17 +18,34 @@ function InputField({ fieldName, setValue, value, style, services }) {
     ["timeEnd", "Время конца"],
     ["selection", "Выбор услуги"],
     ["repeatEnd", "Дата конца повторений"],
+    ["serviceName", "Название"],
+    ["serviceDuration", "Продолжительность"],
+    ["servicePrice", "Цена"],
+    ["serviceMaxBook", "Макс. кол-во записей"],
   ]);
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(value[fieldName]);
   const [dateValue, setDateValue] = useState(
     value[fieldName] !== "" ? dayjs(value[fieldName]) : null
+  );
+  const [timeValue, setTimeValue] = useState(
+    value[fieldName] !== ""
+      ? dayjs("2020-01-01" + fixTimeToDatejs(value[fieldName]))
+      : null
   );
   useEffect(() => {
     if (fieldName === "dateStart" || "dateEnd" || "repeatEnd") {
       setDateValue(value[fieldName] !== "" ? dayjs(value[fieldName]) : null);
     }
+    if (fieldName === "timeStart" || "timeEnd") {
+      setTimeValue(
+        value[fieldName] !== ""
+          ? dayjs("2020-01-01" + fixTimeToDatejs(value[fieldName]))
+          : null
+      );
+    }
   }, [value[fieldName]]);
+
   switch (fieldName) {
     case "dateStart":
     case "dateEnd":
@@ -38,7 +55,11 @@ function InputField({ fieldName, setValue, value, style, services }) {
           <DesktopDatePicker
             label={fieldsMap.get(fieldName)}
             value={dateValue}
-            // minDate={dayjs("2017-01-01")}
+            minDate={
+              fieldName === "repeatEnd"
+                ? dayjs(value.dateEnd)
+                : dayjs(value.dateStart)
+            }
             onChange={(newValue) => {
               setDateValue(newValue);
               if (newValue === null) {
@@ -67,12 +88,25 @@ function InputField({ fieldName, setValue, value, style, services }) {
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
           <DesktopTimePicker
             label={fieldsMap.get(fieldName)}
-            value={dayjs("2020-01-01" + fixTimeToDatejs(value[fieldName]))}
+            value={timeValue}
             onChange={(newValue) => {
-              setValue({
-                ...value,
-                [fieldName]: newValue.$H + ":" + newValue.$m + ":00",
-              });
+              setTimeValue(newValue);
+              console.log("value", newValue);
+              if (newValue === null) {
+                setValue({
+                  ...value,
+                  [fieldName]: "",
+                });
+              } else if (
+                newValue !== null &&
+                newValue?.$D &&
+                !isNaN(newValue.$D)
+              ) {
+                setValue({
+                  ...value,
+                  [fieldName]: newValue.$H + ":" + newValue.$m + ":00",
+                });
+              }
             }}
             renderInput={(params) => <TextField {...params} />}
           />
@@ -81,6 +115,8 @@ function InputField({ fieldName, setValue, value, style, services }) {
     case "selection":
       return (
         <Autocomplete
+          multiple
+          sx={style}
           id={fieldName}
           options={services}
           getOptionLabel={(option) => option.name_service || ""}
@@ -104,14 +140,14 @@ function InputField({ fieldName, setValue, value, style, services }) {
     default:
       return (
         <TextField
-          id={fieldName}
-          value={value[fieldName]}
-          label={fieldsMap.get(fieldName)}
-          variant="standard"
           style={{
             ...style,
             width: style?.width,
           }}
+          id={fieldName}
+          value={value[fieldName]}
+          label={fieldsMap.get(fieldName)}
+          variant="standard"
           onChange={(e) => {
             setValue({ ...value, [fieldName]: e.target.value });
           }}

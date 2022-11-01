@@ -12,6 +12,10 @@ function DatePicker({ treeWeek, setTreeWeek }) {
     firstOpen: true,
   });
 
+  useEffect(() => {
+    setSelectDate(formatDateToObject(treeWeek[0].day));
+  }, [treeWeek]);
+
   return (
     <div>
       <DatePickerButton treeWeek={treeWeek} setModalActive={setModalActive} />

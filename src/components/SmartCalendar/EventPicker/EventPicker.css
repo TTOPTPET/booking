@@ -10,8 +10,8 @@
 	align-items: center;
 	opacity: 0;
 	pointer-events: none;
-	transition: 0.5s;
-	z-index: 120;
+	transition: opacity 0.5s;
+	z-index: 1;
 }
 .event{
 	margin-top: 10px;	
@@ -19,6 +19,7 @@
 .event-modal_active{
 	opacity: 1;
 	pointer-events: all;
+	z-index: 120;
 }
 .event-picker__wrapper{
 	width: 500px;
@@ -31,9 +32,11 @@
 	background-color: #fff;
 	border-radius: 5px;
 	box-sizing: border-box;
+	position: relative;
 }
 .event-picker__name{
 	font-size: 20px;
+	font-weight: 700;
 }
 .event-picker__fields{
 	margin-top: 15px;
@@ -54,6 +57,7 @@
 	margin-top: 10px;
 	height: 25px;
 	font-size: 16px;
+	line-height: 25px;
 	width: 100%;
 	background: #EDECEC;
 	border: none;
@@ -64,6 +68,12 @@
 }
 .submit__btn{
 	margin-top: 15px;
+}
+.submit__btn_error{
+	margin-top: 15px;
+	color:#cecece;
+	pointer-events: none;
+	cursor:default;
 }
 
 .repeat__settings{
@@ -76,5 +86,103 @@
 	transition: all 1.3s;
 }
 .week-btn__group{
+	margin: 20px 0;
 	display: flex;	
+	justify-content: space-between;
+}
+.week-btn{
+	width: 32px;
+	height: 32px;
+	border: 1px solid #7e7e7e;
+	background-color: #fff;
+	border-radius: 100%;
+	color: rgb(58, 58, 58);
+	font-weight: 700;
+	text-align: center;
+	line-height: 27px;
+	transition: all 0.3s;
+	cursor: pointer;
+	box-sizing:border-box;
+}
+.week-btn_active{
+	background-color: #0065DC;
+	color:#fff;
+	border: 1px solid #0065DC;
+}
+.week-btn_blocked{
+	background-color: rgb(187, 187, 187);
+}
+.week-btn_error{
+	background-color: #d82d17;
+	color:#fff;
+	border: 1px solid #d82d17;
+}
+.delete__btn{
+	position: absolute;
+	right: 40px;
+	top: 30px;
+	width: 20px;
+	height: 20px;
+	padding-top: 5px;
+	cursor: pointer;
+}
+.delete__btn img{
+	width: 100%;
+	height: 100%;
+}
+.delete-modal__wrapper{
+	width: 250px;
+	background-color: rgb(255, 255, 255);
+	transition: all 0.5s;
+	z-index: 111;
+	border-radius:10px;
+	padding: 20px 30px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction:column;
+	align-items: center;
+	justify-content: center;
+}
+.delete-modal{
+	position: fixed;
+	display: flex;
+	align-items:center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	z-index: 110;
+	transition: all 0.5s;
+}
+.delete-modal__submit{
+	width: 100px;
+	height: 30px;
+	cursor: pointer;
+	background: #EDECEC;
+	line-height: 25px;
+	border-radius: 7px;
+	margin-top: 15px;
+}
+.delete-model__descr{
+	margin-top: 5px;
+}
+.create-service{
+	position: absolute;
+	bottom: 0;
+	left: calc(100% + 5px);
+}
+.event__selection{
+	display: flex;
+	flex-direction: row;
+	align-items:center;
+}
+.create-service__btn{
+	width: 10px;
+	height: 10px;
+	padding: 10px 10px;
+	cursor: pointer;
+}
+.create-service__btn img{
+	width: 100%;
+	height: 100%;
 }

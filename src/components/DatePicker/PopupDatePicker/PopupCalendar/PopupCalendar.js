@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./PopupCalendar.css";
-import ArrowLeft from "../../../../Arrow_left.svg";
-import ArrowRight from "../../../../Arrow_right.svg";
+import ArrowLeft from "../../../../media/Arrow_left.svg";
+import ArrowRight from "../../../../media/Arrow_right.svg";
 import { sendSelectedDate } from "../../../submitFunctions/submitFunctions";
 import { formatDateToSet } from "../../../tools/tools";
 
@@ -36,7 +36,7 @@ function PopupCalendar({
             classForBtn = "month__btn date_current";
           }
           return (
-            <button
+            <div
               className={classForBtn}
               id={"month" + (cIndex + 4 * rIndex)}
               key={cIndex + 4 * rIndex}
@@ -58,7 +58,7 @@ function PopupCalendar({
                   month: "long",
                 })}
               </div>
-            </button>
+            </div>
           );
         })}
       </div>
@@ -79,7 +79,7 @@ function PopupCalendar({
               classForBtn = "day__btn date_current";
             }
             return (
-              <button
+              <div
                 className={classForBtn}
                 id={"day" + (cIndex + 6 * rIndex)}
                 key={cIndex + 6 * rIndex}
@@ -93,7 +93,7 @@ function PopupCalendar({
                 }}
               >
                 <div>{cIndex + 6 * rIndex + 1}</div>
-              </button>
+              </div>
             );
           }
           classForBtn = "day__btn day__btn_dark";
@@ -107,7 +107,7 @@ function PopupCalendar({
             classForBtn = "day__btn day__btn_dark date_current";
           }
           return (
-            <button
+            <div
               className={classForBtn}
               id={"day" + (cIndex + 6 * rIndex)}
               key={cIndex + 6 * rIndex}
@@ -130,7 +130,7 @@ function PopupCalendar({
               }}
             >
               <div>{cIndex + 6 * rIndex - daysCounter + 1}</div>
-            </button>
+            </div>
           );
         })}
       </div>
@@ -155,7 +155,7 @@ function PopupCalendar({
         </div>
       </div>
       <div className="btn__wrapp">
-        <button
+        <div
           className="btn__calendar"
           id="btn-calendar-left"
           onClick={() => {
@@ -181,11 +181,11 @@ function PopupCalendar({
           }}
         >
           <img className="btn__calendar_img" src={ArrowLeft} alt=""></img>
-        </button>
+        </div>
         <div className="calendar__wrapp">
           {modalActive.firstOpen ? renderMonths : renderDays}
         </div>
-        <button
+        <div
           className="btn__calendar"
           id="btn-calendar-right"
           onClick={() => {
@@ -211,7 +211,7 @@ function PopupCalendar({
           }}
         >
           <img className="btn__calendar_img" src={ArrowRight} alt=""></img>
-        </button>
+        </div>
       </div>
     </div>
   );

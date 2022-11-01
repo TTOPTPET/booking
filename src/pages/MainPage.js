@@ -12,8 +12,8 @@ const MainPage = () => {
   const [services, setServices] = useState(defaultServices);
 
   useEffect(() => {
-    // getCurrentWeek(setTreeWeek);
-    // getServices(setServices);
+    getCurrentWeek(setTreeWeek);
+    getServices(setServices);
   }, []);
 
   return (
@@ -23,6 +23,7 @@ const MainPage = () => {
         treeWeek={treeWeek}
         setTreeWeek={setTreeWeek}
         services={services}
+        setServices={setServices}
       ></SmartCalendar>
     </div>
   );

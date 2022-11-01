@@ -8,10 +8,11 @@
     border: none;
     font-weight: 600;
     font-size: 20px;
-    line-height: 25px;
+    line-height: 40px;
     letter-spacing: 0.3em;
     color: #FFFFFF;
     cursor: pointer;
+    padding: 0 5px;
 }
 
 .datePicker_btn:hover{

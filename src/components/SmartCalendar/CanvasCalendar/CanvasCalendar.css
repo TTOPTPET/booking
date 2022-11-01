@@ -1,14 +1,19 @@
 .canvas__wrapper{
 	margin-top: 20px;
-	margin-right: 120px;
+	margin-right: 10vw;
 	display: flex;
 	flex-direction: row;
-	height: 60vh;
+	height: 62vh;
 }
 .canvas__scroll{
 	overflow: scroll;
 	display: flex;
 	flex-direction: row;
+	padding-top: 0;
+	transition: all 0.5s;
+}
+.canvas__scroll_active{
+	padding-top: 55px;
 }
 .day__column{
 	display: flex;
@@ -17,10 +22,11 @@
 .time__column{
 	display: flex;
 	flex-direction: column;
-	margin-top: -25px;
+	margin-top: -23px;
 }
 .canvas__elem{
-	width: 120px;
+	width: 10vw;
+	max-width: 120px;
 	min-height: 60px;
 	border: 1px solid #b7b7b7;
 	display: flex;
@@ -44,4 +50,10 @@
 }
 .canvas__scroll::-webkit-scrollbar{
 	width: 0;
+}
+
+@media (min-width: 1200px){
+	.canvas__wrapper{
+		margin-right: 120px;
+	}
 }

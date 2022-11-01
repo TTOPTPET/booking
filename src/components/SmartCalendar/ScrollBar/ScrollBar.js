@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ArrowLeft from "../../../Arrow_left.svg";
-import ArrowRight from "../../../Arrow_right.svg";
+import ArrowLeft from "../../../media/Arrow_left.svg";
+import ArrowRight from "../../../media/Arrow_right.svg";
 import { changeWeek } from "../../submitFunctions/submitFunctions";
 import { dateFromDayWeek } from "../../tools/tools";
 import "./ScrollBar.css";
 
-function ScrollBar({ treeWeek, setTreeWeek }) {
+function ScrollBar({ treeWeek, setTreeWeek, setPaddingScroll }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const currentDate = new Date();
   const weekDayRender = weekName.map((week) => {
@@ -37,25 +37,27 @@ function ScrollBar({ treeWeek, setTreeWeek }) {
 
   return (
     <div className="scroll__bar">
-      <button
+      <div
         className="btn__scrollBar"
         id="btn-scrollBar-left"
         onClick={() => {
           changeWeek(treeWeek, setTreeWeek, "back");
+          setPaddingScroll(0);
         }}
       >
         <img className="btn__calendar_img" src={ArrowLeft} alt=""></img>
-      </button>
+      </div>
       <div className="weekDayRender__wrapp">{weekDayRender}</div>
-      <button
+      <div
         className="btn__scrollBar"
         id="btn-scrollBar-right"
         onClick={() => {
           changeWeek(treeWeek, setTreeWeek, "front");
+          setPaddingScroll(0);
         }}
       >
         <img className="btn__calendar_img" src={ArrowRight} alt=""></img>
-      </button>
+      </div>
     </div>
   );
 }

@@ -97,10 +97,13 @@ export const getNewWeek = (date, direction) => {
 };
 
 export const getTimeCoef = (startTime, endTime) => {
-  const startTimeSplit = startTime.split(":");
-  const endTimeSplit = endTime.split(":");
-  const minutesCoef = (endTimeSplit[1] - startTimeSplit[1]) / 60;
-  return endTimeSplit[0] - startTimeSplit[0] + minutesCoef;
+  if (startTime && endTime) {
+    const startTimeSplit = startTime.split(":");
+    const endTimeSplit = endTime.split(":");
+    const minutesCoef = (endTimeSplit[1] - startTimeSplit[1]) / 60;
+    return endTimeSplit[0] - startTimeSplit[0] + minutesCoef;
+  }
+  return 0;
 };
 
 export const calcTransitions = (date) => {
@@ -129,12 +132,53 @@ export const fixTimeToDatejs = (time) => {
     const newTime = splitTime.map((item) => {
       return item.length < 2 ? "0" + item : item;
     });
-    console.log("newTime", String(newTime));
     return String(newTime);
   }
   return "00:00:00";
 };
 export const fixDatejsToString = (date) => {
-  let stringDate = date.toISOString();
-  return stringDate.substring(0, 10);
+  let stringDate = date.toISOString().substring(0, 10).split("-");
+  return (
+    stringDate[0] + "-" + stringDate[1] + "-" + (Number(stringDate[2]) + 1)
+  );
+};
+export const destructServices = (serviceArr) => {
+  const isArrServ = Array.isArray(serviceArr) ? serviceArr : [serviceArr];
+  const destrService = isArrServ.map((service) => {
+    return {
+      id_service: service.id,
+      id_staff: 1,
+      count_service_this_event: [
+        {
+          start_time: "13:30",
+          end_time: "16:30",
+        },
+      ],
+    };
+  });
+  return destrService;
+};
+
+export const validateWeekList = (eventForm, index) => {
+  let canSelect = true;
+  if (
+    eventForm.dateStart !== eventForm.dateEnd &&
+    getTimeCoef(eventForm.timeStart, "24:00:00") +
+      getTimeCoef("00:00:00", eventForm.timeEnd) >
+      24
+  ) {
+    if (index === 6 && eventForm.repeatWeek.includes(0)) {
+      canSelect = false;
+    }
+    if (index === 0 && eventForm.repeatWeek.includes(6)) {
+      canSelect = false;
+    }
+    if (
+      eventForm.repeatWeek.includes(index + 1) ||
+      eventForm.repeatWeek.includes(index - 1)
+    ) {
+      canSelect = false;
+    }
+  }
+  return canSelect;
 };
