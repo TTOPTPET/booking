@@ -12,7 +12,7 @@
 	padding: 15px 10px 10px ;
 	text-align: start;
 	cursor: pointer;
-	transition: width 0.5s, height 0.5s, transform 0.2s, top 0.5s;
+	transition: width 0.5s, max-width 0.5s, height 0.5s, transform 0.2s, top 0.5s;
 }
 .event__wrapper:hover{
 	z-index: 110 !important;
@@ -23,6 +23,10 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+.event__counter{
+	margin-top: 5px;
+	margin-left: 5px;
 }
 
 .picker__btn{
@@ -41,6 +45,8 @@
 	font-weight:700;
 	transition: all 0.2s;
 	box-sizing:border-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .picker__btn:hover{
 	transform: scale(1.05);

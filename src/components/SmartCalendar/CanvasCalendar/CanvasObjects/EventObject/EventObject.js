@@ -39,6 +39,9 @@ function EventObject({
           (unfoldEvent ? 125 : 0) +
           "px",
         width: unfoldEvent
+          ? `calc(${20 - 0.125 * combinMargin}vw - 2px)`
+          : `calc(${10 - 0.125 * combinMargin}vw - 1px)`,
+        maxWidth: unfoldEvent
           ? 238 - 15 * combinMargin + "px"
           : 119 - 15 * combinMargin + "px",
         marginLeft: 15 * combinMargin + "px",
@@ -68,7 +71,7 @@ function EventObject({
         </div>
       ) : (
         <div className="event__counter">
-          {"Записи: " + newEvent.setting_and_booking.event_booking.length}
+          {newEvent.setting_and_booking.event_booking.length}
         </div>
       )}
       {unfoldEvent ? (
