@@ -12,6 +12,7 @@
 	padding: 15px 10px 10px ;
 	text-align: start;
 	cursor: pointer;
+	overflow: hidden;
 	transition: width 0.5s, max-width 0.5s, height 0.5s, transform 0.2s, top 0.5s;
 }
 .event__wrapper:hover{

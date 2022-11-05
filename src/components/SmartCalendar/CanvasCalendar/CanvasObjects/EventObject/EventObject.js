@@ -65,9 +65,15 @@ function EventObject({
       </div>
       {unfoldEvent ? (
         <div className="event__time_book">
-          {newEvent.setting_and_booking.event_setting.event_time_start +
+          {newEvent.setting_and_booking.event_setting.event_time_start.slice(
+            0,
+            -3
+          ) +
             " - " +
-            newEvent.setting_and_booking.event_setting.event_time_end}
+            newEvent.setting_and_booking.event_setting.event_time_end.slice(
+              0,
+              -3
+            )}
         </div>
       ) : (
         <div className="event__counter">
@@ -101,6 +107,10 @@ function EventObject({
                 newEvent.setting_and_booking.event_setting.all_services,
               repeatWeek: newEvent.setting_and_booking.event_setting.weekdays,
               id: newEvent.id_event_day,
+              global_id:
+                newEvent.setting_and_booking.event_setting.id_global_event,
+              repeatEnd:
+                newEvent.setting_and_booking.event_setting.day_end_rapid,
             });
             setEventModalActive({ active: true, event: true });
           }}

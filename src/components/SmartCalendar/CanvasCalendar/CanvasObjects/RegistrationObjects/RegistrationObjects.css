@@ -14,3 +14,9 @@
 .book__wrapper:hover{
 	z-index: 101 !important;
 }
+
+.book__time, .book__service, .book__name{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

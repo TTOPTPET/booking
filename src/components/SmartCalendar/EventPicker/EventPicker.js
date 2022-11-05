@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import InputField from "../../InputField/InputField";
-import { setEvent, deleteEvent } from "../../submitFunctions/submitFunctions";
+import {
+  setEvent,
+  deleteEvent,
+  updateEvent,
+  submitUpdate,
+} from "../../submitFunctions/submitFunctions";
 import { getTimeCoef, validateWeekList } from "../../tools/tools";
 import deleteImg from "../../../media/delete.png";
 import plus from "../../../media/plus.png";
@@ -22,6 +27,7 @@ function EventPicker({
   const [deleteState, setDeleteState] = useState(false);
   const [submitState, setSubmitState] = useState(false);
   const [serviceModal, setServiceModal] = useState(false);
+  const [updateState, setUpdateState] = useState({ count: null, hash: null });
 
   useEffect(() => {
     console.log(eventForm);
@@ -69,6 +75,7 @@ function EventPicker({
           repeatEnd: "",
           repeatWeek: [],
           id: "",
+          global_id: "",
         });
         setSubmitState(false);
         setServiceModal(false);
@@ -102,25 +109,31 @@ function EventPicker({
           <div className="delete-model__text">Внимание!</div>
           <div className="delete-model__descr">
             Будет удалено записей:
-            {" " +
-              treeWeek
-                .find((date) => date.day === eventForm.dateStart)
-                ?.event_day.find(
-                  (eventItem) => eventItem?.id_event_day === eventForm.id
-                )?.setting_and_booking.event_booking.length}
+            {" " + updateState.hash
+              ? updateState.count
+              : treeWeek
+                  .find((date) => date.day === eventForm.dateStart)
+                  ?.event_day.find(
+                    (eventItem) => eventItem?.id_event_day === eventForm.id
+                  )?.setting_and_booking.event_booking.length}
           </div>
           <div
             className="delete-modal__submit"
-            onClick={() =>
-              deleteEvent(
-                eventForm.id,
-                setTreeWeek,
-                setDeleteState,
-                setEventModalActive,
-                setRepeatSettingsClass,
-                setEventForm
-              )
-            }
+            onClick={() => {
+              if (updateState.hash) {
+                submitUpdate(eventForm, updateState.hash, setTreeWeek);
+                setUpdateState({ count: null, hash: null });
+              } else {
+                deleteEvent(
+                  eventForm.id,
+                  setTreeWeek,
+                  setDeleteState,
+                  setEventModalActive,
+                  setRepeatSettingsClass,
+                  setEventForm
+                );
+              }
+            }}
           >
             Удалить
           </div>
@@ -260,15 +273,29 @@ function EventPicker({
               ? "submit__btn event-pick-btn"
               : "submit__btn event-pick-btn submit__btn_error"
           }
-          onClick={() => {
-            submitState &&
-              setEvent(
+          onClick={async () => {
+            if (eventModalActive.event && submitState) {
+              let [deleteCounter, hash] = await updateEvent(
                 eventForm,
                 setTreeWeek,
                 setEventModalActive,
                 setRepeatSettingsClass,
                 setEventForm
               );
+              if (deleteCounter && hash) {
+                setUpdateState({ count: deleteCounter, hash: hash });
+                setDeleteState(true);
+              }
+            } else {
+              submitState &&
+                setEvent(
+                  eventForm,
+                  setTreeWeek,
+                  setEventModalActive,
+                  setRepeatSettingsClass,
+                  setEventForm
+                );
+            }
             setSubmitState(false);
           }}
         >

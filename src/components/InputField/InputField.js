@@ -104,7 +104,11 @@ function InputField({ fieldName, setValue, value, style, services }) {
               ) {
                 setValue({
                   ...value,
-                  [fieldName]: newValue.$H + ":" + newValue.$m + ":00",
+                  [fieldName]:
+                    newValue.$H +
+                    ":" +
+                    (newValue.$m === 0 ? "00" : newValue.$m) +
+                    ":00",
                 });
               }
             }}

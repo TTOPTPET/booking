@@ -18,3 +18,13 @@
 .datePicker_btn:hover{
     background: #2d7dd7;
 }
+.datePicker_btn_mob{
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    cursor: pointer;
+}
+.datePicker_btn_mob img{
+    width: 30px;
+}
+
