@@ -24,27 +24,43 @@
     box-sizing: border-box;
 }
 
+.header__date {
+    font-size: 16px;
+    margin-bottom: 3px;
+}
+
 .header__time {
     font-weight: 700;
 }
 
-.header__logo {
+.header__logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header__logo img{
     width: 100px;
-    background: url('../../media/logo.svg') center center/contain no-repeat;
 }
 
 .header__menu {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     width: 135px;
 }
 
-.header__notifications {
-    width: 30px;
-    background: url('../../media/settings.png') center center/contain no-repeat;
+.header__user{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
-.header__user {
+.header__user img{
     width: 50px;
-    background: url('../../user.png') center center/contain no-repeat;
+}
+
+@media (max-width: 700px){
+	.header__today{
+        display: none;
+    }
 }

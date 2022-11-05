@@ -60,7 +60,9 @@ function RegistrationObjects({ newEvent, colIndex, treeWeek }) {
           }}
         >
           <div className="book__time">
-            {book.booking_time_start + " - " + book.booking_time_end}
+            {book.booking_time_start.slice(0, -3) +
+              " - " +
+              book.booking_time_end.slice(0, -3)}
           </div>
           <div className="book__service">
             {book.subscription_service.name_service}

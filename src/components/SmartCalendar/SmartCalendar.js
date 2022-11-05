@@ -21,6 +21,7 @@ function SmartCalendar({ treeWeek, setTreeWeek, services, setServices }) {
     repeatEnd: "",
     repeatWeek: [],
     id: "",
+    global_id: "",
   });
 
   return (

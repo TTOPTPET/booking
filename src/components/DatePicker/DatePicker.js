@@ -3,7 +3,7 @@ import DatePickerButton from "./DatePickerButton/DatePickerButton";
 import PopupDatePicker from "./PopupDatePicker/PopupDatePicker";
 import { formatDateToObject } from "../tools/tools";
 
-function DatePicker({ treeWeek, setTreeWeek }) {
+function DatePicker({ treeWeek, setTreeWeek, mobile }) {
   const [selectDate, setSelectDate] = useState(
     formatDateToObject(treeWeek[0].day)
   );
@@ -18,7 +18,11 @@ function DatePicker({ treeWeek, setTreeWeek }) {
 
   return (
     <div>
-      <DatePickerButton treeWeek={treeWeek} setModalActive={setModalActive} />
+      <DatePickerButton
+        treeWeek={treeWeek}
+        setModalActive={setModalActive}
+        mobile={mobile}
+      />
       <PopupDatePicker
         modalActive={modalActive}
         setModalActive={setModalActive}

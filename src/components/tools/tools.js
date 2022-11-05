@@ -146,14 +146,7 @@ export const destructServices = (serviceArr) => {
   const isArrServ = Array.isArray(serviceArr) ? serviceArr : [serviceArr];
   const destrService = isArrServ.map((service) => {
     return {
-      id_service: service.id,
-      id_staff: 1,
-      count_service_this_event: [
-        {
-          start_time: "13:30",
-          end_time: "16:30",
-        },
-      ],
+      id_service: service.id_service,
     };
   });
   return destrService;

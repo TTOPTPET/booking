@@ -1,5 +1,5 @@
 import { getNewWeek, destructServices } from "../tools/tools";
-import { url, apiKey, defaultDay_end_repid } from "../../config/config";
+import { url, apiKey } from "../../config/config";
 import axios from "axios";
 
 export const sendSelectedDate = (selectDate, setTreeWeek) => {
@@ -94,6 +94,7 @@ export const deleteEvent = (
         repeatEnd: "",
         repeatWeek: [],
         id: "",
+        global_id: "",
       });
     });
 };
@@ -110,11 +111,9 @@ export const setEvent = (
     name: eventForm.name,
     day_start: eventForm.dateStart,
     day_end: eventForm.dateEnd,
-    day_end_repid: eventForm.repeatEnd
-      ? eventForm.repeatEnd
-      : defaultDay_end_repid,
-    start_event: eventForm.timeStart,
-    end_event: eventForm.timeEnd,
+    day_end_repid: eventForm.repeatEnd ? eventForm.repeatEnd : "",
+    time_start: eventForm.timeStart,
+    time_end: eventForm.timeEnd,
     service_this_day: destructServices(eventForm.selection),
     weekday_list: eventForm.repeatWeek,
     status_repid_day: eventForm.repeatWeek.length > 0,
@@ -137,6 +136,8 @@ export const setEvent = (
         selection: [],
         repeatEnd: "",
         repeatWeek: [],
+        id: "",
+        global_id: "",
       });
       const newTree = resp.data;
       setTreeWeek(newTree);
@@ -165,5 +166,73 @@ export const postNewService = (newService, setServiceModal, setServices) => {
       const newServ = resp.data;
       setServices(newServ);
       setServiceModal(false);
+    });
+};
+
+export const updateEvent = async (
+  event,
+  setTreeWeek,
+  setEventModalActive,
+  setRepeatSettingsClass,
+  setEventForm
+) => {
+  const apiUrl =
+    url +
+    `/event/update_rapid/?event_set_id=${event.global_id}&event_day_id=${event.id}`;
+  const data = {
+    name: event.name,
+    day_start: event.dateStart,
+    day_end: event.dateEnd,
+    day_end_repid: event.repeatEnd ? event.repeatEnd : "",
+    time_start: event.timeStart,
+    time_end: event.timeEnd,
+    service_this_day: destructServices(event.selection),
+    weekday_list: event.repeatWeek,
+    status_repid_day: event.repeatWeek.length > 0,
+  };
+  await axios
+    .put(apiUrl, data, {
+      headers: {
+        "X-API-KEY": apiKey,
+      },
+    })
+    .then((resp) => {
+      console.log("updateEvent", resp);
+      if (resp.status === 200) {
+        setTreeWeek(resp.data);
+        setEventModalActive({ active: false, event: false });
+        setRepeatSettingsClass("");
+        setEventForm({
+          name: "",
+          dateStart: "",
+          dateEnd: "",
+          timeStart: "",
+          timeEnd: "",
+          selection: [],
+          repeatEnd: "",
+          repeatWeek: [],
+          id: "",
+          global_id: "",
+        });
+        return [null, null];
+      } else {
+        return [resp.data.delete_counter, resp.data.id_hash];
+      }
+    });
+};
+
+export const submitUpdate = async (event, hash, setTreeWeek) => {
+  const apiUrl = url + `/event/update_rapid/?hash_del=${hash}`;
+  const data = {
+    day_return: event.dateStart,
+  };
+  await axios
+    .delete(apiUrl, data, {
+      headers: {
+        "X-API-KEY": apiKey,
+      },
+    })
+    .then((resp) => {
+      setTreeWeek(resp.data);
     });
 };
