@@ -13,6 +13,7 @@ function EventObject({
   unfoldLeft,
   treeWeek,
   colIndex,
+  setEventCopy,
 }) {
   const [unfoldEvent, setUnfoldEvent] = useState(false);
   useEffect(() => {
@@ -96,6 +97,23 @@ function EventObject({
             console.log("ffffffff");
             e.stopPropagation();
             setEventForm({
+              name: newEvent.setting_and_booking.event_setting.name_event,
+              dateStart: newEvent.day_start,
+              dateEnd: newEvent.day_end,
+              timeStart:
+                newEvent.setting_and_booking.event_setting.event_time_start,
+              timeEnd:
+                newEvent.setting_and_booking.event_setting.event_time_end,
+              selection:
+                newEvent.setting_and_booking.event_setting.all_services,
+              repeatWeek: newEvent.setting_and_booking.event_setting.weekdays,
+              id: newEvent.id_event_day,
+              global_id:
+                newEvent.setting_and_booking.event_setting.id_global_event,
+              repeatEnd:
+                newEvent.setting_and_booking.event_setting.day_end_rapid,
+            });
+            setEventCopy({
               name: newEvent.setting_and_booking.event_setting.name_event,
               dateStart: newEvent.day_start,
               dateEnd: newEvent.day_end,

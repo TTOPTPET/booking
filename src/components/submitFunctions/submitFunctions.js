@@ -57,6 +57,7 @@ export const getServices = (setServices) => {
       },
     })
     .then((resp) => {
+      console.log("getServices", resp);
       const newServices = resp.data;
       setServices(newServices);
     });
@@ -190,15 +191,16 @@ export const updateEvent = async (
     weekday_list: event.repeatWeek,
     status_repid_day: event.repeatWeek.length > 0,
   };
+  let response;
   await axios
     .put(apiUrl, data, {
       headers: {
         "X-API-KEY": apiKey,
       },
     })
-    .then((resp) => {
-      console.log("updateEvent", resp);
-      if (resp.status === 200) {
+    .then(
+      (resp) => {
+        console.log("updateEvent", resp);
         setTreeWeek(resp.data);
         setEventModalActive({ active: false, event: false });
         setRepeatSettingsClass("");
@@ -214,25 +216,53 @@ export const updateEvent = async (
           id: "",
           global_id: "",
         });
-        return [null, null];
-      } else {
-        return [resp.data.delete_counter, resp.data.id_hash];
+        response = null;
+      },
+      (resp) => {
+        console.log("updateEventError", resp);
+        if (resp.response.status === 300) {
+          console.log("updateEventError", resp.response.data);
+          response = resp.response.data;
+        }
       }
-    });
+    );
+  return response;
 };
 
-export const submitUpdate = async (event, hash, setTreeWeek) => {
+export const submitUpdate = async (
+  event,
+  hash,
+  setTreeWeek,
+  setEventModalActive,
+  setRepeatSettingsClass,
+  setEventForm
+) => {
   const apiUrl = url + `/event/update_rapid/?hash_del=${hash}`;
   const data = {
     day_return: event.dateStart,
   };
   await axios
-    .delete(apiUrl, data, {
+    .delete(apiUrl, {
       headers: {
         "X-API-KEY": apiKey,
       },
+      data: data,
     })
     .then((resp) => {
+      setEventModalActive({ active: false, event: false });
+      setRepeatSettingsClass("");
+      setEventForm({
+        name: "",
+        dateStart: "",
+        dateEnd: "",
+        timeStart: "",
+        timeEnd: "",
+        selection: [],
+        repeatEnd: "",
+        repeatWeek: [],
+        id: "",
+        global_id: "",
+      });
       setTreeWeek(resp.data);
     });
 };

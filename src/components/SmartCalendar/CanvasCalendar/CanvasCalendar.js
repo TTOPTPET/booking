@@ -15,6 +15,7 @@ function CanvasCalendar({
   setPaddingScroll,
   paddingScroll,
   mobile,
+  setEventCopy,
 }) {
   const handlers = useSwipeable({
     onSwipedRight: (eventData) => {
@@ -60,6 +61,7 @@ function CanvasCalendar({
           unfoldLeft={colIndex === 6}
           colIndex={colIndex}
           treeWeek={treeWeek}
+          setEventCopy={setEventCopy}
         ></EventObject>
       );
     }

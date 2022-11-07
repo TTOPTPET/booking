@@ -21,6 +21,8 @@ function EventPicker({
   setServices,
   setTreeWeek,
   treeWeek,
+  eventCopy,
+  setEventCopy,
 }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const [repeatSettingsClass, setRepeatSettingsClass] = useState("");
@@ -30,14 +32,20 @@ function EventPicker({
   const [updateState, setUpdateState] = useState({ count: null, hash: null });
 
   useEffect(() => {
-    console.log(eventForm);
+    console.log("-----", eventForm, eventCopy);
     if (
       eventForm.name !== "" &&
       eventForm.dateStart !== "" &&
       eventForm.dateEnd !== "" &&
       eventForm.timeStart !== "" &&
       eventForm.timeEnd !== "" &&
-      eventForm.selection.length
+      eventForm.selection.length &&
+      eventForm.selection.length &&
+      (eventForm.name !== eventCopy?.name ||
+        eventForm.dateStart !== eventCopy?.dateStart ||
+        eventForm.dateEnd !== eventCopy?.dateEnd ||
+        eventForm.timeStart !== eventCopy?.timeStart ||
+        eventForm.timeEnd !== eventCopy?.timeEnd)
     ) {
       setSubmitState(true);
     } else {
@@ -79,6 +87,7 @@ function EventPicker({
         });
         setSubmitState(false);
         setServiceModal(false);
+        setEventCopy({});
       }}
     >
       <div
@@ -109,20 +118,29 @@ function EventPicker({
           <div className="delete-model__text">Внимание!</div>
           <div className="delete-model__descr">
             Будет удалено записей:
-            {" " + updateState.hash
-              ? updateState.count
-              : treeWeek
-                  .find((date) => date.day === eventForm.dateStart)
-                  ?.event_day.find(
-                    (eventItem) => eventItem?.id_event_day === eventForm.id
-                  )?.setting_and_booking.event_booking.length}
+            {" " +
+              (updateState.hash
+                ? updateState.count
+                : treeWeek
+                    .find((date) => date.day === eventForm.dateStart)
+                    ?.event_day.find(
+                      (eventItem) => eventItem?.id_event_day === eventForm.id
+                    )?.setting_and_booking.event_booking.length)}
           </div>
           <div
             className="delete-modal__submit"
             onClick={() => {
               if (updateState.hash) {
-                submitUpdate(eventForm, updateState.hash, setTreeWeek);
+                submitUpdate(
+                  eventForm,
+                  updateState.hash,
+                  setTreeWeek,
+                  setEventModalActive,
+                  setRepeatSettingsClass,
+                  setEventForm
+                );
                 setUpdateState({ count: null, hash: null });
+                setDeleteState(false);
               } else {
                 deleteEvent(
                   eventForm.id,
@@ -275,16 +293,20 @@ function EventPicker({
           }
           onClick={async () => {
             if (eventModalActive.event && submitState) {
-              let [deleteCounter, hash] = await updateEvent(
+              let respData = await updateEvent(
                 eventForm,
                 setTreeWeek,
                 setEventModalActive,
                 setRepeatSettingsClass,
                 setEventForm
               );
-              if (deleteCounter && hash) {
+              console.log("respData", respData);
+              if (respData) {
+                let deleteCounter = respData.delete_counter;
+                let hash = respData.id_hash;
                 setUpdateState({ count: deleteCounter, hash: hash });
                 setDeleteState(true);
+                console.log("setDeleteState", respData);
               }
             } else {
               submitState &&

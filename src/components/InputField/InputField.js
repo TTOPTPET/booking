@@ -50,16 +50,18 @@ function InputField({ fieldName, setValue, value, style, services }) {
     case "dateStart":
     case "dateEnd":
     case "repeatEnd":
+      let minDate;
+      if (fieldName === "repeatEnd") {
+        minDate = dayjs(value.dateEnd);
+      } else if (fieldName === "dateEnd") {
+        minDate = dayjs(value.dateStart);
+      }
       return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
           <DesktopDatePicker
             label={fieldsMap.get(fieldName)}
             value={dateValue}
-            minDate={
-              fieldName === "repeatEnd"
-                ? dayjs(value.dateEnd)
-                : dayjs(value.dateStart)
-            }
+            minDate={minDate}
             onChange={(newValue) => {
               setDateValue(newValue);
               if (newValue === null) {
