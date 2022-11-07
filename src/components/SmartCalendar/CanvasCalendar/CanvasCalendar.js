@@ -1,17 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useClock } from "../../../hooks/clock.hook";
 import "./CanvasCalendar.css";
+import { changeWeek } from "../../submitFunctions/submitFunctions";
+import { useSwipeable } from "react-swipeable";
 import { dateFromDayWeek, getTimeCoef } from "../../tools/tools";
 import EventObject from "./CanvasObjects/EventObject/EventObject";
 
 function CanvasCalendar({
   setEventModalActive,
   treeWeek,
+  setTreeWeek,
   eventForm,
   setEventForm,
   setPaddingScroll,
   paddingScroll,
+  mobile,
 }) {
+  const handlers = useSwipeable({
+    onSwipedRight: (eventData) => {
+      changeWeek(treeWeek, setTreeWeek, "back");
+      setPaddingScroll(0);
+    },
+    onSwipedLeft: (eventData) => {
+      changeWeek(treeWeek, setTreeWeek, "front");
+      setPaddingScroll(0);
+    },
+  });
   const currentDate = new Date();
   const myRef = useRef(null);
   const executeScroll = () => myRef.current.scrollIntoView();
@@ -95,12 +109,12 @@ function CanvasCalendar({
         }
         id={"coltime" + index}
       >
-        {index + ":00"}
+        {mobile ? index : index + ":00"}
       </div>
     );
   });
   return (
-    <div className="canvas__wrapper">
+    <div className="canvas__wrapper" {...handlers}>
       <div
         className={
           "canvas__scroll " + (paddingScroll > 0 ? "canvas__scroll_active" : "")

@@ -3,9 +3,21 @@ import ArrowLeft from "../../../media/Arrow_left.svg";
 import ArrowRight from "../../../media/Arrow_right.svg";
 import { changeWeek } from "../../submitFunctions/submitFunctions";
 import { dateFromDayWeek } from "../../tools/tools";
+import { useSwipeable } from "react-swipeable";
 import "./ScrollBar.css";
 
 function ScrollBar({ treeWeek, setTreeWeek, setPaddingScroll }) {
+  const handlers = useSwipeable({
+    onSwipedRight: (eventData) => {
+      changeWeek(treeWeek, setTreeWeek, "back");
+      setPaddingScroll(0);
+    },
+    onSwipedLeft: (eventData) => {
+      changeWeek(treeWeek, setTreeWeek, "front");
+      setPaddingScroll(0);
+    },
+  });
+
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const currentDate = new Date();
   const weekDayRender = weekName.map((week) => {
@@ -36,7 +48,7 @@ function ScrollBar({ treeWeek, setTreeWeek, setPaddingScroll }) {
   });
 
   return (
-    <div className="scroll__bar">
+    <div className="scroll__bar" {...handlers}>
       <div
         className="btn__scrollBar"
         id="btn-scrollBar-left"

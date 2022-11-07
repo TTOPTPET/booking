@@ -1,122 +1,148 @@
-.popup__wrapp{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.popup__wrapp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.row__month{
-	display: flex;
-	flex-direction: row;
+.row__month {
+  display: flex;
+  flex-direction: row;
 }
 
-.row__days{
-	display: flex;
-	flex-direction: row;
+.row__days {
+  display: flex;
+  flex-direction: row;
 }
 
-.calendar__wrapp{
-	display: flex;
-	width: 490px;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	margin: 0 15px;
+.calendar__wrapp {
+  display: flex;
+  width: 490px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0 15px;
 }
 
-.btn__wrapp{
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.btn__wrapp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.btn__calendar{
-	border: none;
-	cursor: pointer;
-	background: none;
+.btn__calendar {
+  border: none;
+  cursor: pointer;
+  background: none;
 }
-.btn__calendar_img{
-	width: 20px;
-}
-
-.month__btn{
-	width: 120px;
-	height: 90px;
-	border: 1px solid #0065DC;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	font-size: 14px;
-	color: #0065DC;
-	cursor: pointer;
-	background-color: #fff;
+.btn__calendar_img {
+  width: 20px;
 }
 
-#month0{
-	border-top-left-radius: 10px;
-} 
-#month3{
-	border-top-right-radius: 10px;
-} 
-#month8{
-	border-bottom-left-radius: 10px;
-} 
-#month11{
-	border-bottom-right-radius: 10px;
+.month__btn {
+  width: 120px;
+  height: 90px;
+  border: 1px solid #0065dc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #0065dc;
+  cursor: pointer;
+  background-color: #fff;
 }
 
-.day__btn{
-	width: 75px;
-	height: 50px;
-	border: 1px solid #0065DC;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	color: #0065DC;
-	cursor: pointer;
-	background-color: #fff;
+#month0 {
+  border-top-left-radius: 10px;
 }
-#day0{
-	border-top-left-radius: 10px;
-} 
-#day5{
-	border-top-right-radius: 10px;
-} 
-#day30{
-	border-bottom-left-radius: 10px;
-} 
-#day35{
-	border-bottom-right-radius: 10px;
+#month3 {
+  border-top-right-radius: 10px;
 }
-.day__btn_dark{
-	color: #8f9aa7;
+#month8 {
+  border-bottom-left-radius: 10px;
+}
+#month11 {
+  border-bottom-right-radius: 10px;
 }
 
-.calendar__selectedDate{
-	display: flex;
-	align-items: center;
-	justify-content: space-around;
-	padding: 0 4px 0 4px;
-	width: 100px;
-	margin-bottom: 10px;
-	background-color: #F6F6F6;
-	border-radius: 20px;
+.day__btn {
+  width: 75px;
+  height: 50px;
+  border: 1px solid #0065dc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #0065dc;
+  cursor: pointer;
+  background-color: #fff;
+}
+#day0 {
+  border-top-left-radius: 10px;
+}
+#day5 {
+  border-top-right-radius: 10px;
+}
+#day30 {
+  border-bottom-left-radius: 10px;
+}
+#day35 {
+  border-bottom-right-radius: 10px;
+}
+.day__btn_dark {
+  color: #8f9aa7;
 }
 
-.selected_month{
-	font-size: 13px;
-	line-height: 13px;
-	font-weight: 700;
-	text-transform: uppercase;
-	color: #0065DC;
+.calendar__selectedDate {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 4px 0 4px;
+  width: 100px;
+  margin-bottom: 10px;
+  background-color: #f6f6f6;
+  border-radius: 20px;
 }
 
-.selected_year{
-	font-size: 15px;
-	line-height: 15px;
-	color: #0065DC;
+.selected_month {
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0065dc;
 }
 
-.date_current{
-	background-color: #0067dc1a;
+.selected_year {
+  font-size: 15px;
+  line-height: 15px;
+  color: #0065dc;
+}
+
+.date_current {
+  background-color: #0067dc1a;
+}
+
+@media (max-width: 700px) {
+  .month__btn {
+    width: 20vw;
+    height: 18vw;
+    font-size: 12px;
+  }
+  .calendar__wrapp {
+    display: flex;
+    width: 80vw;
+  }
+  .btn__calendar {
+    display: none;
+  }
+  .day__btn {
+    width: 14vw;
+    height: 12vw;
+    font-size: 12px;
+  }
+  .selected_month {
+    font-size: 12px;
+  }
+  .selected_year {
+    font-size: 13px;
+  }
 }

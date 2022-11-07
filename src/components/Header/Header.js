@@ -12,7 +12,9 @@ const Header = ({ treeWeek, setTreeWeek, mobile }) => {
     <div className="header">
       <div className="container">
         {mobile ? (
-          <DatePicker treeWeek={treeWeek} setTreeWeek={setTreeWeek} mobile />
+          <div className="header__calendar">
+            <DatePicker treeWeek={treeWeek} setTreeWeek={setTreeWeek} mobile />
+          </div>
         ) : (
           <div className="header__today">
             <div className="header__date">{date}</div>
