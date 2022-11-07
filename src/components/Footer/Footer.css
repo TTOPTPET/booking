@@ -1,4 +1,14 @@
 .footer{
 	flex: 0 0 auto;
-	margin-bottom: 50px;
+	margin-bottom: 10px;
+}
+
+.footer img{
+	width: 70px;
+}
+
+@media (max-width: 700px){
+	.footer img{
+		width: 60px
+	};
 }

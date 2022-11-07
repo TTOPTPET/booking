@@ -41,3 +41,25 @@
 .btn__scrollBar img{
 	width: 20px;
 }
+
+@media (max-width: 700px){
+	.btn__scrollBar{
+		display: none;
+	}
+	.scroll__bar{
+		width: 100%;
+		justify-content: end;
+		margin-top: 10px;
+	}
+	.weekBox{
+		width: 27px;
+		height: 27px;
+		border-radius: 12px;
+	}
+	.weekBox__box{
+		width: 13vw
+	}
+	.weekBox__week{
+		display: none;
+	}
+}

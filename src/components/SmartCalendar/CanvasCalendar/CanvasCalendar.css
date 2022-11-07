@@ -1,59 +1,76 @@
-.canvas__wrapper{
-	margin-top: 20px;
-	margin-right: 10vw;
-	display: flex;
-	flex-direction: row;
-	height: 62vh;
+.canvas__wrapper {
+  margin-top: 20px;
+  margin-right: 10vw;
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 300px);
 }
-.canvas__scroll{
-	overflow: scroll;
-	display: flex;
-	flex-direction: row;
-	padding-top: 0;
-	transition: all 0.5s;
+.canvas__scroll {
+  overflow: scroll;
+  display: flex;
+  flex-direction: row;
+  padding-top: 0;
+  transition: all 0.5s;
 }
-.canvas__scroll_active{
-	padding-top: 55px;
+.canvas__scroll_active {
+  padding-top: 55px;
 }
-.day__column{
-	display: flex;
-	flex-direction: column;
+.day__column {
+  display: flex;
+  flex-direction: column;
 }
-.time__column{
-	display: flex;
-	flex-direction: column;
-	margin-top: -23px;
+.time__column {
+  display: flex;
+  flex-direction: column;
+  margin-top: -30px;
 }
-.canvas__elem{
-	width: 10vw;
-	max-width: 120px;
-	min-height: 60px;
-	border: 1px solid #b7b7b7;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	color: #0065DC;
-	cursor: pointer;
-	box-sizing: border-box;
-	position: relative;
+.canvas__elem {
+  width: 10vw;
+  max-width: 120px;
+  min-height: 60px;
+  border: 1px solid #b7b7b7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #0065dc;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
 }
-.time__elem{
-	overflow: hidden;
-	border: none;
-	pointer-events: none;
+.time__elem {
+  overflow: hidden;
+  border: none;
+  pointer-events: none;
 }
-.time__elem_active{
-	font-weight: bold;
-	font-size: 20px;
-	
+.time__elem_active {
+  font-weight: bold;
+  font-size: 20px;
 }
-.canvas__scroll::-webkit-scrollbar{
-	width: 0;
+.canvas__scroll::-webkit-scrollbar {
+  width: 0;
 }
 
-@media (min-width: 1200px){
-	.canvas__wrapper{
-		margin-right: 120px;
-	}
+#coltime0 {
+  font-size: 0;
+}
+
+@media (min-width: 1200px) {
+  .canvas__wrapper {
+    margin-right: 120px;
+  }
+}
+
+@media (max-width: 700px) {
+  .canvas__wrapper {
+    margin-right: 0;
+    height: calc(100vh - 160px);
+  }
+  .canvas__elem {
+    width: 13vw;
+  }
+  .time__elem {
+    width: 9vw;
+    font-size: 14px;
+  }
 }

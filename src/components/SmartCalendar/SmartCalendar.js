@@ -5,7 +5,13 @@ import EventPicker from "./EventPicker/EventPicker.js";
 import ScrollBar from "./ScrollBar/ScrollBar";
 import "./SmartCalendar.css";
 
-function SmartCalendar({ treeWeek, setTreeWeek, services, setServices }) {
+function SmartCalendar({
+  treeWeek,
+  setTreeWeek,
+  services,
+  setServices,
+  mobile,
+}) {
   const [eventModalActive, setEventModalActive] = useState({
     active: false,
     event: false,
@@ -45,10 +51,18 @@ function SmartCalendar({ treeWeek, setTreeWeek, services, setServices }) {
         paddingScroll={paddingScroll}
         setPaddingScroll={setPaddingScroll}
         treeWeek={treeWeek}
+        setTreeWeek={setTreeWeek}
         setEventModalActive={setEventModalActive}
         eventForm={eventForm}
         setEventForm={setEventForm}
+        mobile={mobile}
       ></CanvasCalendar>
+      <div
+        className="event-add__btn"
+        onClick={() => setEventModalActive({ active: true, event: false })}
+      >
+        +
+      </div>
     </div>
   );
 }

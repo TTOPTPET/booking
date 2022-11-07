@@ -44,9 +44,9 @@
 }
 
 .header__menu {
+    width: 135px;
     display: flex;
     justify-content: flex-end;
-    width: 135px;
 }
 
 .header__user{
@@ -59,8 +59,34 @@
     width: 50px;
 }
 
+.header__calendar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 13vw;
+}
+
 @media (max-width: 700px){
+    .header {
+        display: flex;
+        justify-content: end;
+    }
 	.header__today{
         display: none;
+    }
+    .header__logo img{
+        width: 60px;
+    }
+    .header__user img{
+        width: 30px;
+    }
+    .header__menu {
+        width: 13vw;
+        justify-content: center;
+    }
+    .container{
+        height: 45px;
+        width: 91vw;
+        margin: 0 0;
     }
 }

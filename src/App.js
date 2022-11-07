@@ -22,7 +22,7 @@ const App = () => {
           setTreeWeek={setTreeWeek}
           mobile={isMobile}
         />
-        <main>
+        <div className="main">
           <Routes>
             <Route
               path="/"
@@ -38,7 +38,7 @@ const App = () => {
             />
             <Route path="user" element={<UserPage />} />
           </Routes>
-        </main>
+        </div>
         <Footer />
       </div>
     </Router>
