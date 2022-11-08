@@ -49,6 +49,7 @@ function SmartCalendar({
         treeWeek={treeWeek}
         eventCopy={eventCopy}
         setEventCopy={setEventCopy}
+        mobile={mobile}
       ></EventPicker>
       <CanvasCalendar
         paddingScroll={paddingScroll}

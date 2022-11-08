@@ -19,13 +19,6 @@ function PopupDatePicker({
       }}
     >
       <div className="modal__content" onClick={(e) => e.stopPropagation()}>
-        <div className="modal__content_date">
-          {[
-            formatDateToView(treeWeek[0].day),
-            " - ",
-            formatDateToView(treeWeek[6].day),
-          ]}
-        </div>
         <PopupCalendar
           setTreeWeek={setTreeWeek}
           modalActive={modalActive}

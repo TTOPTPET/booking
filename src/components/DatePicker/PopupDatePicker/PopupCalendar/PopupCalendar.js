@@ -4,6 +4,7 @@ import ArrowLeft from "../../../../media/Arrow_left.svg";
 import ArrowRight from "../../../../media/Arrow_right.svg";
 import { sendSelectedDate } from "../../../submitFunctions/submitFunctions";
 import { formatDateToSet } from "../../../tools/tools";
+import { useSwipeable } from "react-swipeable";
 
 function PopupCalendar({
   setTreeWeek,
@@ -12,6 +13,51 @@ function PopupCalendar({
   selectDate,
   setSelectDate,
 }) {
+  const handlers = useSwipeable({
+    onSwipedRight: (eventData) => {
+      if (modalActive.firstOpen) {
+        setSelectDate({
+          ...selectDate,
+          year: Number(selectDate.year) - 1,
+        });
+      } else {
+        if (Number(selectDate.month) === 1) {
+          setSelectDate({
+            ...selectDate,
+            year: Number(selectDate.year) - 1,
+            month: 12,
+          });
+        } else {
+          setSelectDate({
+            ...selectDate,
+            month: Number(selectDate.month) - 1,
+          });
+        }
+      }
+    },
+    onSwipedLeft: (eventData) => {
+      if (modalActive.firstOpen) {
+        setSelectDate({
+          ...selectDate,
+          year: Number(selectDate.year) + 1,
+        });
+      } else {
+        if (Number(selectDate.month) === 12) {
+          setSelectDate({
+            ...selectDate,
+            year: Number(selectDate.year) + 1,
+            month: 1,
+          });
+        } else {
+          setSelectDate({
+            ...selectDate,
+            month: Number(selectDate.month) + 1,
+          });
+        }
+      }
+    },
+  });
+
   const currentDate = new Date();
   let date = new Date(selectDate.year, selectDate.month - 1, 0);
   let daysCounter = date.getDate();
@@ -138,8 +184,11 @@ function PopupCalendar({
   });
 
   return (
-    <div className="popup__wrapp">
-      <div className="calendar__selectedDate">
+    <div className="popup__wrapp" {...handlers}>
+      <div
+        className="calendar__selectedDate"
+        onClick={() => setModalActive({ ...modalActive, firstOpen: true })}
+      >
         <div className="selected_month">
           {modalActive.firstOpen
             ? null

@@ -14,11 +14,14 @@ function EventObject({
   treeWeek,
   colIndex,
   setEventCopy,
+  mobile,
 }) {
   const [unfoldEvent, setUnfoldEvent] = useState(false);
   useEffect(() => {
     setUnfoldEvent(false);
   }, [treeWeek]);
+
+  let eventWidth = mobile ? 13 : 10;
 
   return (
     <div
@@ -40,12 +43,12 @@ function EventObject({
           (unfoldEvent ? 125 : 0) +
           "px",
         width: unfoldEvent
-          ? `calc(${20 - 0.125 * combinMargin}vw - 2px)`
-          : `calc(${10 - 0.125 * combinMargin}vw - 1px)`,
+          ? `calc(${eventWidth * 2 - (mobile ? 3 : 1) * combinMargin}vw - 2px)`
+          : `calc(${eventWidth - (mobile ? 3 : 1) * combinMargin}vw - 1px)`,
         maxWidth: unfoldEvent
           ? 238 - 15 * combinMargin + "px"
           : 119 - 15 * combinMargin + "px",
-        marginLeft: 15 * combinMargin + "px",
+        marginLeft: (mobile ? 3 : 1) * combinMargin + "vw",
         textAlign: unfoldEvent ? "center" : "start",
         zIndex: unfoldEvent ? 100 : 98,
       }}

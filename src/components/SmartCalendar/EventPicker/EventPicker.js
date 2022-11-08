@@ -6,7 +6,7 @@ import {
   updateEvent,
   submitUpdate,
 } from "../../submitFunctions/submitFunctions";
-import { getTimeCoef, validateWeekList } from "../../tools/tools";
+import { servicesCompare, validateWeekList } from "../../tools/tools";
 import deleteImg from "../../../media/delete.png";
 import plus from "../../../media/plus.png";
 import "./EventPicker.css";
@@ -23,6 +23,7 @@ function EventPicker({
   treeWeek,
   eventCopy,
   setEventCopy,
+  mobile,
 }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const [repeatSettingsClass, setRepeatSettingsClass] = useState("");
@@ -32,7 +33,12 @@ function EventPicker({
   const [updateState, setUpdateState] = useState({ count: null, hash: null });
 
   useEffect(() => {
-    console.log("-----", eventForm, eventCopy);
+    console.log(
+      "-----",
+      eventForm,
+      eventCopy,
+      servicesCompare(eventForm?.selection, eventCopy?.selection)
+    );
     if (
       eventForm.name !== "" &&
       eventForm.dateStart !== "" &&
@@ -40,12 +46,15 @@ function EventPicker({
       eventForm.timeStart !== "" &&
       eventForm.timeEnd !== "" &&
       eventForm.selection.length &&
-      eventForm.selection.length &&
       (eventForm.name !== eventCopy?.name ||
         eventForm.dateStart !== eventCopy?.dateStart ||
         eventForm.dateEnd !== eventCopy?.dateEnd ||
         eventForm.timeStart !== eventCopy?.timeStart ||
-        eventForm.timeEnd !== eventCopy?.timeEnd)
+        eventForm.timeEnd !== eventCopy?.timeEnd ||
+        eventForm.repeatEnd !== eventCopy?.repeatEnd ||
+        JSON.stringify(eventForm.repeatWeek) !==
+          JSON.stringify(eventCopy?.repeatWeek) ||
+        servicesCompare(eventForm?.selection, eventCopy?.selection))
     ) {
       setSubmitState(true);
     } else {
@@ -323,13 +332,32 @@ function EventPicker({
         >
           Готово
         </div>
-        <div className="create-service">
-          <CreateService
-            serviceModal={serviceModal}
-            setServiceModal={setServiceModal}
-            setServices={setServices}
-          />
-        </div>
+        {mobile ? (
+          <div
+            className={
+              serviceModal
+                ? "create-service__modal create-service__modal_active"
+                : "create-service__modal"
+            }
+            onClick={() => setServiceModal(false)}
+          >
+            <div className="create-service">
+              <CreateService
+                serviceModal={serviceModal}
+                setServiceModal={setServiceModal}
+                setServices={setServices}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="create-service">
+            <CreateService
+              serviceModal={serviceModal}
+              setServiceModal={setServiceModal}
+              setServices={setServices}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -173,3 +173,18 @@ export const validateWeekList = (eventForm, index) => {
   }
   return canSelect;
 };
+
+export const servicesCompare = (firstServices, secondServices) => {
+  console.log("servComp", firstServices, secondServices);
+  if ((firstServices, secondServices)) {
+    let firstIds = firstServices.map((service) => {
+      return service?.id;
+    });
+    let secondIds = secondServices.map((service) => {
+      return service?.id;
+    });
+    firstIds.sort();
+    secondIds.sort();
+    return !(JSON.stringify(firstIds) == JSON.stringify(secondIds));
+  }
+};

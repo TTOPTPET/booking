@@ -62,6 +62,7 @@ function CanvasCalendar({
           colIndex={colIndex}
           treeWeek={treeWeek}
           setEventCopy={setEventCopy}
+          mobile={mobile}
         ></EventObject>
       );
     }
