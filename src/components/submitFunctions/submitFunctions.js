@@ -266,3 +266,30 @@ export const submitUpdate = async (
       setTreeWeek(resp.data);
     });
 };
+
+export const cutFromTtread = async (
+  event,
+  setEvent,
+  setCutTreadState,
+  setCutTreadModal
+) => {
+  const apiUrl =
+    url +
+    `/event/event_sequence/?event_set_id=${event.global_id}&event_day_id=${event.id}`;
+  await axios
+    .get(apiUrl, {
+      headers: {
+        "X-API-KEY": apiKey,
+      },
+    })
+    .then((resp) => {
+      setEvent({
+        ...event,
+        global_id: resp.data?.id_global_event,
+        repeatWeek: [],
+        repeatEnd: "",
+      });
+      setCutTreadState(false);
+      setCutTreadModal(false);
+    });
+};

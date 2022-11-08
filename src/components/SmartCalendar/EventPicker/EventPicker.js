@@ -5,6 +5,7 @@ import {
   deleteEvent,
   updateEvent,
   submitUpdate,
+  cutFromTtread,
 } from "../../submitFunctions/submitFunctions";
 import { servicesCompare, validateWeekList } from "../../tools/tools";
 import deleteImg from "../../../media/delete.png";
@@ -31,6 +32,8 @@ function EventPicker({
   const [submitState, setSubmitState] = useState(false);
   const [serviceModal, setServiceModal] = useState(false);
   const [updateState, setUpdateState] = useState({ count: null, hash: null });
+  const [cutTreadState, setCutTreadState] = useState(false);
+  const [cutTreadModal, setCutTreadModal] = useState(false);
 
   useEffect(() => {
     console.log(
@@ -54,13 +57,24 @@ function EventPicker({
         eventForm.repeatEnd !== eventCopy?.repeatEnd ||
         JSON.stringify(eventForm.repeatWeek) !==
           JSON.stringify(eventCopy?.repeatWeek) ||
-        servicesCompare(eventForm?.selection, eventCopy?.selection))
+        servicesCompare(eventForm?.selection, eventCopy?.selection) ||
+        eventForm.global_id !== eventCopy.global_id)
     ) {
       setSubmitState(true);
     } else {
       setSubmitState(false);
     }
   }, [eventForm]);
+
+  useEffect(() => {
+    if (
+      eventModalActive.active &&
+      eventModalActive.event &&
+      eventCopy?.repeatWeek.length > 0
+    ) {
+      setCutTreadState(true);
+    }
+  }, [eventModalActive.active]);
 
   // console.log(
   //   treeWeek,
@@ -97,8 +111,54 @@ function EventPicker({
         setSubmitState(false);
         setServiceModal(false);
         setEventCopy({});
+        setCutTreadState(false);
+        setCutTreadState(false);
       }}
     >
+      <div
+        className="tread-modal"
+        style={
+          cutTreadModal
+            ? { pointerEvents: "all", opacity: 1 }
+            : { pointerEvents: "none", opacity: 0 }
+        }
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          setCutTreadModal(false);
+        }}
+      >
+        <div
+          className="tread-modal__wrapper"
+          style={
+            cutTreadModal
+              ? { pointerEvents: "all", opacity: 1 }
+              : { pointerEvents: "none", opacity: 0 }
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
+          <div className="tread-modal__text">Внимание!</div>
+          <div className="tread-modal__descr">
+            Событие будет вырезано из потока повторений
+          </div>
+          <div
+            className="tread-modal__submit"
+            onClick={() => {
+              cutFromTtread(
+                eventForm,
+                setEventForm,
+                setCutTreadState,
+                setCutTreadModal
+              );
+            }}
+          >
+            Вырезать
+          </div>
+        </div>
+      </div>
       <div
         className="delete-modal"
         style={
@@ -331,6 +391,18 @@ function EventPicker({
           }}
         >
           Готово
+        </div>
+        <div
+          className={
+            cutTreadState
+              ? "cut-from-thread__btn"
+              : "cut-from-thread__btn cut-from-thread__btn_inactive"
+          }
+          onClick={() => {
+            setCutTreadModal(true);
+          }}
+        >
+          Вырезать из повторений
         </div>
         {mobile ? (
           <div

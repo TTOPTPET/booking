@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { getTimeCoef } from "../../../../tools/tools";
 import RegistrationObjects from "../RegistrationObjects/RegistrationObjects";
+import { useMediaQuery } from "react-responsive";
 import "./EventObject.css";
 
 function EventObject({
@@ -16,13 +17,32 @@ function EventObject({
   setEventCopy,
   mobile,
 }) {
+  const maxWidth = useMediaQuery({
+    query: "(min-width: 1200px)",
+  });
   const [unfoldEvent, setUnfoldEvent] = useState(false);
   useEffect(() => {
     setUnfoldEvent(false);
   }, [treeWeek]);
 
-  let eventWidth = mobile ? 13 : 10;
-
+  let eventWidth = () => {
+    if (mobile) {
+      return unfoldEvent
+        ? `calc(${13 * 2 - 3 * combinMargin}vw - 2px)`
+        : `calc(${13 - 3 * combinMargin}vw - 1px)`;
+    } else {
+      return unfoldEvent
+        ? `calc(${10 * 2 - 1 * combinMargin}vw - 2px)`
+        : `calc(${10 - 1 * combinMargin}vw - 1px)`;
+    }
+  };
+  let eventMargin = () => {
+    if (mobile) {
+      return 3 * combinMargin + "vw";
+    } else {
+      return maxWidth ? 15 * combinMargin + "px" : 1 * combinMargin + "vw";
+    }
+  };
   return (
     <div
       className="event__wrapper"
@@ -42,13 +62,11 @@ function EventObject({
           1 +
           (unfoldEvent ? 125 : 0) +
           "px",
-        width: unfoldEvent
-          ? `calc(${eventWidth * 2 - (mobile ? 3 : 1) * combinMargin}vw - 2px)`
-          : `calc(${eventWidth - (mobile ? 3 : 1) * combinMargin}vw - 1px)`,
+        width: eventWidth(),
         maxWidth: unfoldEvent
           ? 238 - 15 * combinMargin + "px"
           : 119 - 15 * combinMargin + "px",
-        marginLeft: (mobile ? 3 : 1) * combinMargin + "vw",
+        marginLeft: eventMargin(),
         textAlign: unfoldEvent ? "center" : "start",
         zIndex: unfoldEvent ? 100 : 98,
       }}
