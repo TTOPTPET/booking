@@ -22,6 +22,10 @@ function InputField({ fieldName, setValue, value, style, services }) {
     ["serviceDuration", "Продолжительность"],
     ["servicePrice", "Цена"],
     ["serviceMaxBook", "Макс. кол-во записей"],
+    ["login", "Логин"],
+    ["password", "Пароль"],
+    ["teg", "Тег"],
+    ["userName", "Имя"],
   ]);
 
   const [inputValue, setInputValue] = useState(value[fieldName]);

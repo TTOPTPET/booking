@@ -70,6 +70,7 @@ function EventObject({
         textAlign: unfoldEvent ? "center" : "start",
         zIndex: unfoldEvent ? 100 : 98,
       }}
+      key={newEvent.id_event_day}
       id={newEvent.id_event_day}
       onClick={(e) => {
         const unfbuff = unfoldEvent;

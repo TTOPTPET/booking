@@ -72,13 +72,13 @@ function CanvasCalendar({
   const canvasRender = treeWeek.map((dayTree, colIndex) => {
     let marginLen = { lastEventEnd: "00:00:00", marginCoef: 0 };
     return (
-      <div className="day__column">
+      <div className="day__column" key={`column${colIndex}`}>
         {[...Array(24)].map((item, rowIndex) => {
           return (
             <div
               className="canvas__elem"
               id={"col" + colIndex}
-              key={"elem" + colIndex + rowIndex}
+              key={`elem${colIndex}${rowIndex}`}
               onClick={(e) => {
                 let splitDate = treeWeek[colIndex].day.split("-");
                 splitDate[2] = dateFromDayWeek(colIndex, treeWeek[0].day)[0];
@@ -105,6 +105,7 @@ function CanvasCalendar({
     return (
       <div
         ref={Number(time.substring(0, 2)) === Number(index) ? myRef : null}
+        key={`time${index}`}
         className={
           currentDate.getHours() === index
             ? "canvas__elem time__elem time__elem_active"

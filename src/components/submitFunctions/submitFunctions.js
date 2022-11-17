@@ -1,13 +1,15 @@
 import { getNewWeek, destructServices } from "../tools/tools";
-import { url, apiKey } from "../../config/config";
+import { url, apiKey, urlUser } from "../../config/config";
 import axios from "axios";
 
 export const sendSelectedDate = (selectDate, setTreeWeek) => {
+  let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/event/calendar?cal_date=" + String(selectDate);
   axios
     .get(apiUrl, {
       headers: {
         "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((resp) => {
@@ -17,12 +19,14 @@ export const sendSelectedDate = (selectDate, setTreeWeek) => {
 };
 
 export const getCurrentWeek = (setTreeWeek) => {
+  let token = document?.cookie.split("=")[1];
   const date = new Date().toLocaleDateString("en-CA");
   const apiUrl = url + "/event/calendar?cal_date=" + String(date);
   axios
     .get(apiUrl, {
       headers: {
         "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((resp) => {
@@ -33,12 +37,14 @@ export const getCurrentWeek = (setTreeWeek) => {
 };
 
 export const changeWeek = (treeWeek, setTreeWeek, direction) => {
+  let token = document?.cookie.split("=")[1];
   const date = getNewWeek(treeWeek, direction);
   const apiUrl = url + "/event/calendar?cal_date=" + String(date);
   axios
     .get(apiUrl, {
       headers: {
         "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((resp) => {
@@ -49,11 +55,13 @@ export const changeWeek = (treeWeek, setTreeWeek, direction) => {
 };
 
 export const getServices = (setServices) => {
+  let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/service";
   axios
     .get(apiUrl, {
       headers: {
         "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((resp) => {
@@ -71,11 +79,13 @@ export const deleteEvent = (
   setRepeatSettingsClass,
   setEventForm
 ) => {
+  let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/event/event_day/?event_day_id=" + String(eventId);
   axios
     .delete(apiUrl, {
       headers: {
         "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((resp) => {
@@ -107,6 +117,7 @@ export const setEvent = (
   setRepeatSettingsClass,
   setEventForm
 ) => {
+  let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/event";
   const data = {
     name: eventForm.name,
@@ -123,6 +134,7 @@ export const setEvent = (
     .post(apiUrl, data, {
       headers: {
         "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((resp) => {
@@ -146,6 +158,7 @@ export const setEvent = (
 };
 
 export const postNewService = (newService, setServiceModal, setServices) => {
+  let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/service";
   const data = {
     all_adder: [
@@ -161,6 +174,7 @@ export const postNewService = (newService, setServiceModal, setServices) => {
     .post(apiUrl, data, {
       headers: {
         "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((resp) => {
@@ -175,11 +189,14 @@ export const updateEvent = async (
   setTreeWeek,
   setEventModalActive,
   setRepeatSettingsClass,
-  setEventForm
+  setEventForm,
+  cutStatus
 ) => {
+  let token = document?.cookie.split("=")[1];
   const apiUrl =
     url +
-    `/event/update_rapid/?event_set_id=${event.global_id}&event_day_id=${event.id}`;
+    `/event/update_rapid/?event_set_id=${event.global_id}&event_day_id=${event.id}` +
+    (cutStatus ? `&status_pulling=${cutStatus}` : "");
   const data = {
     name: event.name,
     day_start: event.dateStart,
@@ -196,6 +213,7 @@ export const updateEvent = async (
     .put(apiUrl, data, {
       headers: {
         "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then(
@@ -237,6 +255,7 @@ export const submitUpdate = async (
   setRepeatSettingsClass,
   setEventForm
 ) => {
+  let token = document?.cookie.split("=")[1];
   const apiUrl = url + `/event/update_rapid/?hash_del=${hash}`;
   const data = {
     day_return: event.dateStart,
@@ -245,6 +264,7 @@ export const submitUpdate = async (
     .delete(apiUrl, {
       headers: {
         "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
       },
       data: data,
     })
@@ -267,29 +287,52 @@ export const submitUpdate = async (
     });
 };
 
-export const cutFromTtread = async (
-  event,
-  setEvent,
-  setCutTreadState,
-  setCutTreadModal
-) => {
-  const apiUrl =
-    url +
-    `/event/event_sequence/?event_set_id=${event.global_id}&event_day_id=${event.id}`;
+export const login = async (userData, regState) => {
+  const apiUrl = urlUser + `/users/${regState ? "register" : "login"}`;
+  const data = regState
+    ? {
+        name: userData?.userName,
+        login: userData?.login,
+        password: userData?.password,
+      }
+    : {
+        login: userData?.login,
+        password: userData?.password,
+      };
+  let access;
   await axios
-    .get(apiUrl, {
+    .post(apiUrl, data, {
       headers: {
         "X-API-KEY": apiKey,
       },
     })
+    .then(
+      (resp) => {
+        console.log("tocken exist");
+        //setCookie(resp.data.access_tocken)
+        access = resp;
+      },
+      (err) => {
+        console.log("tocken fall");
+        access = false;
+      }
+    );
+  return access;
+};
+
+export const logout = async () => {
+  const apiUrl = urlUser + `/users/logout`;
+  let token = document?.cookie.split("=")[1];
+  let logout = false;
+  await axios
+    .delete(apiUrl, {
+      headers: {
+        "X-API-KEY": apiKey,
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((resp) => {
-      setEvent({
-        ...event,
-        global_id: resp.data?.id_global_event,
-        repeatWeek: [],
-        repeatEnd: "",
-      });
-      setCutTreadState(false);
-      setCutTreadModal(false);
+      logout = true;
     });
+  return logout;
 };

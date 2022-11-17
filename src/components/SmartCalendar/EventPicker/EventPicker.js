@@ -32,6 +32,7 @@ function EventPicker({
   const [submitState, setSubmitState] = useState(false);
   const [serviceModal, setServiceModal] = useState(false);
   const [updateState, setUpdateState] = useState({ count: null, hash: null });
+  const [cutTread, setCutTread] = useState(false);
   const [cutTreadState, setCutTreadState] = useState(false);
   const [cutTreadModal, setCutTreadModal] = useState(false);
 
@@ -112,7 +113,7 @@ function EventPicker({
         setServiceModal(false);
         setEventCopy({});
         setCutTreadState(false);
-        setCutTreadState(false);
+        setCutTread(false);
       }}
     >
       <div
@@ -147,12 +148,20 @@ function EventPicker({
           <div
             className="tread-modal__submit"
             onClick={() => {
-              cutFromTtread(
-                eventForm,
-                setEventForm,
-                setCutTreadState,
-                setCutTreadModal
-              );
+              setEventForm({
+                ...eventForm,
+                repeatWeek: [],
+                repeatEnd: "",
+              });
+              // cutFromTtread(
+              //   eventForm,
+              //   setEventForm,
+              //   setCutTreadState,
+              //   setCutTreadModal
+              // );
+              setCutTreadState(false);
+              setCutTreadModal(false);
+              setCutTread(true);
             }}
           >
             Вырезать
@@ -362,20 +371,41 @@ function EventPicker({
           }
           onClick={async () => {
             if (eventModalActive.event && submitState) {
-              let respData = await updateEvent(
-                eventForm,
-                setTreeWeek,
-                setEventModalActive,
-                setRepeatSettingsClass,
-                setEventForm
-              );
-              console.log("respData", respData);
-              if (respData) {
-                let deleteCounter = respData.delete_counter;
-                let hash = respData.id_hash;
-                setUpdateState({ count: deleteCounter, hash: hash });
-                setDeleteState(true);
-                console.log("setDeleteState", respData);
+              console.log("updateState", updateState);
+              if (cutTread) {
+                let respData = await updateEvent(
+                  eventForm,
+                  setTreeWeek,
+                  setEventModalActive,
+                  setRepeatSettingsClass,
+                  setEventForm,
+                  true
+                );
+                console.log("respData", respData);
+                if (respData) {
+                  let deleteCounter = respData.delete_counter;
+                  let hash = respData.id_hash;
+                  setUpdateState({ count: deleteCounter, hash: hash });
+                  setDeleteState(true);
+                  console.log("setDeleteState", respData);
+                }
+              } else {
+                let respData = await updateEvent(
+                  eventForm,
+                  setTreeWeek,
+                  setEventModalActive,
+                  setRepeatSettingsClass,
+                  setEventForm,
+                  false
+                );
+                console.log("respData", respData);
+                if (respData) {
+                  let deleteCounter = respData.delete_counter;
+                  let hash = respData.id_hash;
+                  setUpdateState({ count: deleteCounter, hash: hash });
+                  setDeleteState(true);
+                  console.log("setDeleteState", respData);
+                }
               }
             } else {
               submitState &&
