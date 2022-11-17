@@ -1,13 +1,14 @@
 import { useClock } from "../../hooks/clock.hook";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../media/logo.svg";
 import user from "../../media/user.png";
 import "./Header.css";
 import DatePicker from "../DatePicker/DatePicker";
+import { logout } from "../submitFunctions/submitFunctions";
 
-const Header = ({ treeWeek, setTreeWeek, mobile }) => {
+const Header = ({ treeWeek, setTreeWeek, mobile, removeCookie, token }) => {
   let { date, time } = useClock();
-
+  let navigate = useNavigate();
   return (
     <div className="header">
       <div className="container">
@@ -27,6 +28,21 @@ const Header = ({ treeWeek, setTreeWeek, mobile }) => {
         </Link>
 
         <div className="header__menu">
+          <div
+            className="header__logout"
+            style={{ height: token ? undefined : 0 }}
+            onClick={async () => {
+              let logoutResp = await logout();
+              if (logoutResp) {
+                removeCookie(() => {
+                  navigate("/");
+                });
+              }
+            }}
+          >
+            Выйти
+          </div>
+
           <Link className="header__user" to="/user">
             <img src={user} />
           </Link>

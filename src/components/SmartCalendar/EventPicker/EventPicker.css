@@ -1,188 +1,274 @@
-.event-modal{
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.4);
-	position: fixed;
-	top: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity 0.5s;
-	z-index: 1;
+.event-modal {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+  z-index: 1;
 }
-.event{
-	margin-top: 10px;	
+.event {
+  margin-top: 10px;
 }
-.event-modal_active{
-	opacity: 1;
-	pointer-events: all;
-	z-index: 120;
+.event-modal_active {
+  opacity: 1;
+  pointer-events: all;
+  z-index: 120;
 }
-.event-picker__wrapper{
-	width: 500px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	margin: 50px;
-	padding: 30px 40px;
-	background-color: #fff;
-	border-radius: 5px;
-	box-sizing: border-box;
-	position: relative;
+.event-picker__wrapper {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 50px;
+  padding: 30px 40px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  position: relative;
 }
-.event-picker__name{
-	font-size: 20px;
-	font-weight: 700;
+.event-picker__name {
+  font-size: 20px;
+  font-weight: 700;
 }
-.event-picker__fields{
-	margin-top: 15px;
-	margin-bottom: 20px;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
+.event-picker__fields {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
-.event__name{
-	width: 100%;
+.event__name {
+  width: 100%;
 }
-.event__date, .event__time{
-	display: flex;
-	justify-content: space-between;
-	margin-top: 30px;
+.event__date,
+.event__time {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
 }
-.event-pick-btn{
-	margin-top: 10px;
-	height: 25px;
-	font-size: 16px;
-	line-height: 25px;
-	width: 100%;
-	background: #EDECEC;
-	border: none;
-	border-radius: 10px;
-	box-sizing: border-box;
-	padding: 0;
-	cursor: pointer;
+.event-pick-btn {
+  margin-top: 10px;
+  height: 25px;
+  font-size: 16px;
+  line-height: 25px;
+  width: 100%;
+  background: #edecec;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 0;
+  cursor: pointer;
 }
-.submit__btn{
-	margin-top: 15px;
+.submit__btn {
+  margin-top: 15px;
 }
-.submit__btn_error{
-	margin-top: 15px;
-	color:#cecece;
-	pointer-events: none;
-	cursor:default;
+.submit__btn_error {
+  margin-top: 15px;
+  color: #cecece;
+  pointer-events: none;
+  cursor: default;
 }
 
-.repeat__settings{
-	overflow: hidden;
-	max-height: 0;
-	transition: all 0.5s;
+.repeat__settings {
+  overflow: hidden;
+  max-height: 0;
+  transition: all 0.5s;
 }
-.repeat__settings_active{
-	max-height: 250px;
-	transition: all 1.3s;
+.repeat__settings_active {
+  max-height: 250px;
+  transition: all 1.3s;
 }
-.week-btn__group{
-	margin: 20px 0;
-	display: flex;	
-	justify-content: space-between;
+.week-btn__group {
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
 }
-.week-btn{
-	width: 32px;
-	height: 32px;
-	border: 1px solid #7e7e7e;
-	background-color: #fff;
-	border-radius: 100%;
-	color: rgb(58, 58, 58);
-	font-weight: 700;
-	text-align: center;
-	line-height: 27px;
-	transition: all 0.3s;
-	cursor: pointer;
-	box-sizing:border-box;
+.week-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #7e7e7e;
+  background-color: #fff;
+  border-radius: 100%;
+  color: rgb(58, 58, 58);
+  font-weight: 700;
+  text-align: center;
+  line-height: 27px;
+  transition: all 0.3s;
+  cursor: pointer;
+  box-sizing: border-box;
 }
-.week-btn_active{
-	background-color: #0065DC;
-	color:#fff;
-	border: 1px solid #0065DC;
+.week-btn_active {
+  background-color: #0065dc;
+  color: #fff;
+  border: 1px solid #0065dc;
 }
-.week-btn_blocked{
-	background-color: rgb(187, 187, 187);
+.week-btn_blocked {
+  background-color: rgb(187, 187, 187);
 }
-.week-btn_error{
-	background-color: #d82d17;
-	color:#fff;
-	border: 1px solid #d82d17;
+.week-btn_error {
+  background-color: #d82d17;
+  color: #fff;
+  border: 1px solid #d82d17;
 }
-.delete__btn{
-	position: absolute;
-	right: 40px;
-	top: 30px;
-	width: 20px;
-	height: 20px;
-	padding-top: 5px;
-	cursor: pointer;
+.delete__btn {
+  position: absolute;
+  right: 40px;
+  top: 30px;
+  width: 20px;
+  height: 20px;
+  padding-top: 5px;
+  cursor: pointer;
 }
-.delete__btn img{
-	width: 100%;
-	height: 100%;
+.delete__btn img {
+  width: 100%;
+  height: 100%;
 }
-.delete-modal__wrapper{
-	width: 250px;
-	background-color: rgb(255, 255, 255);
-	transition: all 0.5s;
-	z-index: 111;
-	border-radius:10px;
-	padding: 20px 30px;
-	box-sizing: border-box;
-	display: flex;
-	flex-direction:column;
-	align-items: center;
-	justify-content: center;
+.delete-modal__wrapper {
+  width: 250px;
+  background-color: rgb(255, 255, 255);
+  transition: all 0.5s;
+  z-index: 111;
+  border-radius: 10px;
+  padding: 20px 30px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.delete-modal{
-	position: fixed;
-	display: flex;
-	align-items:center;
-	justify-content: center;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.4);
-	z-index: 110;
-	transition: all 0.5s;
+.delete-modal {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 110;
+  transition: all 0.5s;
 }
-.delete-modal__submit{
-	width: 100px;
-	height: 30px;
-	cursor: pointer;
-	background: #EDECEC;
-	line-height: 25px;
-	border-radius: 7px;
-	margin-top: 15px;
+.delete-modal__submit {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+  background: #edecec;
+  line-height: 25px;
+  border-radius: 7px;
+  margin-top: 15px;
 }
-.delete-model__descr{
-	margin-top: 5px;
+.delete-model__descr {
+  margin-top: 5px;
 }
-.create-service{
-	position: absolute;
-	bottom: 0;
-	left: calc(100% + 5px);
+.create-service {
+  position: absolute;
+  bottom: 0;
+  left: calc(100% + 5px);
 }
-.event__selection{
-	display: flex;
-	flex-direction: row;
-	align-items:center;
+.create-service__modal {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 130;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s;
 }
-.create-service__btn{
-	width: 10px;
-	height: 10px;
-	padding: 10px 10px;
-	cursor: pointer;
+.create-service__modal_active {
+  opacity: 1;
+  pointer-events: all;
 }
-.create-service__btn img{
-	width: 100%;
-	height: 100%;
+
+.event__selection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.create-service__btn {
+  width: 10px;
+  height: 10px;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+.create-service__btn img {
+  width: 100%;
+  height: 100%;
+}
+.cut-from-thread__btn {
+  height: 20px;
+  color: #0065dc;
+  cursor: pointer;
+  margin-top: 15px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.cut-from-thread__btn_inactive {
+  height: 0;
+}
+.tread-modal__wrapper {
+  width: 250px;
+  background-color: rgb(255, 255, 255);
+  transition: all 0.5s;
+  z-index: 111;
+  border-radius: 10px;
+  padding: 20px 30px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.tread-modal {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 110;
+  transition: all 0.5s;
+}
+.tread-modal__submit {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+  background: #edecec;
+  line-height: 25px;
+  border-radius: 7px;
+  margin-top: 15px;
+}
+.tread-modal__descr {
+  margin-top: 5px;
+}
+
+@media (max-width: 700px) {
+  .create-service {
+    position: static;
+    bottom: auto;
+    left: auto;
+    z-index: 140;
+  }
+  .delete__btn {
+    padding-top: 3px;
+    right: 34px;
+    width: 16px;
+    height: 16px;
+  }
+  .event-picker__name {
+    font-size: 16px;
+  }
 }

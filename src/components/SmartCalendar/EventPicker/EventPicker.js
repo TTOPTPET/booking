@@ -5,8 +5,9 @@ import {
   deleteEvent,
   updateEvent,
   submitUpdate,
+  cutFromTtread,
 } from "../../submitFunctions/submitFunctions";
-import { getTimeCoef, validateWeekList } from "../../tools/tools";
+import { servicesCompare, validateWeekList } from "../../tools/tools";
 import deleteImg from "../../../media/delete.png";
 import plus from "../../../media/plus.png";
 import "./EventPicker.css";
@@ -21,6 +22,9 @@ function EventPicker({
   setServices,
   setTreeWeek,
   treeWeek,
+  eventCopy,
+  setEventCopy,
+  mobile,
 }) {
   const weekName = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
   const [repeatSettingsClass, setRepeatSettingsClass] = useState("");
@@ -28,22 +32,50 @@ function EventPicker({
   const [submitState, setSubmitState] = useState(false);
   const [serviceModal, setServiceModal] = useState(false);
   const [updateState, setUpdateState] = useState({ count: null, hash: null });
+  const [cutTread, setCutTread] = useState(false);
+  const [cutTreadState, setCutTreadState] = useState(false);
+  const [cutTreadModal, setCutTreadModal] = useState(false);
 
   useEffect(() => {
-    console.log(eventForm);
+    console.log(
+      "-----",
+      eventForm,
+      eventCopy,
+      servicesCompare(eventForm?.selection, eventCopy?.selection)
+    );
     if (
       eventForm.name !== "" &&
       eventForm.dateStart !== "" &&
       eventForm.dateEnd !== "" &&
       eventForm.timeStart !== "" &&
       eventForm.timeEnd !== "" &&
-      eventForm.selection.length
+      eventForm.selection.length &&
+      (eventForm.name !== eventCopy?.name ||
+        eventForm.dateStart !== eventCopy?.dateStart ||
+        eventForm.dateEnd !== eventCopy?.dateEnd ||
+        eventForm.timeStart !== eventCopy?.timeStart ||
+        eventForm.timeEnd !== eventCopy?.timeEnd ||
+        eventForm.repeatEnd !== eventCopy?.repeatEnd ||
+        JSON.stringify(eventForm.repeatWeek) !==
+          JSON.stringify(eventCopy?.repeatWeek) ||
+        servicesCompare(eventForm?.selection, eventCopy?.selection) ||
+        eventForm.global_id !== eventCopy.global_id)
     ) {
       setSubmitState(true);
     } else {
       setSubmitState(false);
     }
   }, [eventForm]);
+
+  useEffect(() => {
+    if (
+      eventModalActive.active &&
+      eventModalActive.event &&
+      eventCopy?.repeatWeek.length > 0
+    ) {
+      setCutTreadState(true);
+    }
+  }, [eventModalActive.active]);
 
   // console.log(
   //   treeWeek,
@@ -79,8 +111,63 @@ function EventPicker({
         });
         setSubmitState(false);
         setServiceModal(false);
+        setEventCopy({});
+        setCutTreadState(false);
+        setCutTread(false);
       }}
     >
+      <div
+        className="tread-modal"
+        style={
+          cutTreadModal
+            ? { pointerEvents: "all", opacity: 1 }
+            : { pointerEvents: "none", opacity: 0 }
+        }
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          setCutTreadModal(false);
+        }}
+      >
+        <div
+          className="tread-modal__wrapper"
+          style={
+            cutTreadModal
+              ? { pointerEvents: "all", opacity: 1 }
+              : { pointerEvents: "none", opacity: 0 }
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
+          <div className="tread-modal__text">Внимание!</div>
+          <div className="tread-modal__descr">
+            Событие будет вырезано из потока повторений
+          </div>
+          <div
+            className="tread-modal__submit"
+            onClick={() => {
+              setEventForm({
+                ...eventForm,
+                repeatWeek: [],
+                repeatEnd: "",
+              });
+              // cutFromTtread(
+              //   eventForm,
+              //   setEventForm,
+              //   setCutTreadState,
+              //   setCutTreadModal
+              // );
+              setCutTreadState(false);
+              setCutTreadModal(false);
+              setCutTread(true);
+            }}
+          >
+            Вырезать
+          </div>
+        </div>
+      </div>
       <div
         className="delete-modal"
         style={
@@ -109,20 +196,29 @@ function EventPicker({
           <div className="delete-model__text">Внимание!</div>
           <div className="delete-model__descr">
             Будет удалено записей:
-            {" " + updateState.hash
-              ? updateState.count
-              : treeWeek
-                  .find((date) => date.day === eventForm.dateStart)
-                  ?.event_day.find(
-                    (eventItem) => eventItem?.id_event_day === eventForm.id
-                  )?.setting_and_booking.event_booking.length}
+            {" " +
+              (updateState.hash
+                ? updateState.count
+                : treeWeek
+                    .find((date) => date.day === eventForm.dateStart)
+                    ?.event_day.find(
+                      (eventItem) => eventItem?.id_event_day === eventForm.id
+                    )?.setting_and_booking.event_booking.length)}
           </div>
           <div
             className="delete-modal__submit"
             onClick={() => {
               if (updateState.hash) {
-                submitUpdate(eventForm, updateState.hash, setTreeWeek);
+                submitUpdate(
+                  eventForm,
+                  updateState.hash,
+                  setTreeWeek,
+                  setEventModalActive,
+                  setRepeatSettingsClass,
+                  setEventForm
+                );
                 setUpdateState({ count: null, hash: null });
+                setDeleteState(false);
               } else {
                 deleteEvent(
                   eventForm.id,
@@ -275,16 +371,41 @@ function EventPicker({
           }
           onClick={async () => {
             if (eventModalActive.event && submitState) {
-              let [deleteCounter, hash] = await updateEvent(
-                eventForm,
-                setTreeWeek,
-                setEventModalActive,
-                setRepeatSettingsClass,
-                setEventForm
-              );
-              if (deleteCounter && hash) {
-                setUpdateState({ count: deleteCounter, hash: hash });
-                setDeleteState(true);
+              console.log("updateState", updateState);
+              if (cutTread) {
+                let respData = await updateEvent(
+                  eventForm,
+                  setTreeWeek,
+                  setEventModalActive,
+                  setRepeatSettingsClass,
+                  setEventForm,
+                  true
+                );
+                console.log("respData", respData);
+                if (respData) {
+                  let deleteCounter = respData.delete_counter;
+                  let hash = respData.id_hash;
+                  setUpdateState({ count: deleteCounter, hash: hash });
+                  setDeleteState(true);
+                  console.log("setDeleteState", respData);
+                }
+              } else {
+                let respData = await updateEvent(
+                  eventForm,
+                  setTreeWeek,
+                  setEventModalActive,
+                  setRepeatSettingsClass,
+                  setEventForm,
+                  false
+                );
+                console.log("respData", respData);
+                if (respData) {
+                  let deleteCounter = respData.delete_counter;
+                  let hash = respData.id_hash;
+                  setUpdateState({ count: deleteCounter, hash: hash });
+                  setDeleteState(true);
+                  console.log("setDeleteState", respData);
+                }
               }
             } else {
               submitState &&
@@ -301,13 +422,44 @@ function EventPicker({
         >
           Готово
         </div>
-        <div className="create-service">
-          <CreateService
-            serviceModal={serviceModal}
-            setServiceModal={setServiceModal}
-            setServices={setServices}
-          />
+        <div
+          className={
+            cutTreadState
+              ? "cut-from-thread__btn"
+              : "cut-from-thread__btn cut-from-thread__btn_inactive"
+          }
+          onClick={() => {
+            setCutTreadModal(true);
+          }}
+        >
+          Вырезать из повторений
         </div>
+        {mobile ? (
+          <div
+            className={
+              serviceModal
+                ? "create-service__modal create-service__modal_active"
+                : "create-service__modal"
+            }
+            onClick={() => setServiceModal(false)}
+          >
+            <div className="create-service">
+              <CreateService
+                serviceModal={serviceModal}
+                setServiceModal={setServiceModal}
+                setServices={setServices}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="create-service">
+            <CreateService
+              serviceModal={serviceModal}
+              setServiceModal={setServiceModal}
+              setServices={setServices}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

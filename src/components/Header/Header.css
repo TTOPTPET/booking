@@ -1,92 +1,99 @@
 .container {
-    margin: 0 auto;
-    width: 70vw;
-    max-width: 840px;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
+  margin: 0 auto;
+  width: 70vw;
+  max-width: 840px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .header {
-    background: #FFF;
+  background: #fff;
 }
 
 .header__today {
-    width: 135px;
-    background: #5C9AE2;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.14);
-    padding: 7px 12px;
-    text-align: left;
-    font-family: 'Montserrat';
-    font-weight: 400;
-    font-size: 18px;
-    color: #FFF;
-    box-sizing: border-box;
+  width: 135px;
+  background: #5c9ae2;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.14);
+  padding: 7px 12px;
+  text-align: left;
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 18px;
+  color: #fff;
+  box-sizing: border-box;
 }
 
 .header__date {
-    font-size: 16px;
-    margin-bottom: 3px;
+  font-size: 16px;
+  margin-bottom: 3px;
 }
 
 .header__time {
-    font-weight: 700;
+  font-weight: 700;
 }
 
-.header__logo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.header__logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.header__logo img{
-    width: 100px;
+.header__logo img {
+  width: 100px;
 }
 
 .header__menu {
-    width: 135px;
-    display: flex;
-    justify-content: flex-end;
+  width: 135px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.header__user{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+.header__logout {
+  cursor: pointer;
+  color: #0065dc;
+  overflow: hidden;
 }
 
-.header__user img{
-    width: 50px;
+.header__user {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.header__calendar{
+.header__user img {
+  width: 50px;
+}
+
+.header__calendar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 13vw;
+}
+
+@media (max-width: 700px) {
+  .header {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: end;
+  }
+  .header__today {
+    display: none;
+  }
+  .header__logo img {
+    width: 60px;
+  }
+  .header__user img {
+    width: 30px;
+  }
+  .header__menu {
     width: 13vw;
-}
-
-@media (max-width: 700px){
-    .header {
-        display: flex;
-        justify-content: end;
-    }
-	.header__today{
-        display: none;
-    }
-    .header__logo img{
-        width: 60px;
-    }
-    .header__user img{
-        width: 30px;
-    }
-    .header__menu {
-        width: 13vw;
-        justify-content: center;
-    }
-    .container{
-        height: 45px;
-        width: 91vw;
-        margin: 0 0;
-    }
+    justify-content: center;
+  }
+  .container {
+    height: 45px;
+    width: 91vw;
+    margin: 0 0;
+  }
 }

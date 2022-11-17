@@ -29,6 +29,7 @@ function SmartCalendar({
     id: "",
     global_id: "",
   });
+  const [eventCopy, setEventCopy] = useState({});
 
   return (
     <div className="smartCalendar__wrapper">
@@ -46,6 +47,9 @@ function SmartCalendar({
         setServices={setServices}
         setTreeWeek={setTreeWeek}
         treeWeek={treeWeek}
+        eventCopy={eventCopy}
+        setEventCopy={setEventCopy}
+        mobile={mobile}
       ></EventPicker>
       <CanvasCalendar
         paddingScroll={paddingScroll}
@@ -56,13 +60,16 @@ function SmartCalendar({
         eventForm={eventForm}
         setEventForm={setEventForm}
         mobile={mobile}
+        setEventCopy={setEventCopy}
       ></CanvasCalendar>
-      <div
-        className="event-add__btn"
-        onClick={() => setEventModalActive({ active: true, event: false })}
-      >
-        +
-      </div>
+      {mobile ? (
+        <div
+          className="event-add__btn"
+          onClick={() => setEventModalActive({ active: true, event: false })}
+        >
+          +
+        </div>
+      ) : null}
     </div>
   );
 }

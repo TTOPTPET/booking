@@ -145,9 +145,7 @@ export const fixDatejsToString = (date) => {
 export const destructServices = (serviceArr) => {
   const isArrServ = Array.isArray(serviceArr) ? serviceArr : [serviceArr];
   const destrService = isArrServ.map((service) => {
-    return {
-      id_service: service.id_service,
-    };
+    return service.id;
   });
   return destrService;
 };
@@ -174,4 +172,19 @@ export const validateWeekList = (eventForm, index) => {
     }
   }
   return canSelect;
+};
+
+export const servicesCompare = (firstServices, secondServices) => {
+  console.log("servComp", firstServices, secondServices);
+  if ((firstServices, secondServices)) {
+    let firstIds = firstServices.map((service) => {
+      return service?.id;
+    });
+    let secondIds = secondServices.map((service) => {
+      return service?.id;
+    });
+    firstIds.sort();
+    secondIds.sort();
+    return !(JSON.stringify(firstIds) == JSON.stringify(secondIds));
+  }
 };
