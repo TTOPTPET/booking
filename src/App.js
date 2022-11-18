@@ -23,7 +23,7 @@ const App = () => {
     setToken(newToken);
     setCookie("token", newToken, { path: "/" });
   };
-  const handleDeleteCookies = () => {
+  const handleDeleteCookies = async () => {
     setToken(undefined);
     removeCookie("token", { path: "/" });
   };
