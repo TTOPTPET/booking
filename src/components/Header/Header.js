@@ -34,9 +34,8 @@ const Header = ({ treeWeek, setTreeWeek, mobile, removeCookie, token }) => {
             onClick={async () => {
               let logoutResp = await logout();
               if (logoutResp) {
-                removeCookie(() => {
-                  navigate("/");
-                });
+                let nav = await removeCookie();
+                nav.then(navigate("/"));
               }
             }}
           >
