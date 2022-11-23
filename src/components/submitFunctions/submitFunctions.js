@@ -20,8 +20,9 @@ export const sendSelectedDate = (selectDate, setTreeWeek) => {
 
 export const getCurrentWeek = (setTreeWeek) => {
   let token = document?.cookie.split("=")[1];
-  const date = new Date().toLocaleDateString("en-CA");
+  const date = new Date().toLocaleDateString("fr-CA");
   const apiUrl = url + "/event/calendar?cal_date=" + String(date);
+  console.log("date", date);
   axios
     .get(apiUrl, {
       headers: {
@@ -320,11 +321,10 @@ export const login = async (userData, regState) => {
   return access;
 };
 
-export const logout = async () => {
+export const logout = () => {
   const apiUrl = urlUser + `/users/logout`;
   let token = document?.cookie.split("=")[1];
-  let logout = false;
-  await axios
+  axios
     .delete(apiUrl, {
       headers: {
         "X-API-KEY": apiKey,
@@ -332,7 +332,64 @@ export const logout = async () => {
       },
     })
     .then((resp) => {
-      logout = true;
+      console.log("logout", document?.cookie.split("=")[1]);
     });
-  return logout;
+};
+
+export const getUserInfo = async () => {
+  const apiUrl = urlUser + `/users/info_users`;
+  let token = document?.cookie.split("=")[1];
+  let response = await axios.get(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+export const deleteService = async (serviceId) => {
+  let token = document?.cookie.split("=")[1];
+  const apiUrl = url + `/service/one_service?id_service=${serviceId}`;
+  let response = await axios.delete(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+export const updateService = async (service) => {
+  let token = document?.cookie.split("=")[1];
+  const apiUrl = url + `/event/update_rapid/?service_id=${service.id}`;
+  const data = {
+    name_service: service.name_service,
+    max_booking: service.max_booking,
+    price_service: service.price_service,
+    id: service.id,
+    duration: service.duration,
+  };
+  let response = await axios.put(apiUrl, data, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+export const submitUpdateService = async (service, hash) => {
+  let token = document?.cookie.split("=")[1];
+  const apiUrl = url + `/event/update_rapid/?hash_del=${hash}`;
+  const data = {
+    service: service.dateStart,
+  };
+  let response = await axios.delete(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+    data: data,
+  });
+  return response;
 };

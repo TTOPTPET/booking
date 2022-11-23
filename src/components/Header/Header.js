@@ -1,7 +1,7 @@
 import { useClock } from "../../hooks/clock.hook";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../media/logo.svg";
-import user from "../../media/user.png";
+import user from "../../media/UserPic.png";
 import "./Header.css";
 import DatePicker from "../DatePicker/DatePicker";
 import { logout } from "../submitFunctions/submitFunctions";
@@ -10,10 +10,10 @@ const Header = ({ treeWeek, setTreeWeek, mobile, removeCookie, token }) => {
   let { date, time } = useClock();
   let navigate = useNavigate();
   return (
-    <div className="header">
+    <div className="header" style={token ? {} : { justifyContent: "center" }}>
       <div className="container">
         {mobile ? (
-          <div className="header__calendar">
+          <div className="header__calendar" style={token ? {} : { height: 0 }}>
             <DatePicker treeWeek={treeWeek} setTreeWeek={setTreeWeek} mobile />
           </div>
         ) : (
@@ -27,22 +27,13 @@ const Header = ({ treeWeek, setTreeWeek, mobile, removeCookie, token }) => {
           <img src={logo} />
         </Link>
 
-        <div className="header__menu">
-          <div
-            className="header__logout"
-            style={{ height: token ? undefined : 0 }}
-            onClick={async () => {
-              let logoutResp = await logout();
-              if (logoutResp) {
-                let nav = await removeCookie();
-                nav.then(navigate("/"));
-              }
-            }}
+        <div className="header__menu" style={token ? {} : { height: 0 }}>
+          <Link
+            className="header__user"
+            to="/user"
+            style={{ textDecoration: "none" }}
           >
-            Выйти
-          </div>
-
-          <Link className="header__user" to="/user">
+            <div className="header__user_text">Мой Олег</div>
             <img src={user} />
           </Link>
         </div>

@@ -1,0 +1,74 @@
+.user-page {
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.user-page__header {
+  width: 70vw;
+  display: flex;
+  justify-content: start;
+  max-width: 840px;
+}
+.user-page__info {
+  margin-left: 33px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  position: relative;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 100%;
+  color: #000000;
+}
+.user-page__icon img {
+  width: 90px;
+}
+.user-page__name {
+  margin-top: 10px;
+}
+.user-page__login {
+  font-weight: 500;
+  font-size: 18px;
+  margin-top: 5px;
+}
+.user-page__exit-btn {
+  position: absolute;
+  bottom: 5px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 100%;
+  color: #ff0000;
+  cursor: pointer;
+}
+.user-page__setting-list {
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  max-width: 840px;
+}
+@media (max-width: 700px) {
+  .user-page__header {
+    width: 90vw;
+  }
+  .user-page__setting-list {
+    width: 90vw;
+  }
+  .user-page__icon img {
+    width: 80px;
+  }
+  .user-page__info {
+    font-size: 18px;
+  }
+  .user-page__login {
+    margin-top: 2px;
+    font-size: 14px;
+  }
+  .user-page__exit-btn {
+    font-size: 14px;
+  }
+}

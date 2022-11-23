@@ -35,6 +35,9 @@ function CreateService({ serviceModal, setServiceModal, setServices }) {
     <div
       className="create-service__wrapper"
       style={serviceModal ? { width: "260px", padding: "20px 30px" } : {}}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <div
         className="create-service__close"

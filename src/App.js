@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import Header from "./components/Header/Header";
-import { MainPage, UserPage } from "./pages";
+import { MainPage, UserPage, Authorization } from "./pages";
 import { defaultData, defaultServices } from "./config/config";
 import {
   BrowserRouter as Router,
@@ -11,7 +11,6 @@ import {
 } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import Footer from "./components/Footer/Footer";
-import Authorization from "./pages/Authorization/Authorization";
 import { useCookies } from "react-cookie";
 
 const App = () => {
@@ -23,7 +22,7 @@ const App = () => {
     setToken(newToken);
     setCookie("token", newToken, { path: "/" });
   };
-  const handleDeleteCookies = async () => {
+  const handleDeleteCookies = () => {
     setToken(undefined);
     removeCookie("token", { path: "/" });
   };
@@ -67,15 +66,21 @@ const App = () => {
             />
             <Route
               path="user"
-              element={token ? <UserPage /> : <Navigate to="/auth" />}
+              element={
+                token ? (
+                  <UserPage
+                    removeCookie={handleDeleteCookies}
+                    mobile={isMobile}
+                  />
+                ) : (
+                  <Navigate to="/auth" />
+                )
+              }
             />
             <Route
               path="auth"
               element={
-                <Authorization
-                  cookies={cookies}
-                  handleCookies={handleCookies}
-                />
+                <Authorization token={token} handleCookies={handleCookies} />
               }
             />
           </Routes>
