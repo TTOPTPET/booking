@@ -35,15 +35,7 @@ export const defaultData = [
   },
 ];
 
-export const defaultServices = [
-  {
-    id: 1,
-    name_service: "default",
-    max_booking: 1337,
-    price_service: 133.7,
-    duration: "01:00:00",
-  },
-];
+export const defaultServices = [];
 
 export const defaultUserData = {
   info_user: {

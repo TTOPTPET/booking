@@ -6,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { TextField, Autocomplete } from "@mui/material";
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 import "./InputField.css";
 import { fixTimeToDatejs, fixDatejsToString } from "../tools/tools";
 
@@ -65,9 +66,6 @@ function InputField({ fieldName, setValue, value, style, services, error }) {
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
             <DesktopDatePicker
               label={fieldsMap.get(fieldName)}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
               value={dateValue}
               minDate={minDate}
               onChange={(newValue) => {
@@ -99,10 +97,8 @@ function InputField({ fieldName, setValue, value, style, services, error }) {
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
             <DesktopTimePicker
               label={fieldsMap.get(fieldName)}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
               value={timeValue}
+              PaperProps={{ onClick: (e) => e.stopPropagation() }}
               onChange={(newValue) => {
                 setTimeValue(newValue);
                 console.log("value", newValue);
@@ -149,7 +145,7 @@ function InputField({ fieldName, setValue, value, style, services, error }) {
             id={fieldName}
             options={services}
             noOptionsText={"Добавьте услугу"}
-            getOptionLabel={(option) => option.name_service || ""}
+            getOptionLabel={(option) => option?.name_service || ""}
             onClick={(e) => {
               e.stopPropagation();
             }}

@@ -36,12 +36,6 @@ function EventPicker({
   const [cutTreadModal, setCutTreadModal] = useState(false);
 
   useEffect(() => {
-    console.log(
-      "-----",
-      eventForm,
-      eventCopy,
-      servicesCompare(eventForm?.selection, eventCopy?.selection)
-    );
     if (
       eventForm.name !== "" &&
       eventForm.dateStart !== "" &&
@@ -113,6 +107,10 @@ function EventPicker({
         setEventCopy({});
         setCutTreadState(false);
         setCutTread(false);
+        const event = new KeyboardEvent("keydown", {
+          key: "Escape",
+        });
+        document.dispatchEvent(event);
       }}
     >
       <div

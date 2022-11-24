@@ -264,12 +264,11 @@ export const serviceConfirm = async (hash, type) => {
 
 export const updateService = async (service) => {
   let token = document?.cookie.split("=")[1];
-  const apiUrl = url + `/event/update_rapid/?service_id=${service.id}`;
+  const apiUrl = url + `/service/one_service?id_service=${service.id}`;
   const data = {
     name_service: service.name_service,
     max_booking: service.max_booking,
     price_service: service.price_service,
-    id: service.id,
     duration: service.duration,
   };
   let response = await axios.put(apiUrl, data, {

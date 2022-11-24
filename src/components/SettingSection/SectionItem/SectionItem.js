@@ -7,6 +7,7 @@ import deleteImg from "../../../media/delete.png";
 import {
   deleteService,
   serviceConfirm,
+  updateService,
 } from "../../submitFunctions/submitFunctions";
 
 function SectionItem({
@@ -201,9 +202,31 @@ function SectionItem({
               ? "section-item__submit section-item__submit_active"
               : "section-item__submit"
           }
-          onClick={(e) => {
-            setPopup({ hash: null, count: true });
+          onClick={async (e) => {
             e.stopPropagation();
+            await updateService(itemState).then(
+              (value) => {
+                setSettingList((settingList) => {
+                  return {
+                    info_user: settingList?.info_user,
+                    settings: settingList?.settings.map((section) => {
+                      if (section.name === sectionName) {
+                        return { name: section.name, data: value.data };
+                      }
+                      return { name: section.name, data: section?.data };
+                    }),
+                  };
+                });
+              },
+              (reason) => {
+                if (reason?.response?.status === 300) {
+                  setPopup({
+                    hash: reason?.data?.id_hash,
+                    count: reason?.data?.delete_counter,
+                  });
+                }
+              }
+            );
           }}
         >
           Готово
