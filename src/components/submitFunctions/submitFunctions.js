@@ -279,18 +279,3 @@ export const updateService = async (service) => {
   });
   return response;
 };
-export const submitUpdateService = async (service, hash) => {
-  let token = document?.cookie.split("=")[1];
-  const apiUrl = url + `/event/update_rapid/?hash_del=${hash}`;
-  const data = {
-    service: service.dateStart,
-  };
-  let response = await axios.delete(apiUrl, {
-    headers: {
-      "X-API-KEY": apiKey,
-      Authorization: `Bearer ${token}`,
-    },
-    data: data,
-  });
-  return response;
-};
