@@ -12,12 +12,15 @@ import {
 import { useMediaQuery } from "react-responsive";
 import Footer from "./components/Footer/Footer";
 import { useCookies } from "react-cookie";
+import axios from "axios";
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [treeWeek, setTreeWeek] = useState(defaultData);
   const [services, setServices] = useState(defaultServices);
   const [token, setToken] = useState(cookies?.token);
+  const [tokenTimeOut, setTokenTimeOut] = useState(false);
+
   const handleCookies = (newToken) => {
     setToken(newToken);
     setCookie("token", newToken, { path: "/" });
@@ -35,6 +38,21 @@ const App = () => {
   useEffect(() => {
     console.log("cookies", token);
   }, [token]);
+
+  axios?.interceptors.response.use(
+    function (response) {
+      console.log("res response", response);
+      return response;
+    },
+    function (error) {
+      console.log("res error", error);
+      if (error.response.status === 401) {
+        setTokenTimeOut(true);
+        handleDeleteCookies();
+      }
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <Router>
@@ -80,7 +98,12 @@ const App = () => {
             <Route
               path="auth"
               element={
-                <Authorization token={token} handleCookies={handleCookies} />
+                <Authorization
+                  token={token}
+                  tokenTimeOut={tokenTimeOut}
+                  setTokenTimeOut={setTokenTimeOut}
+                  handleCookies={handleCookies}
+                />
               }
             />
           </Routes>

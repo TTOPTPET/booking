@@ -4,7 +4,12 @@ import InputField from "../../components/InputField/InputField";
 import { login } from "../../components/submitFunctions/submitFunctions";
 import "./Authorization.css";
 
-function Authorization({ token, handleCookies }) {
+function Authorization({
+  token,
+  handleCookies,
+  setTokenTimeOut,
+  tokenTimeOut,
+}) {
   let navigate = useNavigate();
   const [regState, setRegState] = useState(false);
   useEffect(() => {
@@ -29,6 +34,9 @@ function Authorization({ token, handleCookies }) {
   return (
     <div className="author">
       <div className="author__wrapp">
+        {tokenTimeOut ? (
+          <div className="author__time-out">Истекло время сессии</div>
+        ) : null}
         <div className="author__text">{regState ? "Регистрация" : "Вход"}</div>
         <div className="author__login">
           <InputField
@@ -65,6 +73,7 @@ function Authorization({ token, handleCookies }) {
             if (loginResp?.data) {
               handleCookies(loginResp?.data?.access_token);
               navigate("/");
+              setTokenTimeOut(false);
             } else {
               setErrAuth(true);
             }

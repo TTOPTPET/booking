@@ -8,12 +8,18 @@ import "./ScrollBar.css";
 
 function ScrollBar({ treeWeek, setTreeWeek, setPaddingScroll }) {
   const handlers = useSwipeable({
-    onSwipedRight: (eventData) => {
-      changeWeek(treeWeek, setTreeWeek, "back");
+    onSwipedRight: async (eventData) => {
+      await changeWeek(treeWeek, "back").then(
+        (value) => setTreeWeek(value.data),
+        (reason) => console.error(reason)
+      );
       setPaddingScroll(0);
     },
-    onSwipedLeft: (eventData) => {
-      changeWeek(treeWeek, setTreeWeek, "front");
+    onSwipedLeft: async (eventData) => {
+      await changeWeek(treeWeek, "front").then(
+        (value) => setTreeWeek(value.data),
+        (reason) => console.error(reason)
+      );
       setPaddingScroll(0);
     },
   });
@@ -52,8 +58,11 @@ function ScrollBar({ treeWeek, setTreeWeek, setPaddingScroll }) {
       <div
         className="btn__scrollBar"
         id="btn-scrollBar-left"
-        onClick={() => {
-          changeWeek(treeWeek, setTreeWeek, "back");
+        onClick={async () => {
+          await changeWeek(treeWeek, "back").then(
+            (value) => setTreeWeek(value.data),
+            (reason) => console.error(reason)
+          );
           setPaddingScroll(0);
         }}
       >
@@ -63,8 +72,11 @@ function ScrollBar({ treeWeek, setTreeWeek, setPaddingScroll }) {
       <div
         className="btn__scrollBar"
         id="btn-scrollBar-right"
-        onClick={() => {
-          changeWeek(treeWeek, setTreeWeek, "front");
+        onClick={async (eventData) => {
+          await changeWeek(treeWeek, "front").then(
+            (value) => setTreeWeek(value.data),
+            (reason) => console.error(reason)
+          );
           setPaddingScroll(0);
         }}
       >

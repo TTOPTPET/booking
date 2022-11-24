@@ -64,10 +64,17 @@ function PopupCalendar({
   const [canRecive, setCanRecive] = useState(false);
 
   useEffect(() => {
-    if (canRecive === true) {
-      sendSelectedDate(formatDateToSet(selectDate), setTreeWeek);
-      setCanRecive(false);
-    }
+    (async () => {
+      if (canRecive === true) {
+        await sendSelectedDate(formatDateToSet(selectDate)).then(
+          (value) => {
+            setTreeWeek(value.data);
+            setCanRecive(false);
+          },
+          (reason) => console.error(reason)
+        );
+      }
+    })();
   }, [selectDate]);
 
   const renderMonths = [...Array(3)].map((item, rIndex) => {

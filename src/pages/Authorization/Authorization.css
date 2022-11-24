@@ -46,3 +46,7 @@
   overflow: hidden;
   transition: all 0.5s;
 }
+.author__time-out {
+  color: #dc0000;
+  margin-bottom: 20px;
+}
