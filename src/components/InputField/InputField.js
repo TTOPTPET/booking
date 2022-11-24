@@ -6,10 +6,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { TextField, Autocomplete } from "@mui/material";
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 import "./InputField.css";
 import { fixTimeToDatejs, fixDatejsToString } from "../tools/tools";
 
-function InputField({ fieldName, setValue, value, style, services }) {
+function InputField({ fieldName, setValue, value, style, services, error }) {
   const fieldsMap = new Map([
     ["name", "Название события"],
     ["dateStart", "Дата начала"],
@@ -18,10 +19,10 @@ function InputField({ fieldName, setValue, value, style, services }) {
     ["timeEnd", "Время конца"],
     ["selection", "Выбор услуги"],
     ["repeatEnd", "Дата конца повторений"],
-    ["serviceName", "Название"],
-    ["serviceDuration", "Продолжительность"],
-    ["servicePrice", "Цена"],
-    ["serviceMaxBook", "Макс. кол-во записей"],
+    ["name_service", "Название"],
+    ["duration", "Продолжительность"],
+    ["price_service", "Цена"],
+    ["max_booking", "Макс. кол-во записей"],
     ["login", "Логин"],
     ["password", "Пароль"],
     ["teg", "Тег"],
@@ -50,119 +51,205 @@ function InputField({ fieldName, setValue, value, style, services }) {
     }
   }, [value[fieldName]]);
 
-  switch (fieldName) {
-    case "dateStart":
-    case "dateEnd":
-    case "repeatEnd":
-      let minDate;
-      if (fieldName === "repeatEnd") {
-        minDate = dayjs(value.dateEnd);
-      } else if (fieldName === "dateEnd") {
-        minDate = dayjs(value.dateStart);
-      }
-      return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
-          <DesktopDatePicker
-            label={fieldsMap.get(fieldName)}
-            value={dateValue}
-            minDate={minDate}
-            onChange={(newValue) => {
-              setDateValue(newValue);
-              if (newValue === null) {
-                setValue({
-                  ...value,
-                  [fieldName]: "",
-                });
-              } else if (
-                newValue !== null &&
-                newValue?.$D &&
-                !isNaN(newValue.$D)
-              ) {
-                setValue({
-                  ...value,
-                  [fieldName]: fixDatejsToString(newValue),
-                });
-              }
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          ></DesktopDatePicker>
-        </LocalizationProvider>
-      );
-    case "timeStart":
-    case "timeEnd":
-      return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
-          <DesktopTimePicker
-            label={fieldsMap.get(fieldName)}
-            value={timeValue}
-            onChange={(newValue) => {
-              setTimeValue(newValue);
-              console.log("value", newValue);
-              if (newValue === null) {
-                setValue({
-                  ...value,
-                  [fieldName]: "",
-                });
-              } else if (
-                newValue !== null &&
-                newValue?.$D &&
-                !isNaN(newValue.$D)
-              ) {
-                setValue({
-                  ...value,
-                  [fieldName]:
-                    newValue.$H +
-                    ":" +
-                    (newValue.$m === 0 ? "00" : newValue.$m) +
-                    ":00",
-                });
-              }
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-      );
-    case "selection":
-      return (
-        <Autocomplete
-          multiple
-          sx={style}
-          id={fieldName}
-          options={services}
-          getOptionLabel={(option) => option.name_service || ""}
-          value={value[fieldName]}
-          onChange={(event, newValue) => {
-            setValue({ ...value, [fieldName]: newValue });
-          }}
-          inputValue={inputValue}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
+  if (fieldsMap.has(fieldName)) {
+    switch (fieldName) {
+      case "dateStart":
+      case "dateEnd":
+      case "repeatEnd":
+        let minDate;
+        if (fieldName === "repeatEnd") {
+          minDate = dayjs(value.dateEnd);
+        } else if (fieldName === "dateEnd") {
+          minDate = dayjs(value.dateStart);
+        }
+        return (
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
+            <DesktopDatePicker
               label={fieldsMap.get(fieldName)}
-              variant="standard"
+              value={dateValue}
+              minDate={minDate}
+              onChange={(newValue) => {
+                setDateValue(newValue);
+                if (newValue === null) {
+                  setValue({
+                    ...value,
+                    [fieldName]: "",
+                  });
+                } else if (
+                  newValue !== null &&
+                  newValue?.$D &&
+                  !isNaN(newValue.$D)
+                ) {
+                  setValue({
+                    ...value,
+                    [fieldName]: fixDatejsToString(newValue),
+                  });
+                }
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            ></DesktopDatePicker>
+          </LocalizationProvider>
+        );
+      case "timeStart":
+      case "timeEnd":
+      case "duration":
+        return (
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
+            <DesktopTimePicker
+              label={fieldsMap.get(fieldName)}
+              value={timeValue}
+              PaperProps={{ onClick: (e) => e.stopPropagation() }}
+              onChange={(newValue) => {
+                setTimeValue(newValue);
+                console.log("value", newValue);
+                if (newValue === null) {
+                  setValue({
+                    ...value,
+                    [fieldName]: "",
+                  });
+                } else if (
+                  newValue !== null &&
+                  newValue?.$D &&
+                  !isNaN(newValue.$D)
+                ) {
+                  setValue({
+                    ...value,
+                    [fieldName]:
+                      newValue.$H +
+                      ":" +
+                      (newValue.$m === 0 ? "00" : newValue.$m) +
+                      ":00",
+                  });
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  style={{
+                    ...style,
+                    width: style?.width,
+                  }}
+                />
+              )}
             />
-          )}
-        ></Autocomplete>
-      );
-    default:
-      return (
-        <TextField
-          style={{
-            ...style,
-            width: style?.width,
-          }}
-          id={fieldName}
-          value={value[fieldName]}
-          label={fieldsMap.get(fieldName)}
-          variant="standard"
-          onChange={(e) => {
-            setValue({ ...value, [fieldName]: e.target.value });
-          }}
-        />
-      );
+          </LocalizationProvider>
+        );
+      case "selection":
+        return (
+          <Autocomplete
+            multiple
+            sx={style}
+            id={fieldName}
+            options={services}
+            noOptionsText={"Добавьте услугу"}
+            getOptionLabel={(option) => option?.name_service || ""}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            value={value[fieldName]}
+            onChange={(event, newValue) => {
+              setValue({ ...value, [fieldName]: newValue });
+            }}
+            inputValue={inputValue}
+            onInputChange={(event, newInputValue) => {
+              setInputValue(newInputValue);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={fieldsMap.get(fieldName)}
+                variant="standard"
+              />
+            )}
+          ></Autocomplete>
+        );
+      case "password":
+        return (
+          <TextField
+            style={{
+              ...style,
+              width: style?.width,
+            }}
+            type={"password"}
+            id={fieldName}
+            error={error}
+            value={value[fieldName]}
+            label={fieldsMap.get(fieldName)}
+            variant="standard"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e) => {
+              setValue({ ...value, [fieldName]: e.target.value });
+            }}
+          />
+        );
+      case "max_booking":
+        return (
+          <TextField
+            style={{
+              ...style,
+              width: style?.width,
+            }}
+            type={"number"}
+            id={fieldName}
+            error={error}
+            value={value[fieldName]}
+            label={fieldsMap.get(fieldName)}
+            variant="standard"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e) => {
+              setValue({ ...value, [fieldName]: e.target.value });
+            }}
+          />
+        );
+      case "price_service":
+        return (
+          <TextField
+            style={{
+              ...style,
+              width: style?.width,
+            }}
+            type={"number"}
+            id={fieldName}
+            error={error}
+            value={value[fieldName]}
+            label={fieldsMap.get(fieldName)}
+            variant="standard"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e) => {
+              setValue({ ...value, [fieldName]: e.target.value });
+            }}
+          />
+        );
+      default:
+        return (
+          <TextField
+            style={{
+              ...style,
+              width: style?.width,
+            }}
+            id={fieldName}
+            error={error}
+            value={value[fieldName]}
+            label={fieldsMap.get(fieldName)}
+            variant="standard"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e) => {
+              setValue({ ...value, [fieldName]: e.target.value });
+            }}
+          />
+        );
+    }
   }
 }
 export default InputField;

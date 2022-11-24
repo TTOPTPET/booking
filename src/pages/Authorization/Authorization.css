@@ -11,7 +11,7 @@
   width: 200px;
 }
 .author__btn {
-  margin-top: 20px;
+  margin-top: 10px;
   width: 195px;
   height: 30px;
   background-color: #0065dc;
@@ -37,4 +37,16 @@
   color: #0065dc;
   font-size: 20px;
   font-weight: 700;
+}
+.author__error {
+  color: #dc0000;
+  margin-top: 10px;
+  font-size: 13px;
+  height: 20px;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+.author__time-out {
+  color: #dc0000;
+  margin-bottom: 20px;
 }

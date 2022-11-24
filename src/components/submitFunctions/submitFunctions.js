@@ -2,121 +2,71 @@ import { getNewWeek, destructServices } from "../tools/tools";
 import { url, apiKey, urlUser } from "../../config/config";
 import axios from "axios";
 
-export const sendSelectedDate = (selectDate, setTreeWeek) => {
+export const sendSelectedDate = async (selectDate) => {
   let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/event/calendar?cal_date=" + String(selectDate);
-  axios
-    .get(apiUrl, {
-      headers: {
-        "X-API-KEY": apiKey,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((resp) => {
-      const newTree = resp.data;
-      setTreeWeek(newTree);
-    });
+  let response = await axios.get(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };
 
-export const getCurrentWeek = (setTreeWeek) => {
+export const getCurrentWeek = async () => {
   let token = document?.cookie.split("=")[1];
-  const date = new Date().toLocaleDateString("en-CA");
+  const date = new Date().toLocaleDateString("fr-CA");
   const apiUrl = url + "/event/calendar?cal_date=" + String(date);
-  axios
-    .get(apiUrl, {
-      headers: {
-        "X-API-KEY": apiKey,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((resp) => {
-      const newTree = resp.data;
-      console.log("response", newTree);
-      setTreeWeek(newTree);
-    });
+  console.log("date", date);
+  let response = await axios.get(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("response", response);
+  return response;
 };
 
-export const changeWeek = (treeWeek, setTreeWeek, direction) => {
+export const changeWeek = async (treeWeek, direction) => {
   let token = document?.cookie.split("=")[1];
   const date = getNewWeek(treeWeek, direction);
   const apiUrl = url + "/event/calendar?cal_date=" + String(date);
-  axios
-    .get(apiUrl, {
-      headers: {
-        "X-API-KEY": apiKey,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((resp) => {
-      const newTree = resp.data;
-      console.log("response", newTree);
-      setTreeWeek(newTree);
-    });
+  let response = axios.get(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };
 
-export const getServices = (setServices) => {
+export const getServices = async () => {
   let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/service";
-  axios
-    .get(apiUrl, {
-      headers: {
-        "X-API-KEY": apiKey,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((resp) => {
-      console.log("getServices", resp);
-      const newServices = resp.data;
-      setServices(newServices);
-    });
+  let response = await axios.get(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };
 
-export const deleteEvent = (
-  eventId,
-  setTreeWeek,
-  setDeleteState,
-  setEventModalActive,
-  setRepeatSettingsClass,
-  setEventForm
-) => {
+export const deleteEvent = async (eventId) => {
   let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/event/event_day/?event_day_id=" + String(eventId);
-  axios
-    .delete(apiUrl, {
-      headers: {
-        "X-API-KEY": apiKey,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((resp) => {
-      const newTree = resp.data;
-      console.log("response", newTree);
-      setTreeWeek(newTree);
-      setDeleteState && setDeleteState(false);
-      setEventModalActive({ active: false, event: false });
-      setRepeatSettingsClass("");
-      setEventForm({
-        name: "",
-        dateStart: "",
-        dateEnd: "",
-        timeStart: "",
-        timeEnd: "",
-        selection: [],
-        repeatEnd: "",
-        repeatWeek: [],
-        id: "",
-        global_id: "",
-      });
-    });
+  let response = axios.delete(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };
 
-export const setEvent = (
-  eventForm,
-  setTreeWeek,
-  setEventModalActive,
-  setRepeatSettingsClass,
-  setEventForm
-) => {
+export const setEvent = async (eventForm) => {
   let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/event";
   const data = {
@@ -130,68 +80,38 @@ export const setEvent = (
     weekday_list: eventForm.repeatWeek,
     status_repid_day: eventForm.repeatWeek.length > 0,
   };
-  axios
-    .post(apiUrl, data, {
-      headers: {
-        "X-API-KEY": apiKey,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((resp) => {
-      setEventModalActive({ active: false, event: false });
-      setRepeatSettingsClass("");
-      setEventForm({
-        name: "",
-        dateStart: "",
-        dateEnd: "",
-        timeStart: "",
-        timeEnd: "",
-        selection: [],
-        repeatEnd: "",
-        repeatWeek: [],
-        id: "",
-        global_id: "",
-      });
-      const newTree = resp.data;
-      setTreeWeek(newTree);
-    });
+  let response = await axios.post(apiUrl, data, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };
 
-export const postNewService = (newService, setServiceModal, setServices) => {
+export const postNewService = async (newService) => {
   let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/service";
   const data = {
     all_adder: [
       {
-        name_service: newService.serviceName,
-        price: Number(newService.servicePrice),
-        duration: newService.serviceDuration,
-        max_booking: Number(newService.serviceMaxBook),
+        name_service: newService.name_service,
+        price: Number(newService.price_service),
+        duration: newService.duration,
+        max_booking: Number(newService.max_booking),
       },
     ],
   };
-  axios
-    .post(apiUrl, data, {
-      headers: {
-        "X-API-KEY": apiKey,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((resp) => {
-      const newServ = resp.data;
-      setServices(newServ);
-      setServiceModal(false);
-    });
+  let response = await axios.post(apiUrl, data, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };
 
-export const updateEvent = async (
-  event,
-  setTreeWeek,
-  setEventModalActive,
-  setRepeatSettingsClass,
-  setEventForm,
-  cutStatus
-) => {
+export const updateEvent = async (event, cutStatus) => {
   let token = document?.cookie.split("=")[1];
   const apiUrl =
     url +
@@ -208,42 +128,12 @@ export const updateEvent = async (
     weekday_list: event.repeatWeek,
     status_repid_day: event.repeatWeek.length > 0,
   };
-  let response;
-  await axios
-    .put(apiUrl, data, {
-      headers: {
-        "X-API-KEY": apiKey,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then(
-      (resp) => {
-        console.log("updateEvent", resp);
-        setTreeWeek(resp.data);
-        setEventModalActive({ active: false, event: false });
-        setRepeatSettingsClass("");
-        setEventForm({
-          name: "",
-          dateStart: "",
-          dateEnd: "",
-          timeStart: "",
-          timeEnd: "",
-          selection: [],
-          repeatEnd: "",
-          repeatWeek: [],
-          id: "",
-          global_id: "",
-        });
-        response = null;
-      },
-      (resp) => {
-        console.log("updateEventError", resp);
-        if (resp.response.status === 300) {
-          console.log("updateEventError", resp.response.data);
-          response = resp.response.data;
-        }
-      }
-    );
+  let response = await axios.put(apiUrl, data, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response;
 };
 
@@ -320,11 +210,10 @@ export const login = async (userData, regState) => {
   return access;
 };
 
-export const logout = async () => {
+export const logout = () => {
   const apiUrl = urlUser + `/users/logout`;
   let token = document?.cookie.split("=")[1];
-  let logout = false;
-  await axios
+  axios
     .delete(apiUrl, {
       headers: {
         "X-API-KEY": apiKey,
@@ -332,7 +221,61 @@ export const logout = async () => {
       },
     })
     .then((resp) => {
-      logout = true;
+      console.log("logout", document?.cookie.split("=")[1]);
     });
-  return logout;
+};
+
+export const getUserInfo = async () => {
+  const apiUrl = urlUser + `/users/info_users`;
+  let token = document?.cookie.split("=")[1];
+  let response = await axios.get(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+export const deleteService = async (serviceId) => {
+  let token = document?.cookie.split("=")[1];
+  const apiUrl = url + `/service/one_service?id_service=${serviceId}`;
+  let response = await axios.delete(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+export const serviceConfirm = async (hash, type) => {
+  let token = document?.cookie.split("=")[1];
+  const apiUrl =
+    url + `/service/confirmation?hash_del=${hash}&type_confirm=${type}`;
+  let response = await axios.delete(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+export const updateService = async (service) => {
+  let token = document?.cookie.split("=")[1];
+  const apiUrl = url + `/service/one_service?id_service=${service.id}`;
+  const data = {
+    name_service: service.name_service,
+    max_booking: service.max_booking,
+    price_service: service.price_service,
+    duration: service.duration,
+  };
+  let response = await axios.put(apiUrl, data, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };

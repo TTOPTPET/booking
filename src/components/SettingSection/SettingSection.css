@@ -1,0 +1,58 @@
+.setting-section__wrapper {
+  width: 100%;
+  overflow: hidden;
+  background-color: #5c9ae2;
+  border-radius: 20px;
+  padding: 0 40px;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+.setting-section__header {
+  height: 55px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.setting-section__btn {
+  transform: rotate(0);
+  transition: all 0.3s;
+}
+.setting-section__btn_open {
+  transform: rotate(180deg);
+}
+.setting-section__text {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  color: #ffffff;
+}
+.setting-section__content {
+  max-height: 600px;
+  transition: margin-bottom 0.3s, max-height 0.7s;
+  margin-bottom: 20px;
+  overflow: auto;
+}
+.setting-section__content_unfold {
+  max-height: 0;
+  transition: all 0.3s;
+}
+.setting-section__content::-webkit-scrollbar {
+  width: 12px;
+}
+.setting-section__content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+.setting-section__content::-webkit-scrollbar-thumb {
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  border: 4px solid #5c9ae2;
+}
+
+@media (max-width: 700px) {
+  .setting-section__wrapper {
+    padding: 0 20px;
+  }
+}

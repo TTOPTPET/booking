@@ -5,7 +5,6 @@ import {
   deleteEvent,
   updateEvent,
   submitUpdate,
-  cutFromTtread,
 } from "../../submitFunctions/submitFunctions";
 import { servicesCompare, validateWeekList } from "../../tools/tools";
 import deleteImg from "../../../media/delete.png";
@@ -37,12 +36,6 @@ function EventPicker({
   const [cutTreadModal, setCutTreadModal] = useState(false);
 
   useEffect(() => {
-    console.log(
-      "-----",
-      eventForm,
-      eventCopy,
-      servicesCompare(eventForm?.selection, eventCopy?.selection)
-    );
     if (
       eventForm.name !== "" &&
       eventForm.dateStart !== "" &&
@@ -114,6 +107,10 @@ function EventPicker({
         setEventCopy({});
         setCutTreadState(false);
         setCutTread(false);
+        const event = new KeyboardEvent("keydown", {
+          key: "Escape",
+        });
+        document.dispatchEvent(event);
       }}
     >
       <div
@@ -207,7 +204,7 @@ function EventPicker({
           </div>
           <div
             className="delete-modal__submit"
-            onClick={() => {
+            onClick={async () => {
               if (updateState.hash) {
                 submitUpdate(
                   eventForm,
@@ -220,13 +217,26 @@ function EventPicker({
                 setUpdateState({ count: null, hash: null });
                 setDeleteState(false);
               } else {
-                deleteEvent(
-                  eventForm.id,
-                  setTreeWeek,
-                  setDeleteState,
-                  setEventModalActive,
-                  setRepeatSettingsClass,
-                  setEventForm
+                await deleteEvent(eventForm.id).then(
+                  (value) => {
+                    setTreeWeek(value.data);
+                    setDeleteState(false);
+                    setEventModalActive({ active: false, event: false });
+                    setRepeatSettingsClass("");
+                    setEventForm({
+                      name: "",
+                      dateStart: "",
+                      dateEnd: "",
+                      timeStart: "",
+                      timeEnd: "",
+                      selection: [],
+                      repeatEnd: "",
+                      repeatWeek: [],
+                      id: "",
+                      global_id: "",
+                    });
+                  },
+                  (reason) => console.error(reason)
                 );
               }
             }}
@@ -373,49 +383,88 @@ function EventPicker({
             if (eventModalActive.event && submitState) {
               console.log("updateState", updateState);
               if (cutTread) {
-                let respData = await updateEvent(
-                  eventForm,
-                  setTreeWeek,
-                  setEventModalActive,
-                  setRepeatSettingsClass,
-                  setEventForm,
-                  true
+                await updateEvent(eventForm, true).then(
+                  (value) => {
+                    setTreeWeek(value.data);
+                    setEventModalActive({ active: false, event: false });
+                    setRepeatSettingsClass("");
+                    setEventForm({
+                      name: "",
+                      dateStart: "",
+                      dateEnd: "",
+                      timeStart: "",
+                      timeEnd: "",
+                      selection: [],
+                      repeatEnd: "",
+                      repeatWeek: [],
+                      id: "",
+                      global_id: "",
+                    });
+                  },
+                  (reason) => {
+                    if (reason.response.status === 300) {
+                      let deleteCounter = reason.response.data.delete_counter;
+                      let hash = reason.response.data.id_hash;
+                      setUpdateState({ count: deleteCounter, hash: hash });
+                      setDeleteState(true);
+                    } else {
+                      console.error(reason);
+                    }
+                  }
                 );
-                console.log("respData", respData);
-                if (respData) {
-                  let deleteCounter = respData.delete_counter;
-                  let hash = respData.id_hash;
-                  setUpdateState({ count: deleteCounter, hash: hash });
-                  setDeleteState(true);
-                  console.log("setDeleteState", respData);
-                }
               } else {
-                let respData = await updateEvent(
-                  eventForm,
-                  setTreeWeek,
-                  setEventModalActive,
-                  setRepeatSettingsClass,
-                  setEventForm,
-                  false
+                await updateEvent(eventForm, false).then(
+                  (value) => {
+                    setTreeWeek(value.data);
+                    setEventModalActive({ active: false, event: false });
+                    setRepeatSettingsClass("");
+                    setEventForm({
+                      name: "",
+                      dateStart: "",
+                      dateEnd: "",
+                      timeStart: "",
+                      timeEnd: "",
+                      selection: [],
+                      repeatEnd: "",
+                      repeatWeek: [],
+                      id: "",
+                      global_id: "",
+                    });
+                  },
+                  (reason) => {
+                    if (reason.response.status === 300) {
+                      let deleteCounter = reason.response.data.delete_counter;
+                      let hash = reason.response.data.id_hash;
+                      setUpdateState({ count: deleteCounter, hash: hash });
+                      setDeleteState(true);
+                    } else {
+                      console.error(reason);
+                    }
+                  }
                 );
-                console.log("respData", respData);
-                if (respData) {
-                  let deleteCounter = respData.delete_counter;
-                  let hash = respData.id_hash;
-                  setUpdateState({ count: deleteCounter, hash: hash });
-                  setDeleteState(true);
-                  console.log("setDeleteState", respData);
-                }
               }
             } else {
               submitState &&
-                setEvent(
-                  eventForm,
-                  setTreeWeek,
-                  setEventModalActive,
-                  setRepeatSettingsClass,
-                  setEventForm
-                );
+                (await setEvent(eventForm).then(
+                  (value) => {
+                    setEventModalActive({ active: false, event: false });
+                    setRepeatSettingsClass("");
+                    setEventForm({
+                      name: "",
+                      dateStart: "",
+                      dateEnd: "",
+                      timeStart: "",
+                      timeEnd: "",
+                      selection: [],
+                      repeatEnd: "",
+                      repeatWeek: [],
+                      id: "",
+                      global_id: "",
+                    });
+                    setTreeWeek(value.data);
+                  },
+                  (reason) => console.error(reason)
+                ));
             }
             setSubmitState(false);
           }}

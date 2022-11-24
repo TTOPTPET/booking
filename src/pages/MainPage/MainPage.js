@@ -10,8 +10,16 @@ import "./MainPage.css";
 
 const MainPage = ({ treeWeek, setTreeWeek, services, setServices, mobile }) => {
   useEffect(() => {
-    getCurrentWeek(setTreeWeek);
-    getServices(setServices);
+    (async () => {
+      getCurrentWeek().then(
+        (value) => setTreeWeek(value.data),
+        (reason) => console.error(reason)
+      );
+      getServices().then(
+        (value) => setServices(value.data),
+        (reason) => console.error(reason)
+      );
+    })();
   }, []);
 
   return (

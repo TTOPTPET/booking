@@ -9,6 +9,9 @@
 
 .header {
   background: #fff;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
 }
 
 .header__today {
@@ -48,6 +51,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
+}
+.header__user_text {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 100%;
+  color: #000000;
+  text-decoration: none;
+  margin-right: 10px;
 }
 
 .header__logout {
@@ -63,7 +75,7 @@
 }
 
 .header__user img {
-  width: 50px;
+  width: 40px;
 }
 
 .header__calendar {
@@ -71,6 +83,7 @@
   align-items: center;
   justify-content: center;
   width: 13vw;
+  overflow: hidden;
 }
 
 @media (max-width: 700px) {
@@ -83,17 +96,25 @@
   }
   .header__logo img {
     width: 60px;
+    margin-left: 15vw;
   }
   .header__user img {
     width: 30px;
   }
   .header__menu {
-    width: 13vw;
+    width: 28vw;
     justify-content: center;
   }
   .container {
     height: 45px;
     width: 91vw;
     margin: 0 0;
+  }
+  .header__logout {
+    font-size: 12px;
+    margin-right: 2vw;
+  }
+  .header__user_text {
+    display: none;
   }
 }

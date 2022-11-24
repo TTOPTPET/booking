@@ -1,20 +1,20 @@
-html{
+html {
   height: 100%;
 }
 
 body {
   margin: 0;
-  font-family: 'Montserrat';
-  background: #F7F7F7;
+  font-family: "Montserrat";
+  background: #f7f7f7;
   height: 100%;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-#root{
+#root {
   height: 100%;
 }
 

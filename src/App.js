@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import Header from "./components/Header/Header";
-import { MainPage, UserPage } from "./pages";
+import { MainPage, UserPage, Authorization } from "./pages";
 import { defaultData, defaultServices } from "./config/config";
 import {
   BrowserRouter as Router,
@@ -11,19 +11,21 @@ import {
 } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import Footer from "./components/Footer/Footer";
-import Authorization from "./pages/Authorization/Authorization";
 import { useCookies } from "react-cookie";
+import axios from "axios";
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [treeWeek, setTreeWeek] = useState(defaultData);
   const [services, setServices] = useState(defaultServices);
   const [token, setToken] = useState(cookies?.token);
+  const [tokenTimeOut, setTokenTimeOut] = useState(false);
+
   const handleCookies = (newToken) => {
     setToken(newToken);
     setCookie("token", newToken, { path: "/" });
   };
-  const handleDeleteCookies = async () => {
+  const handleDeleteCookies = () => {
     setToken(undefined);
     removeCookie("token", { path: "/" });
   };
@@ -36,6 +38,21 @@ const App = () => {
   useEffect(() => {
     console.log("cookies", token);
   }, [token]);
+
+  axios?.interceptors.response.use(
+    function (response) {
+      console.log("res response", response);
+      return response;
+    },
+    function (error) {
+      console.log("res error", error);
+      if (error.response.status === 401) {
+        setTokenTimeOut(true);
+        handleDeleteCookies();
+      }
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <Router>
@@ -67,13 +84,24 @@ const App = () => {
             />
             <Route
               path="user"
-              element={token ? <UserPage /> : <Navigate to="/auth" />}
+              element={
+                token ? (
+                  <UserPage
+                    removeCookie={handleDeleteCookies}
+                    mobile={isMobile}
+                  />
+                ) : (
+                  <Navigate to="/auth" />
+                )
+              }
             />
             <Route
               path="auth"
               element={
                 <Authorization
-                  cookies={cookies}
+                  token={token}
+                  tokenTimeOut={tokenTimeOut}
+                  setTokenTimeOut={setTokenTimeOut}
                   handleCookies={handleCookies}
                 />
               }

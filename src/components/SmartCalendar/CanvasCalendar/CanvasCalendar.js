@@ -18,12 +18,18 @@ function CanvasCalendar({
   setEventCopy,
 }) {
   const handlers = useSwipeable({
-    onSwipedRight: (eventData) => {
-      changeWeek(treeWeek, setTreeWeek, "back");
+    onSwipedRight: async (eventData) => {
+      await changeWeek(treeWeek, "back").then(
+        (value) => setTreeWeek(value.data),
+        (reason) => console.error(reason)
+      );
       setPaddingScroll(0);
     },
-    onSwipedLeft: (eventData) => {
-      changeWeek(treeWeek, setTreeWeek, "front");
+    onSwipedLeft: async (eventData) => {
+      await changeWeek(treeWeek, "front").then(
+        (value) => setTreeWeek(value.data),
+        (reason) => console.error(reason)
+      );
       setPaddingScroll(0);
     },
   });

@@ -4,11 +4,16 @@ import InputField from "../../components/InputField/InputField";
 import { login } from "../../components/submitFunctions/submitFunctions";
 import "./Authorization.css";
 
-function Authorization({ cookies, handleCookies }) {
+function Authorization({
+  token,
+  handleCookies,
+  setTokenTimeOut,
+  tokenTimeOut,
+}) {
   let navigate = useNavigate();
   const [regState, setRegState] = useState(false);
   useEffect(() => {
-    if (cookies?.token) {
+    if (token) {
       navigate("/");
     }
   });
@@ -16,39 +21,49 @@ function Authorization({ cookies, handleCookies }) {
   const [userData, setUserData] = useState({
     login: "",
     password: "",
-    teg: "",
     userName: "",
   });
+  const [errAuth, setErrAuth] = useState(false);
+
+  useEffect(() => {
+    if (errAuth) {
+      setErrAuth(false);
+    }
+  }, [userData, regState]);
+
   return (
     <div className="author">
       <div className="author__wrapp">
+        {tokenTimeOut ? (
+          <div className="author__time-out">Истекло время сессии</div>
+        ) : null}
         <div className="author__text">{regState ? "Регистрация" : "Вход"}</div>
         <div className="author__login">
           <InputField
             fieldName={"login"}
             value={userData}
             setValue={setUserData}
+            error={errAuth}
           ></InputField>
           <InputField
             fieldName={"password"}
             value={userData}
             setValue={setUserData}
+            error={errAuth}
           ></InputField>
           <div
             className="author__register"
             style={regState ? null : { maxHeight: 0 }}
           >
             <InputField
-              fieldName={"teg"}
-              value={userData}
-              setValue={setUserData}
-            ></InputField>
-            <InputField
               fieldName={"userName"}
               value={userData}
               setValue={setUserData}
             ></InputField>
           </div>
+        </div>
+        <div className="author__error" style={{ height: errAuth ? "" : 0 }}>
+          {errAuth ? "Неверный логин или пароль" : ""}
         </div>
         <div
           className="author__btn"
@@ -58,6 +73,9 @@ function Authorization({ cookies, handleCookies }) {
             if (loginResp?.data) {
               handleCookies(loginResp?.data?.access_token);
               navigate("/");
+              setTokenTimeOut(false);
+            } else {
+              setErrAuth(true);
             }
           }}
         >
