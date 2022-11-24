@@ -51,5 +51,10 @@ export const defaultUserData = {
     name: "test",
     login: "test",
   },
-  settings: [],
+  settings: [
+    {
+      name: "services",
+      data: [],
+    },
+  ],
 };

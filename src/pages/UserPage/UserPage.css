@@ -52,6 +52,9 @@
   max-width: 840px;
 }
 @media (max-width: 700px) {
+  .user-page {
+    padding: 30px 0;
+  }
   .user-page__header {
     width: 90vw;
   }

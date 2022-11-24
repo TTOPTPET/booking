@@ -6,24 +6,10 @@ function RegistrationObjects({ newEvent, colIndex, treeWeek }) {
   let marginCoef = 0;
   const curDay = treeWeek[colIndex].day;
   return newEvent?.setting_and_booking.event_booking.map((book) => {
-    // console.log(
-    //   "marginCoef_g",
-    //   newEvent,
-    //   lastBookEnd,
-    //   book.correct_booking_time_start[curDay][0],
-    //   getTimeCoef(lastBookEnd, book.correct_booking_time_start[curDay][0])
-    // );
     if (book?.correct_booking_time_start?.[curDay]) {
       if (
         getTimeCoef(lastBookEnd, book.correct_booking_time_start[curDay][0]) < 0
       ) {
-        // console.log(
-        //   "marginCoef",
-        //   newEvent,
-        //   lastBookEnd,
-        //   book.correct_booking_time_start[curDay][0],
-        //   getTimeCoef(lastBookEnd, book.correct_booking_time_start[curDay][0])
-        // );
         marginCoef += 1;
       } else {
         marginCoef = 0;

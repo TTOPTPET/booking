@@ -3,6 +3,7 @@ import "./SettingSection.css";
 import openArrow from "../../media/arrow_open.svg";
 import SectionItem from "./SectionItem/SectionItem";
 import { useState } from "react";
+import SectionItemAdd from "./SectionItem/SectionItemAdd/SectionItemAdd";
 
 function SettingSection({ settingItem, setSettingList, mobile }) {
   const settingNameMap = new Map([
@@ -48,6 +49,13 @@ function SettingSection({ settingItem, setSettingList, mobile }) {
             />
           );
         })}
+        <SectionItemAdd
+          item={settingItem?.data[0]}
+          sectionName={settingItem?.name}
+          unfoldSection={unfoldSection}
+          setSettingList={setSettingList}
+          mobile={mobile}
+        />
       </div>
     </div>
   );

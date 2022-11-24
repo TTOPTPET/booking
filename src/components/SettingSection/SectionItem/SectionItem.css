@@ -76,7 +76,7 @@
 .section-item__submit {
   width: 140px;
   height: 35px;
-  background: #0065dc;
+  background: #0067dc48;
   border-radius: 12px;
   margin-top: 20px;
   color: #fff;
@@ -84,6 +84,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: default;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+.section-item__submit_active {
+  background: #0065dc;
+  pointer-events: all;
   cursor: pointer;
 }
 .section-item__columns {

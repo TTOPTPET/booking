@@ -18,13 +18,9 @@ function InputField({ fieldName, setValue, value, style, services, error }) {
     ["timeEnd", "Время конца"],
     ["selection", "Выбор услуги"],
     ["repeatEnd", "Дата конца повторений"],
-    ["serviceName", "Название"],
     ["name_service", "Название"],
-    ["serviceDuration", "Продолжительность"],
     ["duration", "Продолжительность"],
-    ["servicePrice", "Цена"],
     ["price_service", "Цена"],
-    ["serviceMaxBook", "Макс. кол-во записей"],
     ["max_booking", "Макс. кол-во записей"],
     ["login", "Логин"],
     ["password", "Пароль"],
@@ -98,6 +94,7 @@ function InputField({ fieldName, setValue, value, style, services, error }) {
         );
       case "timeStart":
       case "timeEnd":
+      case "duration":
         return (
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
             <DesktopTimePicker
@@ -129,7 +126,18 @@ function InputField({ fieldName, setValue, value, style, services, error }) {
                   });
                 }
               }}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  style={{
+                    ...style,
+                    width: style?.width,
+                  }}
+                />
+              )}
             />
           </LocalizationProvider>
         );
@@ -170,6 +178,48 @@ function InputField({ fieldName, setValue, value, style, services, error }) {
               width: style?.width,
             }}
             type={"password"}
+            id={fieldName}
+            error={error}
+            value={value[fieldName]}
+            label={fieldsMap.get(fieldName)}
+            variant="standard"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e) => {
+              setValue({ ...value, [fieldName]: e.target.value });
+            }}
+          />
+        );
+      case "max_booking":
+        return (
+          <TextField
+            style={{
+              ...style,
+              width: style?.width,
+            }}
+            type={"number"}
+            id={fieldName}
+            error={error}
+            value={value[fieldName]}
+            label={fieldsMap.get(fieldName)}
+            variant="standard"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e) => {
+              setValue({ ...value, [fieldName]: e.target.value });
+            }}
+          />
+        );
+      case "price_service":
+        return (
+          <TextField
+            style={{
+              ...style,
+              width: style?.width,
+            }}
+            type={"number"}
             id={fieldName}
             error={error}
             value={value[fieldName]}

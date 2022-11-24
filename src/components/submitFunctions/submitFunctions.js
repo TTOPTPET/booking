@@ -158,31 +158,26 @@ export const setEvent = (
     });
 };
 
-export const postNewService = (newService, setServiceModal, setServices) => {
+export const postNewService = async (newService) => {
   let token = document?.cookie.split("=")[1];
   const apiUrl = url + "/service";
   const data = {
     all_adder: [
       {
-        name_service: newService.serviceName,
-        price: Number(newService.servicePrice),
-        duration: newService.serviceDuration,
-        max_booking: Number(newService.serviceMaxBook),
+        name_service: newService.name_service,
+        price: Number(newService.price_service),
+        duration: newService.duration,
+        max_booking: Number(newService.max_booking),
       },
     ],
   };
-  axios
-    .post(apiUrl, data, {
-      headers: {
-        "X-API-KEY": apiKey,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((resp) => {
-      const newServ = resp.data;
-      setServices(newServ);
-      setServiceModal(false);
-    });
+  let response = await axios.post(apiUrl, data, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
 };
 
 export const updateEvent = async (
@@ -351,6 +346,19 @@ export const getUserInfo = async () => {
 export const deleteService = async (serviceId) => {
   let token = document?.cookie.split("=")[1];
   const apiUrl = url + `/service/one_service?id_service=${serviceId}`;
+  let response = await axios.delete(apiUrl, {
+    headers: {
+      "X-API-KEY": apiKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+export const serviceConfirm = async (hash, type) => {
+  let token = document?.cookie.split("=")[1];
+  const apiUrl =
+    url + `/service/confirmation?hash_del=${hash}&type_confirm=${type}`;
   let response = await axios.delete(apiUrl, {
     headers: {
       "X-API-KEY": apiKey,

@@ -44,7 +44,7 @@ const UserPage = ({ removeCookie, mobile }) => {
         </div>
       </div>
       <div className="user-page__setting-list">
-        {settingList.settings.map((settingItem) => {
+        {settingList?.settings.map((settingItem) => {
           return (
             <SettingSection
               settingItem={settingItem}

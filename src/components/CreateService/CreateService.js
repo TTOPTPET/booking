@@ -6,15 +6,15 @@ import plus from "../../media/plus.png";
 
 function CreateService({ serviceModal, setServiceModal, setServices }) {
   const [newService, setNewService] = useState({
-    serviceName: "",
-    servicePrice: "",
-    serviceDuration: "",
-    serviceMaxBook: "",
+    name_service: "",
+    price_service: "",
+    duration: "",
+    max_booking: "",
   });
   const [submitState, setSubmitState] = useState(false);
   useEffect(() => {
     console.log(newService);
-    if (newService.serviceName !== "") {
+    if (newService.name_service !== "") {
       setSubmitState(true);
     } else {
       setSubmitState(false);
@@ -23,10 +23,10 @@ function CreateService({ serviceModal, setServiceModal, setServices }) {
   useEffect(() => {
     if (!serviceModal) {
       setNewService({
-        serviceName: "",
-        servicePrice: "",
-        serviceDuration: "",
-        serviceMaxBook: "",
+        name_service: "",
+        price_service: "",
+        duration: "",
+        max_booking: "",
       });
     }
   }, [serviceModal]);
@@ -48,22 +48,23 @@ function CreateService({ serviceModal, setServiceModal, setServices }) {
       <div className="create-service__name">Создать услугу</div>
       <div className="create-service__form">
         <InputField
-          fieldName={"serviceName"}
+          fieldName={"name_service"}
           value={newService}
           setValue={setNewService}
         />
         <InputField
-          fieldName={"servicePrice"}
+          fieldName={"price_service"}
           value={newService}
           setValue={setNewService}
         />
         <InputField
-          fieldName={"serviceDuration"}
+          fieldName={"duration"}
           value={newService}
           setValue={setNewService}
+          style={{ marginTop: "10px" }}
         />
         <InputField
-          fieldName={"serviceMaxBook"}
+          fieldName={"max_booking"}
           value={newService}
           setValue={setNewService}
         />
@@ -77,7 +78,10 @@ function CreateService({ serviceModal, setServiceModal, setServices }) {
         onClick={() => {
           console.log("NewServ");
           submitState &&
-            postNewService(newService, setServiceModal, setServices);
+            postNewService(newService).then((value) => {
+              setServices(value.data);
+              setServiceModal(false);
+            });
           setSubmitState(false);
         }}
       >
